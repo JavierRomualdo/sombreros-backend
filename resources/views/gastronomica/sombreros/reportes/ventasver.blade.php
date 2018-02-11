@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/reportes/ventas')}}">Reporte Ventas</a></li>
@@ -11,30 +11,34 @@
   </div></br>
   <section class="forms">
     <div class="container-fluid">
-      <a href="{{action('Ventas\VentasController@reporte',$venta->id)}}" target="_blank" class="btn btn-primary margenInf">Reporte</a>
-      <a href="{{action('Reportes\ReporteController@ventaDescarga',$venta->id)}}" id="descargar" class="btn btn-primary margenInf">Decargar</a>
+      <a href="{{action('Ventas\VentasController@reporte',$venta->id)}}" target="_blank" class="btn btn-outline-primary margenInf ion-document-text" title="reporte"> Reporte</a>
+      <a href="{{action('Reportes\ReporteController@ventaDescarga',$venta->id)}}" id="descargar" class="btn btn-outline-primary margenInf ion-ios-download-outline" title="descargar"> Decargar</a>
       <!--<a href="{ {action('Sombreros\MovimientoController@reporte',$sombrero->id)}}" target="_blank" class="btn btn-primary margenInf">Reporte</a>
       -->
       <div class="row">
         <div class="offset-lg-0 col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Datos de Orden de Venta:</h2>
+              <h2 class="h1 display ion-paperclip"> Consolidado:</h2>
             </div>
             <div class="card-block">
               <p>Codigo: <strong>{!!$venta->numero_venta!!}</strong></p>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="fecha"><strong>Fecha:</strong></label>
+                <label class="col-sm-1 form-control-label" for="fecha"><strong>Fecha:</strong></label>
                 <div class="col-sm-2">
                   <label class="form-control-label" for="fecha">{!!$venta->fecha!!}</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label>
+                <div class="col-sm-1">
+                  <label class="form-control-label" for="precio_total">{!!$venta->cantidad!!}</label>
+                </div>
+                <label class="col-sm-1 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
+                <div class="col-sm-1">
                   <label class="form-control-label" for="precio_total">{!!$venta->precio_total!!}</label>
                 </div>
                 <label class="col-sm-2 form-control-label" for="user"><strong>Realizado por:</strong></label>
                 <div class="col-sm-2">
-                  <label class="form-control-label" for="user">{!!$venta->name!!}</label>
+                  <label class="form-control-label" for="user">{!!$venta->nombres!!}</label>
                 </div>
               </div>
             </div>
@@ -44,21 +48,21 @@
       <!--TABLA DETALLE ORDEN DE COMPRA-->
       <div class="row">
         <div class="offset-lg-0 col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Detalles:</h2>
+              <h2 class="h1 display ion-paperclip"> Detalles:</h2>
             </div>
             <div class="card-block">
               <table class="table table-striped table-hover table-bordered">
 
                 <thead class="thead-inverse">
-                  <tr>
+                  <tr class="fadeIn animated">
                     <th>#</th>
-                    <th>Codigo Sombrero</th>
+                    <th>Articulo</th>
                     <th>Foto</th>
                     <th>Cantidad</th>
                     <th>Precio Venta</th>
-                    <th>% Descuento</th>
+                    <th>Descuento (%)</th>
                     <th>Descuento</th>
                     <th>Precio Total</th>
                     <th>Descripcion</th>

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/guiaingreso/guiaingreso')}}">Guia de Ingreso</a></li>
@@ -11,14 +11,14 @@
   </div></br>
   <section class="forms">
     <div class="container-fluid">
-      <a href="{{action('Compras\GuiaIngresoController@reporte',$guia->id)}}" target="_blank" class="btn btn-primary margenInf">Reporte</a>
+      <a href="{{action('Compras\GuiaIngresoController@reporte',$guia->id)}}" target="_blank" class="btn btn-outline-primary margenInf ion-document-text fadeIn animated btn-sm"> Reporte</a>
       <!--<a href="{ {action('Sombreros\MovimientoController@reporte',$sombrero->id)}}" target="_blank" class="btn btn-primary margenInf">Reporte</a>
       -->
       <div class="row">
         <div class="offset-lg-0 col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Datos del Guia de Ingreso:</h2>
+              <h2 class="h1 display ion-paperclip"> Consolidado:</h2>
             </div>
             <div class="card-block">
               <p>Codigo: <strong>{!!$guia->numero_guia!!}</strong></p>
@@ -29,11 +29,11 @@
                 </div>
                 <label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad Total:</strong></label>
                 <div class="col-sm-2">
-                  <label class="form-control-label" for="precio_total">{!!$guia->cantidad!!}</label>
+                  <label class="form-control-label" for="precio_total">{!!$guia->cantidad_guia!!}</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Proveedor:</strong></label>
+                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
                 <div class="col-sm-2">
-                  <label class="form-control-label" for="precio_total">{!!$guia->empresa!!}</label>
+                  <label class="form-control-label" for="precio_total">S/. {!!$guia->precio_total!!}</label>
                 </div>
               </div>
             </div>
@@ -43,9 +43,9 @@
       <!--TABLA DETALLE ORDEN DE COMPRA-->
       <div class="row">
         <div class="offset-lg-0 col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Detalles:</h2>
+              <h2 class="h1 display ion-paperclip"> Detalles:</h2>
             </div>
             <div class="card-block">
               <table class="table table-striped table-hover table-bordered">
@@ -53,21 +53,30 @@
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
-                    <th>Codigo Sombrero</th>
+                    <th>Proveedor</th>
+                    <th>Codigo Orden</th>
+                    <th>Articulo</th>
                     <th>Foto</th>
                     <th>Cantidad</th>
+                    <th>Precio Compra</th>
+                    <th>Precio Total</th>
                     <th>Descripcion</th>
                   </tr>
                 </thead>
                 <tbody>
                   @foreach ($detalles as $index=>$detalle)
-                    <tr>
+                    <tr class='fadeIn animated'>
                       <th scope="row">{{$index+1}}</th>
+                      <td>{{$detalle->empresa}}</td>
+                      <td>{{$detalle->numero_orden}}</td>
                       <td>{{$detalle->codigo}}</td>
                       <td>
-                        <img src="/images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
+                        <img src="/images/sombreros/{{$detalle->photo}}"
+                          data-toggle="modal" class="link_foto img-fluid pull-xs-left rounded" alt="..." width="28" title="ver foto"><!--data-target="#myModal"-->
                       </td>
                       <td>{{$detalle->cantidad}}</td>
+                      <td>{{$detalle->precio}}</td>
+                      <td>{{($detalle->cantidad * $detalle->precio)}}</td>
                       <td>{{$detalle->descripcion}}</td>
                     </tr>
                   @endforeach
@@ -79,4 +88,32 @@
 
     </div>
   </section>
+
+  <!---->
+  <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+    <div role="document" class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="exampleModalLabel" class="modal-title">Sombrero</h5>
+          <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <img src="/images/sombreros/" class="rounded mx-auto d-block  img-fluid" id="mostrar_foto" alt="..." width="450px" height="453px">
+          <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---->
+  <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+  <script type="text/javascript">
+    $(".link_foto").css('cursor', 'pointer');
+    $(".link_foto").click(function(e){
+      $("#mostrar_foto").attr("src",$(this).attr("src"));
+      $("#myModal").modal("show");
+    });
+  </script>
 @endsection

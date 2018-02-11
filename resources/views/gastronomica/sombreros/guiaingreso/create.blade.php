@@ -1,92 +1,75 @@
 @extends('layouts.master')
 @section('title','Nuevo Guia Ingreso')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/guiaingreso/guiaingreso')}}">Guia de Ingreso</a></li>
-        <li class="breadcrumb-item active">Nuevo Guia Ingreso</li>
+        <li class="breadcrumb-item active">Nuevo</li>
       </ul>
     </div>
   </div></br>
   <div class="container-fluid">
-    @include('partials.messages')
     <center><h1 class="h3" id="titulo_codigo">Código: GI-001-17</h1></center>
+    @include('partials.messages')
   </div>
 
   <section class="forms">
     <div class="container-fluid">
+        <button type="button" class="btn btn-outline-primary ion-compose margenInf fadeIn animated btn-sm" id="btnOrdenCompra" data-toggle="modal" data-target="#exampleModal">
+            Orden Compra
+          </button><br/>
+          
       {!!Form::open(['action'=>'Compras\GuiaIngresoController@store','method'=>'POST'])!!}
-      <!--Panel superior-->
+      <!--Panel Superior-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h5 display">Opciones:</h2>
+              <h2 class="h1 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
-              <div class=""><!--form-inline-->
-                <div class="form-group row">
-                  <label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor(*):</strong></label>
-                  <div class="col-sm-3">
-                    {!!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'form-control'])!!}
-                  </div>
-                  <label class="form-control-label col-sm-2"><strong>Tipo Busqueda:</strong></label>
-                  <div class="i-checks col-sm-2"><!--mx-sm-2-->
-                    <input id="radioCodigo" type="radio" checked="" value="option1" name="a" class="opcion form-control-custom radio-custom">
-                    <label for="radioCodigo">Código</label>
-                  </div>
-                  <div class="i-checks col-sm-2">
-                    <input id="radioModelo" type="radio" value="option2" name="a" class="opcion form-control-custom radio-custom">
-                    <label for="radioModelo">Modelos</label>
-                  </div>
-                  <div class="i-checks col-sm-2">
-                    <input id="radioFoto" type="radio" value="option3" name="a" class="opcion form-control-custom radio-custom">
-                    <label for="radioFoto">Foto</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--Panel del centro-->
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card miBorder">
-            <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
-            </div>
-            <div class="card-block">
-              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
+              <p>Codigo de Orden: <b id='codigoOrden'>####</b></p>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                  <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                <label class="col-sm-2 form-control-label"><strong>Articulo:</strong></label>
+                <div class="col-sm-2">
+                   <label id='articulo'>#</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idModelo',$modelo, null,['id'=>'idModelo','name'=>'idModelo','class'=>'form-control','disabled'=>''])!!}
+                <label class="col-sm-2 form-control-label"><strong>Modelo:</strong></label>
+                <div class="col-sm-2">
+                   <label id='modelo'>#</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="idTejido"><strong>Tejido:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idTejido',$tejido, null,['id'=>'idTejido','name'=>'idTejido','class'=>'form-control','disabled'=>''])!!}
+                <label class="col-sm-2 form-control-label"><strong>Tejido:</strong></label>
+                <div class="col-sm-2">
+                   <label id='tejido'>#</label>
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control','disabled'=>''])!!}
+                <label class="col-sm-2 form-control-label"><strong>Material:</strong></label>
+                <div class="col-sm-2">
+                   <label id='material'>#</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idPublicoDirigido',$publicodirigido, null,['id'=>'idPublicoDirigido','name'=>'idPublicoDirigido',
-                    'class'=>'form-control','disabled'=>''])!!}
+                <label class="col-sm-2 form-control-label"><strong>Publico Dirigido:</strong></label>
+                <div class="col-sm-2">
+                   <label id='publico'>#</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="idTalla"><strong>Talla:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control','disabled'=>''])!!}
+                <label class="col-sm-2 form-control-label"><strong>Talla:</strong></label>
+                <div class="col-sm-2">
+                   <label id='talla'>#</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label"><strong>Proveedor:</strong></label>
+                <div class="col-sm-2">
+                   <label id='proveedor'>#</label>
+                </div>
+                <label class="col-sm-2 form-control-label"><strong>Precio Unitario:</strong></label>
+                <div class="col-sm-2">
+                   <label id='precio_unitario'>#</label>
+                </div>
+                <label class="col-sm-2 form-control-label"><strong>Stock Actual:</strong></label>
+                <div class="col-sm-2">
+                   <label id='stock_actual'>#</label>
                 </div>
               </div>
             </div>
@@ -96,31 +79,19 @@
       <!--Panel inferios-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
+              <h2 class="h1 display ion-paperclip  fadeIn animated"> Formulario:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos para la nueva guia de ingreso.</p>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="precio_unitario"><strong>Precio Unitario:</strong></label>
+                <label class="col-sm-2 form-control-label" for="cantidad"><strong>Cantidad(*):</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('precio_unitario', null,['id'=>'precio_unitario','name'=>'precio_unitario','class'=>'form-control',
-                    'placeholder'=>'Aqui el precio unitario','readonly'=>'true'])!!}
+                  {!!Form::number('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Digite la Cantidad',
+                    'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57','min'=>1])!!}
                 </div>
-                <label class="col-sm-1 form-control-label" for="stock_actual"><strong>Stock Actual:</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('stock_actual', null,['id'=>'stock_actual','name'=>'stock_actual','class'=>'form-control',
-                    'placeholder'=>'Aqui el stock actual', 'readonly'=>'true'])!!}
-                </div>
-                <label class="col-sm-1 form-control-label" for="cantidad"><strong>Cantidad(*):</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Ingrese Cantidad',
-                    'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!!}
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
+                <label class="col-sm-3 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
                     'rows'=>"3", 'cols'=>"8"])!!}
@@ -133,67 +104,30 @@
       <!--Panel tabla-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Tabla Detalles:</h2>
+              <h2 class="h1 display ion-paperclip fadeIn animated title"> Tabla Detalles:</h2>
             </div>
             <div class="card-block">
               <p>Lista de todos los detalles de la guia de ingreso.</p>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}" class="btn btn-secondary">Cancelar</a>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" id="guardar">Guardar</button>
-                  <!--{ !!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
-                    'class'=>'btn btn-primary'])!!}-->
-                    <!-- Modal-->
-                    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                      <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                          </div>
-                          <div class="modal-body">
-                            <h2 id="errores">Errores</h2>
-                            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Modal aviso para guardar registros -->
-                    <div id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                      <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                          </div>
-                          <div class="modal-body">
-                            <h2>¡Se ha guardado correctamente una guia de compra! :)</h2>
-                            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-primary" id="agregar" disabled>Agregar</button>
+                  <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
+                  <button type="button" class="btn btn-outline-primary ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
                 </div>
               </div>
+              
               <table class="table table-striped table-hover table-bordered">
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
-                    <th>Codigo Sombrero</th>
+                    <th>Proveedor</th>
+                    <th>Codigo Orden</th>
+                    <th>Articulo</th>
                     <th>Foto</th>
                     <th>Cantidad</th>
+                    <th>Precio Compra</th>
+                    <th>Precio Total</th>
                     <th>Descripcion</th>
                   </tr>
                 </thead>
@@ -205,133 +139,152 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal: Aviso Exitoso -->
+    <div id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+              <h2>¡Se ha guardado correctamente una guia de compra! :)</h2>
+              <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Modal: Errores-->
+    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+          </div>
+          <div class="modal-body">
+            <h2 id="errores">Errores</h2>
+            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal: Orden Compra -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ordenes Compra</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <p>Historial</p>
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered specialCollapse"><!--table-responsive-->
+
+                <thead class="thead-inverse">
+                  <tr>
+                    <th>#</th>
+                    <th>Codigo de Orden</th>
+                    <th>Fecha</th>
+                    <th>Cantidad Items</th>
+                    <th>Precio Total</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($ordenes as $index=>$orden)
+                  <tr class="fadeIn animated">
+                    <th scope="row">{{$orden->id}}</th>
+                    <th>{{$orden->numero_orden}}</th>
+                    <td>{{$orden->fecha}}</td>
+                    <td>{{$orden->cantidad}}</td>
+                    <td>S/. {{$orden->precio_total}}</td>
+                    <td>
+                      <a href="javascript:mostrarOrdenCompraDetalles({{$orden->id}},'{{$orden->numero_orden}}');" class="btn btn-outline-primary btn-sm">Elegir</a>
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+              </div>
+              <p>Detalles</p>
+              <div class='table-responsive'>
+                <table class="table table-striped table-hover table-bordered">
+                  
+                  <thead class="thead-inverse">
+                    <tr>
+                      <th>#</th>
+                      <th>Articulo</th><!--Codigo Sombrero-->
+                      <th>Foto</th>
+                      <th>Cantidad</th>
+                      <th>Ingresó</th>
+                      <th>Precio Unitario</th>
+                      <th>Precio Total</th>
+                      <!--<th>Proveedor</th>-->
+                      <th>Descripcion</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cuerpoTablaIngreso">
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
   </section>
+
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
   <script type="text/javascript">
+    var articulo = 1;
     $(document).ready(function(){
+      articulo = 1;
       mostrarCodigoOrden();
-      buscarDatosPorCodigo();
     });
-    var modelo_id = 0;
-    var tejido_id = 0;
-    var material_id = 0;
-    var publico_id = 0;
-    var talla_id = 0;
-    var proveedor_id = 0;
-    var codSombrero = "";
-    $("#idModelo").change(function(e){
-      console.log(e);
-      modelo_id = e.target.value;
-      mostrarAjax();
-    });
-    $("#idTejido").change(function(e){
-      console.log(e);
-      tejido_id = e.target.value;
-      mostrarAjax();
-    });
-    $("#idMaterial").change(function(e){
-      console.log(e);
-      material_id = e.target.value;
-      mostrarAjax();
-    });
-    $("#idPublicoDirigido").change(function(e){
-      console.log(e);
-      publico_id = e.target.value;
-      mostrarAjax();
-    });
-    $("#idTalla").change(function(e){
-      console.log(e);
-      talla_id = e.target.value;
-      mostrarAjax();
-    });
-    $("#idProveedor").change(function(e){
-      console.log(e);
-      proveedor_id = e.target.value;
-      mostrarAjax();
-    });
+
+    var idOrdenCompra_Detalle = 0;
+    var cantidad = 0;
+    var tipo = 1;
+    var idProveedor = 0;
+    
+    
     $("#cantidad").keyup(function(e){
       console.log(e);
       //calcularPrecioTotal();
     });
-
-    function mostrarAjax(){
-      if (modelo_id!=0 && tejido_id!=0 && material_id!=0 &&
-          publico_id!=0 && talla_id!=0 && proveedor_id!=0) {
-            $.get('/ajax-verdatos/'+modelo_id+'/'+tejido_id+'/'+material_id+'/'+publico_id+
-            '/'+talla_id+'/'+proveedor_id, function(data){
-              //success
-              $.each(data, function(index, cuentaObj){
-                $("#codigo").val(cuentaObj.codigo);
-                $("#precio_unitario").val(cuentaObj.precio);
-                $("#stock_actual").val(cuentaObj.stock_actual);
-                //$("#precio_unitario").val(cuentaObj.precio);
-              });
-            });
-      } else if(proveedor_id==0) {
-        limpiar();
-        $("#codigo").val("");
-      } else {
-        $("#codigo").val("");
-      }
-    }
-
-    function calcularPrecioTotal() {
-      if ($("#precio_unitario").val()!="" && $("#cantidad").val()!="") {
-        $("#precio_total").val(parseInt($("#cantidad").val())*parseInt($("#precio_unitario").val())+"");
-      } else {
-        $("#precio_total").val("");
-      }
-    }
-
+    
     function limpiar() {
-      //$("#codigo").val("");
-      $("#idModelo").val(0);
-      $("#idTejido").val(0);
-      $("#idMaterial").val(0);
-      $("#idPublicoDirigido").val(0);
-      $("#idTalla").val(0);
-
-      modelo_id = 0;
-      tejido_id = 0;
-      material_id = 0;
-      publico_id = 0;
-      talla_id = 0;
-      codSombrero = "";
-      $("#precio_unitario").val("");
-      $("#stock_actual").val("");
+      $("#codigoOrden").html("####");
+      $("#articulo").html("#");
+      $("#modelo").html("#");
+      $("#tejido").html("#");
+      $("#material").html("#");
+      $("#publico").html("#");
+      $("#talla").html("#");
+      $("#proveedor").html("#");
+      $("#precio_unitario").html("#");
+      $("#stock_actual").html("#");
       $("#cantidad").val("");
+      $("#cantidad").removeAttr('max');
       $("#descripcion").val("");
     }
-
-    //Cambiar los estados del radio button
-    $(".opcion").change(function(){
-      if ($("#radioModelo").is(":checked")) {
-        limpiar();
-        $("#codigo").val("");
-        $("#codigo").prop("readonly",true);//no se puede escribir
-        //combos
-        $("#idModelo").removeAttr("disabled");
-        $("#idTejido").removeAttr("disabled");
-        $("#idMaterial").removeAttr("disabled");
-        $("#idPublicoDirigido").removeAttr("disabled");
-        $("#idTalla").removeAttr("disabled");
-      } else{//POR CODIGO
-        //mostrarDatosEnCombos();
-        limpiar();
-        $("#codigo").val("");
-        $("#codigo").prop("readonly",false);
-        $("#idModelo").prop('disabled', 'disabled');
-        $("#idTejido").prop('disabled', 'disabled');
-        $("#idMaterial").prop('disabled', 'disabled');
-        $("#idPublicoDirigido").prop('disabled', 'disabled');
-        $("#idTalla").prop('disabled', 'disabled');
-      }
-    });
-
-    $("#codigo").keyup(function(e){
-      console.log(e);
-      buscarDatosPorCodigo();
-    });
 
     function mostrarCodigoOrden() {
       $.get('/ajax-mostrarCGI/1', function(data){
@@ -358,118 +311,63 @@
         });
       });
     }
-    function buscarDatosPorCodigo() {
-      if ($("#codigo").val().length==13) {
-        codSombrero = $("#codigo").val();
-        $.get('/ajax-OCSomb/'+codSombrero, function(data){
-          $.each(data, function(index, sombrero){
-            modelo_id = sombrero.idModelo;
-            tejido_id = sombrero.idTejido;
-            material_id = sombrero.idMaterial;
-            publico_id = sombrero.idPublicoDirigido;
-            talla_id = sombrero.idTalla;
-
-            if (modelo_id!=0 && tejido_id!=0 && material_id!=0 &&
-                publico_id!=0 && talla_id!=0) {
-                  $("#idModelo").val(modelo_id);
-                  $("#idTejido").val(tejido_id);
-                  $("#idMaterial").val(material_id);
-                  $("#idPublicoDirigido").val(publico_id);
-                  $("#idTalla").val(talla_id);
-                  $("#precio_unitario").val(sombrero.precio+"");
-
-                  $('#idModelo option[value="'+modelo_id+'"]').attr('selected','selected');
-                  $('#idTejido option[value="'+tejido_id+'"]').attr('selected','selected');
-                  $('#idMaterial option[value="'+material_id+'"]').attr('selected','selected');
-                  $('#idPublicoDirigido option[value="'+publico_id+'"]').attr('selected','selected');
-                  $('#idTalla option[value="'+talla_id+'"]').attr('selected','selected');
-                  $("#stock_actual").val(sombrero.stock_actual);
-                  $("#precio").val("");
-            }
-          });
-        });
-      } else {
-        limpiar();
-      }
-    }
 
     $("#guardar").click(function(){
       var mensaje = "";
-      if ($("#codigo").val()=="") {
-        mensaje = mensaje + "* El codigo no debe estar vacío.</br>";
-      } else {
-        if ($("#codigo").val().length!=13) {
-          mensaje = mensaje + "* El codigo no tiene los 13 caracteres.</br>";
-        }
-      }
-
-      if ($("#idProveedor").val()==0) {
-        mensaje = mensaje + "* Debe seleccionar un proveedor.</br>";
+      if($("#codigoOrden").html()=="####"){
+        mensaje = "* Seleccione la Orden de Compra.<br/>";
       }
       if ($("#cantidad").val()=="") {
-        mensaje = mensaje + "* Debe ingresar la cantidad.";
+        mensaje = mensaje + "* Debe ingresar la cantidad.<br/>";
+      }
+      if(parseInt($("#cantidad").val()) > cantidad){
+        mensaje = mensaje + "* Debe ingresar la cantidad menor o igual a "+cantidad+".<br/>";
       }
       if (mensaje=="") {
-        if ($("#idProveedor").prop("disabled")) {//desactivado
-          //solo se guardar todas las ordenes de compras detalle
-          var tabla = "";
-          var n = 1;
-          var descripcion = $("#descripcion").val();
-          if (descripcion=="") {
-            descripcion = "0";
-          }
-          $.get('/ajax-guardarguia/2/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
-          '/'+$("#cantidad").val()+'/'+
-          descripcion, function(data){
+        //solo se guardar todas las ordenes de compras detalle
+        var tabla = "";
+        var n = 1;
+        var descripcion = $("#descripcion").val();
+        if (descripcion=="") {
+          descripcion = "0";
+        }
+        
+        if(tipo==1){
+          $.get('/ajax-guardarguia/1/'+articulo+'/'+idProveedor+
+          '/'+$("#cantidad").val()+'/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
             //success
             $.each(data, function(index, guia){
-              //alert('(2) '+orden.numero_orden);
-              //alert("entra "+orden.codigo);
-              tabla = tabla+"<tr><td>"+n+", "+guia.idGuiaIngreso+"</td><td>"+guia.codigo+"</td>"+
-              "<td><img src='/images/sombreros/"+guia.photo+
-              "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-              "<td>"+guia.cantidad+"</td><td>"+guia.descripcion+"</td></tr>";
-              $("#guardar").prop('disabled', 'disabled');
-              $("#agregar").removeAttr("disabled");
+              tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+
+                "</td><td>"+guia.codigo+"</td>"+"<td><img src='/images/sombreros/"+guia.photo+
+                "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
+                "<td>"+guia.cantidad+"</td><td>"+guia.precio+"</td><td>S/. "+(parseInt(guia.cantidad) * parseInt(guia.precio))+
+                  "</td><td>"+guia.descripcion+"</td></tr>";
+              n++;
+              tipo = 2;
+            });
+            $("#lista_datos").html(tabla);
+            tabla = "";
+            $("#myModal2").modal("show");
+            limpiar();
+          });
+        } else {//tipo = 2
+          $.get('/ajax-guardarguia/2/'+articulo+'/'+idProveedor+
+          '/'+$("#cantidad").val()+'/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
+            //success
+            $.each(data, function(index, guia){
+              tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+
+                "</td><td>"+guia.codigo+"</td>"+"<td><img src='/images/sombreros/"+guia.photo+
+                "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
+                "<td>"+guia.cantidad+"</td><td>S/. "+guia.precio+"</td><td>S/. "+(parseInt(guia.cantidad) * parseInt(guia.precio))+
+                  "</td><td>"+guia.descripcion+"</td></tr>";
               n++;
             });
             //alert(tabla);
             $("#lista_datos").html(tabla);
             tabla = "";
             $("#myModal2").modal("show");
+            limpiar();
           });
-
-        } else {
-          //se guardan el primer en orden compra y orden de compra detalle;
-          var tabla = "";
-          var n = 1;
-          var descripcion = $("#descripcion").val();
-          if (descripcion=="") {
-            descripcion = "0";
-          }
-          //alert("Cantidad (Inicio):"+$("#cantidad").val());
-          $.get('/ajax-guardarguia/1/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
-          '/'+$("#cantidad").val()+'/'+
-          descripcion, function(data){
-            //success
-            $.each(data, function(index, guia){
-              //alert('(1) '+orden.numero_orden);
-              $("#idProveedor").prop('disabled', 'disabled');
-              $("#guardar").prop('disabled', 'disabled');
-              $("#agregar").removeAttr("disabled");
-              //alert(orden.codigo);
-              tabla = tabla+"<tr><td>"+n+", "+guia.idGuiaIngreso+"</td><td>"+guia.codigo+"</td>"+
-              "<td><img src='/images/sombreros/"+guia.photo+
-              "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-              "<td>"+guia.cantidad+"</td><td>"+guia.descripcion+"</td></tr>";
-              n++;
-            });
-            //alert(tabla);
-            $("#lista_datos").html(tabla);
-            tabla = "";
-            $("#myModal2").modal("show");
-          });
-
         }
       } else {
         $("#errores").html(mensaje);
@@ -477,20 +375,62 @@
       }
     });
 
-    $("#aceptar").click(function(){
-      //$('#myModal').modal("show");//en este modal hay opciones (si y no)
-      mostrarCodigoOrden();
-      limpiar();
-      $("#codigo").val("");
+    /*Para: Ordenes de Compras*/
+    $("#btnOrdenCompra").click(function(e){
+      $("#cuerpoTablaIngreso").html("");
     });
 
-    /*$("#si").click(function(){
+    //Mostrar todo los detalles de orden de compra
+    function mostrarOrdenCompraDetalles(idOrdenCompra, numero_orden){
+      var n = 1;
+      var tabla = "";
+      $.get('/ajax-mostrarOrdenCompraDetalles/'+idOrdenCompra, function(data){
+        //success
+        $.each(data, function(index, orden){
+          var mensajeBoton = "";
+          if(orden.cantidad > orden.cantidad_ingreso){// ya esta orden de compra se ha ingresado en la guia
+            mensajeBoton = "<button class='btn btn-outline-primary btn-sm' onclick='elegirOrdenCompra("+orden.id+")'>Elegir</button>";
+          } else {//es que aun no se ingresa todo 
+            mensajeBoton = "<button disabled title='Se ha ingresado' class='btn btn-outline-primary btn-sm' onclick='elegirOrdenCompra("+orden.id+")'>Elegir</button>";
+          }
+          $("#idProveedor").prop('disabled', 'disabled');
+          tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+orden.codigo+
+          "</td><td><img src='/images/sombreros/"+orden.photo+
+          "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
+          "<td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+orden.precio_unitario+
+          "</td><td>"+(orden.cantidad * orden.precio_unitario)+
+          "</td><td>"+orden.descripcion+"</td><td>"+mensajeBoton+"</td></tr>";
+          n++;
+        });
+        $("#cuerpoTablaIngreso").html(tabla);
+        tabla = "";
+      });
+    }
 
-    });*/
-
-    $("#agregar").click(function(){
-      $("#guardar").removeAttr("disabled");
-      $("#agregar").prop('disabled', 'disabled');
-    });
+    function elegirOrdenCompra(idOrdenCompraDetalle){
+      $('#exampleModal').modal('hide');
+      $.get('/ajax-mostrarDatosSombrero/'+idOrdenCompraDetalle, function(data){
+        //success
+        $.each(data, function(index, orden){
+          $("#codigoOrden").html(orden.numero_orden);
+          $("#articulo").html(orden.codigo);
+          $("#modelo").html(orden.modelo);
+          $("#tejido").html(orden.tejido);
+          $("#material").html(orden.material);
+          $("#publico").html(orden.publico);
+          $("#talla").html(orden.talla);
+          $("#proveedor").html(orden.empresa);
+          $("#precio_unitario").html(orden.precio);
+          $("#stock_actual").html(orden.stock_actual);
+          $("#cantidad").val(parseInt(orden.cantidad) - parseInt(orden.cantidad_ingreso));
+          $("#cantidad").attr('max',parseInt(orden.cantidad) - parseInt(orden.cantidad_ingreso));
+          idOrdenCompra_Detalle = orden.id;
+          idProveedor = orden.id_proveedor;
+          cantidad = (parseInt(orden.cantidad) - parseInt(orden.cantidad_ingreso));
+          articulo = orden.codigo;
+        });
+      });
+    }
+    //
   </script>
 @endsection

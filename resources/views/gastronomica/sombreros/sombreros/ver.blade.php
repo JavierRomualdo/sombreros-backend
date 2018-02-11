@@ -2,11 +2,11 @@
 @section('title','Sombreros')
 @section('content')
 
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}">Sombreros</a></li>
-        <li class="breadcrumb-item active">Ver Sombrero</li>
+        <li class="breadcrumb-item active">Ver</li>
       </ul>
     </div>
   </div>
@@ -15,9 +15,9 @@
       <br/>
       <div class="row">
         <div class="offset-lg-0 col-lg-6">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Datos del Sombrero:</h2>
+              <h2 class="h1 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
               {!!Form::model($sombrero, ['action'=>['Sombreros\SombreroController@update',$sombrero->id],'method'=>'PUT'])!!}
@@ -87,12 +87,12 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Imagen: <span>{!!$sombrero->photo!!}</span></h2>
+              <h2 class="h1 display ion-paperclip fadeIn animated"> Imagen: <span>{!!$sombrero->photo!!}</span></h2>
             </div>
             <div class="card-block">
-              <img class="rounded mx-auto d-block  img-fluid" src="/images/sombreros/{{$sombrero->photo}}" width="330px" height="333px" alt="First slide">
+              <img class="rounded mx-auto d-block img-fluid fadeIn animated" src="/images/sombreros/{{$sombrero->photo}}" width="330px" height="333px" alt="First slide">
               <!--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                   <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

@@ -21,7 +21,6 @@ class CreateSombreroTable extends Migration
             $table->integer('idMaterial')->unsigned();
             $table->integer('idTalla')->unsigned();
             $table->string('codigo', 13)->unique();
-            $table->decimal('precio_compra', 7, 2)->default('0.0');
             $table->decimal('precio_venta', 7, 2)->default('0.0');
             $table->decimal('utilidad',7,2)->default('0.0');
             $table->integer('stock_actual')->default('0');

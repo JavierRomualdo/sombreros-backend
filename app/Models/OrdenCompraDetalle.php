@@ -12,7 +12,7 @@ class OrdenCompraDetalle extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'idOrdenCompra', 'idSombrero', 'cantidad', 'precio_unitario', 'descripcion'
+      'id', 'idOrdenCompra', 'idSombrero', 'cantidad', 'cantidad_ingreso', 'estado_ingreso', 'precio_unitario', 'descripcion'
     ];
 
     public function OrdenCompra()
@@ -25,5 +25,12 @@ class OrdenCompraDetalle extends Model
     {
       # code...
       return $this->hasmany(Sombrero::class);
+    }
+
+
+    public function GuiaIngresoDetalle()
+    {
+      # code...
+      return $this->belongsto(GuiaIngresoDetalle::class);
     }
 }

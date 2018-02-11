@@ -1,12 +1,11 @@
 @extends('layouts.master')
 @section('title','Sombreros')
 @section('content')
-
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/materiales/material')}}">Materiales</a></li>
-        <li class="breadcrumb-item active">Ver Material</li>
+        <li class="breadcrumb-item active">Ver</li>
       </ul>
     </div>
   </div>
@@ -15,9 +14,9 @@
       <br/>
       <div class="row">
         <div class="offset-lg-0 col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Datos del Material:</h2>
+              <h2 class="h1 display fadeIn animated ion-paperclip"> Panel Material:</h2>
             </div>
             <div class="card-block">
               <div class="form-group row">
@@ -34,12 +33,12 @@
           </div>
         </div>
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display">Imagen: <span>{!!$material->photo!!}</span></h2>
+              <h2 class="h1 display fadeIn animated ion-paperclip"> Imagen: <span>{!!$material->photo!!}</span></h2>
             </div>
             <div class="card-block">
-              <img class="rounded mx-auto d-block  img-fluid" src="/images/materiales/{!!$material->photo!!}" width="330px" height="333px" alt="First slide">
+              <img class="rounded mx-auto d-block  img-fluid fadeIn animated" src="/images/materiales/{!!$material->photo!!}" width="330px" height="333px" alt="First slide">
               <!--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                   <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

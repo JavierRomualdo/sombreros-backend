@@ -12,6 +12,7 @@ use App\Models\PublicoDirigido;
 use App\Models\Modelos;
 use App\Models\Tallas;
 use App\Models\Proveedor;
+use App\Models\ProveedorPrecio;
 use App\Models\Movimientos;
 use App\http\Requests\Sombreros\SombreroCreateRequest;
 use App\http\Requests\Sombreros\SombreroUpdateRequest;
@@ -120,10 +121,12 @@ class SombreroController extends Controller
         $materiales = Materiales::FindOrFail($sombreros->idMaterial);
         $publicosdirigido = PublicoDirigido::FindOrFail($sombreros->idPublicoDirigido);
         $tallas = Tallas::FindOrFail($sombreros->idTalla);
-        $proveedores = Proveedor::FindOrFail($sombreros->idProveedor);
+        //$proveedor_precio = ProveedorPrecio::select("proveedor.idProveedor")
+        //->where("proveedor_precio.idSombrero","=",$id)->first();
+        //$proveedores = Proveedor::FindOrFail($proveedor_precio->idProveedor);
 
-        return view('gastronomica.sombreros.sombreros.show', array('sombrero'=>$sombreros,'modelo'=>$modelos, 'tejido'=>$tejidos,
-            'material'=>$materiales,'publicodirigido'=>$publicosdirigido,'talla'=>$tallas,'proveedor'=>$proveedores));
+        return View('gastronomica.sombreros.sombreros.show', array('sombrero'=>$sombreros,'modelo'=>$modelos, 'tejido'=>$tejidos,
+            'material'=>$materiales,'publicodirigido'=>$publicosdirigido,'talla'=>$tallas));
     }
 
     /**

@@ -13,7 +13,7 @@ class Sombrero extends Model
 
     protected $fillable = [
       'id', 'idModelo', 'idTejido', 'idPublicoDirigido', 'idMaterial', 'idTalla', 'codigo',
-      'precio_compra', 'precio_venta', 'utilidad', 'stock_actual', 'pedido_reposicion', 'stock_minimo',
+      'precio_venta', 'utilidad', 'stock_actual', 'pedido_reposicion', 'stock_minimo',
       'stock_maximo', 'photo'
     ];
 
@@ -29,11 +29,11 @@ class Sombrero extends Model
       return $this->belongsto(FacturaDetalle::class);
     }
 
-    public function GuiaIngresoDetalle()
+    /*public function GuiaIngresoDetalle()
     {
       # code...
       return $this->belongsto(GuiaIngresoDetalle::class);
-    }
+    }*/
 
     public function OrdenCompraDetalle()
     {

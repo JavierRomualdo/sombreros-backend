@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item active">Reporte Compras</li>
+        <li class="breadcrumb-item active">Reporte Orden Compra</li>
       </ul>
     </div>
   </div></br>
@@ -14,12 +14,20 @@
   <section class="forms">
     <div class="container-fluid">
       {!!Form::open(['action'=>'Compras\OrdenCompraController@store','method'=>'POST'])!!}
-      <!--Panel superior-->
       <div class="row">
+        <div class="col-md-4">
+          <div class="i-checks">
+              <input id="check_panel_sombrero" type="checkbox" value="" class="form-control-custom">
+              <label for="check_panel_sombrero">Panel Sombrero (Mostrar)</label>
+          </div>
+        </div>
+      </div>
+      <!--Panel superior-->
+      <div class="row" id="panelSombrero" style="visibility: hidden; display: none;">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Panel Sombrero:</h2>
+              <h2 class="h1 display display ion-paperclip"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>
@@ -78,12 +86,12 @@
       <!---->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Panel Fechas:</h2>
+              <h2 class="h1 display display ion-paperclip"> Panel Fechas:</h2>
             </div>
             <div class="card-block">
-              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
+              <p>Ingrese las fechas para la busqueda de ordenes de compras.</p>
               <div class="form-group row">
                 <label class="col-sm-2 form-control-label" for="fecha_inicio"><strong>Fecha Inicio (*):</strong></label>
                 <div class="col-sm-3">
@@ -94,7 +102,8 @@
                   {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
                 </div>
                 <div class="col-sm-2">
-                  <button type="button" name="buscar" id="buscar" class="btn btn-primary">Buscar</button>
+                  <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
+                  <button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-outline-primary ion-clipboard" title="mostrar todo"></button>
                 </div>
               </div>
             </div>
@@ -104,32 +113,37 @@
       <!--Tabla-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Tabla de Compras:</h2>
+              <h2 class="h1 display ion-paperclip"> Tabla Compras:</h2>
             </div>
             <div class="card-block miTabla">
-              <a href="{{action('Reportes\ReporteController@reporteGeneralCompras')}}"
-              id="reporte_general" class="btn btn-primary margenInf" target="_blank">Reporte General</a><br/>
+              <!--<a href="{{action('Reportes\ReporteController@reporteGeneralCompras')}}"
+              id="reporte_general" class="btn btn-primary margenInf" target="_blank">Reporte General</a>-->
+              <a href="{{action('Reportes\ReporteController@reporteGeneralCompras')}}" id="reporte" class="btn btn-outline-primary margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
+              
               <table class="table table-striped table-hover table-bordered"><!--table-responsive-->
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
                     <th>Codigo de Orden</th>
                     <th>Fecha</th>
+                    <th>Cantidad Items</th>
                     <th>Precio Total</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="lista_datos">
                   @foreach ($ordenes as $index=>$orden)
-                  <tr>
-                    <th scope="row">{{$index+1}}</th>
-                    <td>{{$orden->numero_orden}}</td>
+                  <tr class="fadeIn animated">
+                    <th scope="row">{{$orden->id}}</th>
+                    <th>{{$orden->numero_orden}}</th>
                     <td>{{$orden->fecha}}</td>
+                    <td>{{$orden->cantidad}}</td>
                     <td>{{$orden->precio_total}}</td>
                     <td>
-                      <a href="{{action('Reportes\ReporteController@verCompras',$orden->id)}}" class="ion-eye" title="Ver">[Ver]</a>
+                      <a href="{{action('Reportes\ReporteController@verCompras',$orden->id)}}" title="Ver" class="icon ion-eye"></a>
+                      <a href="{{action('Compras\OrdenCompraController@reporte',$orden->id)}}" target="_blank" class="margenInf ion-document-text" title="reporte"></a>
                     </td>
                   </tr>
                   @endforeach
@@ -138,9 +152,16 @@
             </div>
           </div>
         </div>
+        <div class="container">
+          <div class="paginacion">
+            {!!$ordenes->links()!!}
+          </div>
+        </div>
       </div>
-      <!---->
-      <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+      
+    </div>
+    <!---->
+    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
         <div role="document" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -158,7 +179,6 @@
         </div>
       </div>
       <!---->
-    </div>
   </section>
 <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
 <script type="text/javascript">
@@ -213,41 +233,80 @@ function mostrarAjax(){
 
 $("#buscar").click(function(e){
   var mensaje = "";
-  if ($("#codigo").val()=="") {
-    mensaje = mensaje + "* El codigo no debe estar vacío.";
-  } else {
-    if ($("#codigo").val().length!=13) {
-      mensaje = mensaje + "</br>* El codigo no tiene los 13 caracteres.";
+  if ($("#check_panel_sombrero").is(':checked')) {
+    if ($("#codigo").val()=="") {
+      mensaje = mensaje + "* El codigo no debe estar vacío.<br/>";
+    } else {
+      if ($("#codigo").val().length!=13) {
+        mensaje = mensaje + "* El codigo no tiene los 13 caracteres.<br/>";
+      }
     }
   }
+  
   if ($("#fecha_inicio").val()=="") {
-    mensaje = mensaje + "</br>* La fecha de inicio no debe estar vacia.";
+    mensaje = mensaje + "* La fecha de inicio no debe estar vacia.<br/>";
   }
   if ($("#fecha_fin").val()=="") {
-    mensaje = mensaje + "</br>* La fecha final no debe estar vacia.";
+    mensaje = mensaje + "* La fecha final no debe estar vacia.";
   }
   if (mensaje=="") {
     var tabla = "";
     var n = 1;
-
-    $.get('/ajax-reportePorFecha/1/'+$("#codigo").val()+'/'+$("#fecha_inicio").val()+'/'+
+    var codigoSombrero = "0";
+    // Se muestra los datos en la "tabla compras", de acuerdo al panel de sombrero + panel fechas o solo panel fechas
+    if ($("#check_panel_sombrero").is(':checked')) {
+      codigoSombrero = $("#codigo").val();
+    }
+    $.get('/ajax-reportePorFecha/1/'+codigoSombrero+'/'+$("#fecha_inicio").val()+'/'+
     $("#fecha_fin").val(), function(data){
       //success
+      var fecha_inicio = $("#fecha_inicio").val();
+      var fecha_fin = $("#fecha_fin").val();
+      <?php $fecha_inicio = '<script>document.writeln(fecha_inicio);</script>';
+            $fecha_fin = '<script>document.writeln(fecha_fin);</script>';?>
       $.each(data, function(index, compra){
-        tabla = tabla + "<tr><td>"+n+"</td><td>"+compra.numero_orden+"</td><td>"+
-        compra.fecha+"</td><td>"+compra.precio_total+"</td><td>"+
-        "<a href='vercompras/"+compra.id+
-        "' class='ion-eye' title='ver' >[Ver]</a></td></tr>'";
+        tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+compra.numero_orden+"</td><td>"+
+        compra.fecha+"</td><td>"+compra.cantidad+"</td><td>"+compra.precio_total+"</td><td>"+
+        "<a href='vercompras/"+compra.id+"' class='ion-eye' title='ver' ></a> "+
+        "<a href='{{URL::to('gastronomica/sombreros/ordencompra/reporte')}}/"+compra.id+"' target='_black' class='ion-document-text'></a></td></tr>";
         n++;
+        //$("#reporte").attr('href',null);
+        //$("#reporte").attr('href',"< ?php echo url('reporteComprasPorFechas/'.fecha_inicio.'/'.fecha_fin);?>");
+        //$("#reporte").attr('href','{ {URL::to('reporteComprasPorFechas/'.$fecha_inicio.'/'.$fecha_fin)}}');
+        //$("#reporte").attr('href',"{ {action('Reportes\ReporteController@ReporteComprasPorFechas')}}.'?fecha_inicio="+fecha_inicio+'&fecha_fin'+fecha_fin+"'");
+        //$("#reporte").attr('href',"{ {URL::to('reporteComprasPorFechas/')}}.'?fecha_inicio="+fecha_inicio+"&fecha_fin="+fecha_fin+"'");
+        
+        //Boton "Reporte"
+        $("#reporte").attr('href',"{{URL::to('reporteComprasPorFechas/')}}/"+fecha_inicio+"/"+fecha_fin+"/"+codigoSombrero);
       });
       $("#lista_datos").html(tabla);
       tabla = "";
+
     });
   } else {
     $("#errores").html(mensaje);
     $("#myModal").modal("show");
   }
 
+});
+
+$("#mostrarTodo").click(function(e){
+  var tabla = "";
+  var n = 1;
+  $.get('/ajax-mostrarTodoCompras/', function(data){
+      //success
+     
+      $.each(data, function(index, compra){
+        tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+compra.numero_orden+"</td><td>"+
+        compra.fecha+"</td><td>"+compra.cantidad+"</td><td>"+compra.precio_total+"</td><td>"+
+        "<a href='vercompras/"+compra.id+"' class='ion-eye' title='ver' ></a> "+
+        "<a href='{{URL::to('gastronomica/sombreros/ordencompra/reporte')}}/"+compra.id+"' target='_black' class='ion-document-text'></a></td></tr>";
+        n++;
+        $("#reporte").attr('href',"{{URL::to('gastronomica/sombreros/reporte_compra')}}/");
+      });
+      $("#lista_datos").html(tabla);
+      tabla = "";
+    });
 });
 
 function limpiar() {
@@ -328,6 +387,35 @@ function buscarDatosPorCodigo() {
     $("#idPublicoDirigido").val(0);
     $("#idTalla").val(0);
   }
+
+  // check (Panel sombrero)
+  
 }
+$("#check_panel_sombrero").click(function(){
+  if($(this).is(':checked')){
+    //$("#panelSombrero").css("visibility","visible");
+    //$("#panelSombrero").css("display","block");
+    //$("#panelSombrero").css("opacity","1");
+    $("#panelSombrero").animate({
+      opacity: 1,
+      left: "+=50",
+      height: "toggle",
+      visibility: "visible"
+    }, 800, function() {
+      // Animation complete.
+    });
+  } else {
+    //$("#panelSombrero").css("visibility","hidden");
+    $("#panelSombrero").animate({
+      opacity: 0.25,
+      left: "+=50",
+      height: "toggle"
+    }, 800, function() {
+      // Animation complete.
+    });
+    //$("#panelSombrero").css("display","none");
+    //$("#codigo").val("");
+  }
+});
 </script>
 @endsection

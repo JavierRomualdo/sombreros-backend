@@ -12,8 +12,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Bootstrap CSS-->
+    
+    <!-- Bootstrap CSS--><link rel="stylesheet" href="{{asset('ionic/css/ionicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('bootstrap4/css/bootstrap.min.css')}}">
 
     <!-- Google fonts - Roboto -->
@@ -44,17 +44,19 @@
 
     <link rel="stylesheet" href="{{asset('jquery-alertable-master/jquery.alertable.css')}}">
     <link rel="stylesheet" href="{{asset('bootstrap4/css/estilos.css')}}">
+    <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+    <link rel="stylesheet" href="{{asset('css/reloj.css')}}">
 </head>
 <body>
-  <nav class="side-navbar">
-    <div class="side-navbar-wrapper">
+  <nav class="side-navbar fadeIn animated">
+    <div class="side-navbar-wrapper fadeIn animated">
       <div class="sidenav-header d-flex align-items-center justify-content-center">
         <div class="sidenav-header-inner text-center"><img src="{{asset('bootstrap4/img/avatar-1.jpg')}}" alt="person" class="img-fluid rounded-circle">
           <h2 class="h5 text-uppercase"><label for="" id="usuario">{{ Auth::user()->name }}</label> <span class="caret"></span></h2><span class="text-uppercase">Usuario</span>
         </div>
-        <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>S</strong><strong class="text-primary">G</strong></a></div>
-      </div>
-      <div class="main-menu">
+      <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>S</strong><strong class="text-primary">G</strong></a></div>
+    </div>
+      <div class="main-menu fadeIn animated">
         <ul id="side-main-menu" class="side-menu list-unstyled">
           <li id="li-home"><a href="{{url('home')}}"> <i class="icon-home"></i><span>Home</span></a></li>
           <li id="li-somb"> <a href="{{url('gastronomica/sombreros/sombreros/sombrero')}}"><i class="icon-list-1"></i><span>Sombreros</span></a></li>
@@ -63,6 +65,14 @@
           <li id="li-tej"> <a href="{{url('gastronomica/sombreros/tejidos/tejido')}}"><i class="icon-check"></i><span>Tejido</span></a></li>
           <li id="li-tal"> <a href="{{url('gastronomica/sombreros/tallas/talla')}}"><i class="icon-mail"></i><span>Tallas</span></a></li>
           <li id="li-pub"> <a href="{{url('gastronomica/sombreros/publicodirigido/publicodirigido')}}"><i class="icon-check"></i><span>Publico Dirigido</span></a></li>
+          <li> <a href="#pages-empleados-list" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Trabajadores</span>
+            <div class="arrow pull-right"><i class="fa fa-angle-down"></i></div></a>
+          <ul id="pages-empleados-list" class="collapse list-unstyled">
+              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/empleados/empleado')}}"> <i class="icon-check"></i><span>Trabajador</span></a></li>
+            <li id="li-prov"> <a href="{{url('gastronomica/sombreros/encargos/encargo')}}"> <i class="icon-check"></i><span>Encargos</span></a></li>
+            <li id="li-prov"> <a href="{{url('gastronomica/sombreros/comisionempleado/comision')}}"> <i class="icon-check"></i><span>Comision</span></a></li>
+          </ul>
+        </li>
           <li> <a href="#pages-nav-list" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Proveedores</span>
               <div class="arrow pull-right"><i class="fa fa-angle-down"></i></div></a>
             <ul id="pages-nav-list" class="collapse list-unstyled">
@@ -80,13 +90,25 @@
               <li id="li-prov"> <a href="{{url('gastronomica/proveedores/proveedores/datos')}}"> <i class="icon-check"></i><span>Reporte de Anomalias</span></a></li>
             </ul>
           </li>
-          <li id="li-mov"> <a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="icon-bill"></i><span>Ventas</span></a></li>
+          <li> <a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="icon-bill"></i><span>Ventas</span></a></li>
           <li> <a href="#pages-nav-list-reportes" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Reportes</span>
               <div class="arrow pull-right"><i class="fa fa-angle-down"></i></div></a>
             <ul id="pages-nav-list-reportes" class="collapse list-unstyled">
               <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/compras')}}"> <i class="icon-check"></i><span>Compras</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventas')}}"> <i class="icon-check"></i><span>Ventas</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/utilidades')}}"> <i class="icon-check"></i><span>Utilidades</span></a></li>
+              <li id="li-prov"> <a href="#pages-ventas" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Ventas</span>
+                <div class="arrow pull-right"><i class="fa fa-angle-down"></i></div></a>
+                <ul id="pages-ventas" class="collapse list-unstyled">
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventas')}}"> <i class="icon-check"></i><span>Ventas</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventasporcliente')}}"> <i class="icon-check"></i><span>Ventas por cliente</span></a></li>
+                </ul>
+              </li>
+              <li id="li-prov"> <a href="#pages-utilidades" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Utilidades</span>
+                <div class="arrow pull-right"><i class="fa fa-angle-down"></i></div></a>
+                <ul id="pages-utilidades" class="collapse list-unstyled">
+                    <a href="{{url('gastronomica/sombreros/reportes/utilidadessombreros')}}"> <i class="icon-check"></i><span>Ut. Sombreros</span></a>
+                  <a href="{{url('gastronomica/sombreros/reportes/utilidades')}}"> <i class="icon-check"></i><span>Ut. Ventas</span></a>
+                </ul>
+              </li>
             </ul>
           </li>
           <li id="li-mov"> <a href="{{url('gastronomica/sombreros/movimientos/movimiento')}}"> <i class="icon-bill"></i><span>Movimientos</span></a></li>
@@ -97,7 +119,6 @@
               <li> <a href="{{url('gastronomica/usuarios/usuario')}}"> <i class="icon-user"></i><span>Configuración</span></a></li>
             </ul>
           </li>
-
         </ul>
       </div>
 
@@ -121,12 +142,12 @@
   </nav>
 
   <div class="page home-page">
-    <header class="header">
+    <header class="header fadeIn animated">
       <nav class="navbar">
         <div class="container-fluid">
           <div class="navbar-holder d-flex align-items-center justify-content-between">
             <div class="navbar-header"><a id="toggle-btn" href="#" class="menu-btn"><i class="icon-bars"> </i></a><a href="index.html" class="navbar-brand">
-                <div class="brand-text hidden-sm-down"><span>System </span><strong class="text-primary"> Gastronomica</strong></div></a></div>
+                <div class="brand-text hidden-sm-down"><span>System </span><strong class="text-primary"> Sombreros</strong></div></a></div>
             <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
               <li class="nav-item">
                 <a href="{{ route('logout') }}" class="nav-link logout"
@@ -146,7 +167,7 @@
       </nav>
     </header>
     @yield('content')
-    <footer class="main-footer">
+    <footer class="main-footer fadeIn animated">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-6">
@@ -173,6 +194,7 @@
     <script src="{{asset('bootstrap4/js/charts-home.js')}}"></script>
     <script src="{{asset('bootstrap4/js/front.js')}}"></script>
     <script type="text/javascript" src="{{asset('jquery-alertable-master/jquery.alertable.js')}}"></script>
+    <script src="{{asset('js/reloj.js')}}"></script>
     <!-- Scripts -->
     <!--<script src="{#{ asset('js/app.js') }}"></script>-->
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
@@ -185,6 +207,5 @@
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
-
 </body>
 </html>

@@ -25,7 +25,7 @@ class CreateProveedorTable extends Migration
             $table->string('segundo_contacto', 50)->nullable();
             $table->char('dni_segundo', 8)->nullable()->unique();
             $table->string('telefono_segundo', 9)->nullable();
-            $table->string('email_segundo', 50)->nullable();;
+            $table->string('email_segundo', 50)->nullable();
             $table->string('empresa', 70)->nullable();
             $table->char('ruc', 11)->nullable()->unique();
             $table->string('direccion', 80)->nullable();

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/ventas/ventas')}}">Ventas</a></li>
@@ -10,8 +10,8 @@
     </div>
   </div></br>
   <div class="container-fluid">
+    <center><h1 class="h3 fadeIn animated" id="titulo_codigo">Código: OV-001-17</h1></center>
     @include('partials.messages')
-    <center><h1 class="h3" id="titulo_codigo">Código: OV-001-17</h1></center>
   </div>
 
   <section class="forms">
@@ -20,11 +20,12 @@
       <!--Panel superior-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h5 display">Opciones:</h2>
+              <h2 class="h5 display ion-paperclip"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
+              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
               <div class="">
                 <div class="form-group row">
                   <label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor(*):</strong></label>
@@ -45,34 +46,25 @@
                     <label for="radioFoto">Foto</label>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--Panel del centro-->
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card miBorder">
-            <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
-            </div>
-            <div class="card-block">
-              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
-              <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                  <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                <div class="col-sm-12">
+                  <hr/>
                 </div>
-                <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idModelo',$modelo, null,['id'=>'idModelo','name'=>'idModelo','class'=>'form-control','disabled'=>''])!!}
-                </div>
-                <label class="col-sm-1 form-control-label" for="idTejido"><strong>Tejido:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idTejido',$tejido, null,['id'=>'idTejido','name'=>'idTejido','class'=>'form-control','disabled'=>''])!!}
-                </div>
+                <div class="form-group row">
+                  <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
+                  <div class="col-sm-3">
+                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus','list'=>'codigosSombrero'])!!}
+                    <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                    <datalist id="codigosSombrero">
+                    </datalist>
+                  </div>
+                  <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
+                  <div class="col-sm-3">
+                    {!!Form::select('idModelo',$modelo, null,['id'=>'idModelo','name'=>'idModelo','class'=>'form-control','disabled'=>''])!!}
+                  </div>
+                  <label class="col-sm-1 form-control-label" for="idTejido"><strong>Tejido:</strong></label>
+                  <div class="col-sm-3">
+                    {!!Form::select('idTejido',$tejido, null,['id'=>'idTejido','name'=>'idTejido','class'=>'form-control','disabled'=>''])!!}
+                  </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
@@ -89,6 +81,8 @@
                   {!!Form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control','disabled'=>''])!!}
                 </div>
               </div>
+
+              </div>
             </div>
           </div>
         </div>
@@ -96,13 +90,18 @@
       <!--Panel inferios-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
+              <h2 class="h1 display ion-paperclip"> Formulario:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos para la nueva orden de compra.</p>
               <div class="form-group row">
+                <label class="col-sm-1 form-control-label" for="stock_actual"><strong>Stock Actual:</strong></label>
+                <div class="col-sm-3">
+                  {!!form::text('stock_actual', null,['id'=>'stock_actual','name'=>'stock_actual','class'=>'form-control',
+                    'placeholder'=>'Aqui el stock actual', 'readonly'=>'true'])!!}
+                </div>
                 <label class="col-sm-1 form-control-label" for="precio_compra"><strong>Precio Compra:</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('precio_compra', null,['id'=>'precio_compra','name'=>'precio_venta','class'=>'form-control',
@@ -113,10 +112,23 @@
                   {!!form::text('precio_venta', null,['id'=>'precio_venta','name'=>'precio_venta','class'=>'form-control',
                     'placeholder'=>'Aqui el precio venta', 'readonly'=>'true'])!!}
                 </div>
-                <label class="col-sm-1 form-control-label" for="stock_actual"><strong>Stock Actual:</strong></label>
+              </div>
+              <div class="form-group row">
+                
+                <label class="col-sm-1 form-control-label" for="precio_sin_descuento"><strong>Pr. Sin Descuento:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('stock_actual', null,['id'=>'stock_actual','name'=>'stock_actual','class'=>'form-control',
-                    'placeholder'=>'Aqui el stock actual', 'readonly'=>'true'])!!}
+                  {!!form::text('precio_sin_descuento', null,['id'=>'precio_sin_descuento','name'=>'precio_sin_descuento','class'=>'form-control',
+                    'placeholder'=>'Aqui el precio total sin descuento','readonly'=>'true'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="utilidad"><strong>Utilidad:</strong></label>
+                <div class="col-sm-3">
+                  {!!form::text('utilidad', null,['id'=>'utilidad','name'=>'utilidad','class'=>'form-control',
+                    'placeholder'=>'Aqui la utilidad','readonly'=>'true'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
+                <div class="col-sm-3">
+                  {!!form::text('precio_total', null,['id'=>'precio_total','name'=>'cantidad','class'=>'form-control',
+                    'placeholder'=>'Aqui el precio total','readonly'=>'true'])!!}
                 </div>
               </div>
               <div class="form-group row">
@@ -136,24 +148,23 @@
                     'placeholder'=>'Aqui el descuento'])!!}
                 </div>
               </div>
+              
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
+                <label class="col-sm-1 form-control-label" for="empleado"><strong>Empleado:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('precio_total', null,['id'=>'precio_total','name'=>'cantidad','class'=>'form-control',
-                    'placeholder'=>'Aqui el precio total','readonly'=>'true'])!!}
+                  {!!form::text('empleado', null,['id'=>'empleado','name'=>'empleado','class'=>'form-control',
+                    'placeholder'=>'Aqui el empleado','readonly'=>'true'])!!}
+                    <div class="i-checks">
+                        <input id="checkempleado" type="checkbox" value="" class="form-control-custom">
+                        <label for="checkempleado">Selecione empleado</label>
+                      </div>
+                  <!--<span class="help-block-none">Nota: Clickea para seleccionar empleado.</span>-->
                 </div>
-                <label class="col-sm-1 form-control-label" for="precio_sin_descuento"><strong>Precio sin Descuento:</strong></label>
+                <label class="col-sm-1 form-control-label" for="encargo"><strong>Encargo:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('precio_sin_descuento', null,['id'=>'precio_sin_descuento','name'=>'precio_sin_descuento','class'=>'form-control',
-                    'placeholder'=>'Aqui el precio total sin descuento','readonly'=>'true'])!!}
+                  {!!form::text('encargo', null,['id'=>'encargo','name'=>'encargo','class'=>'form-control',
+                    'placeholder'=>'Aqui el encargo','readonly'=>'true'])!!}
                 </div>
-                <label class="col-sm-1 form-control-label" for="utilidad"><strong>Utilidad:</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('utilidad', null,['id'=>'utilidad','name'=>'utilidad','class'=>'form-control',
-                    'placeholder'=>'Aqui la utilidad','readonly'=>'true'])!!}
-                </div>
-              </div>
-              <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
@@ -168,59 +179,22 @@
       <!--Panel tabla-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Tabla Detalles:</h2>
+              <h2 class="h1 display ion-paperclip"> Tabla Detalles:</h2>
             </div>
             <div class="card-block">
               <p>Lista de todos los detalles de la venta.</p>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <a href="{{url('gastronomica/sombreros/ventas/ventas')}}" class="btn btn-secondary">Cancelar</a>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" id="guardar">Guardar</button>
+                  <a href="{{url('gastronomica/sombreros/ventas/ventas')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
+                  <button type="button" class="btn btn-outline-primary ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
                   <!--{ !!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
                     'class'=>'btn btn-primary'])!!}-->
-                    <!-- Modal Errores-->
-                    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                      <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                          </div>
-                          <div class="modal-body">
-                            <h2 id="errores">Errores</h2>
-                            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Modal aviso para guardar registros -->
-                    <div id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                      <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                          </div>
-                          <div class="modal-body">
-                            <h2>¡Se ha guardado correctamente una venta! :)</h2>
-                            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!---->
+                    
                 </div>
                 <div class="col-sm-1">
-                  <button type="button" class="btn btn-primary" id="agregar" disabled>Agregar</button>
+                  <button type="button" class="btn btn-outline-primary ion-plus-round btn-sm" id="agregar" disabled> Agregar</button>
                 </div>
               </div>
               <table class="table table-striped table-hover table-bordered">
@@ -230,7 +204,7 @@
                     <th>Codigo Sombrero</th>
                     <th>Foto</th>
                     <th>Cantidad</th>
-                    <th>Precio Venta</th><!--precio unitario--->
+                    <th>Precio Venta</th><!--precio unitario-->
                     <th>% Descuento</th>
                     <th>Descuento</th>
                     <th>Precio Total</th>
@@ -246,7 +220,101 @@
       </div>
     </div>
     {!!Form::close()!!}
+    <!--Modal Empleados-->
+    <div class="modal fade bd-example-modal-lg" id="modalEmpleados" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Empleados</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <p>Historial</p>
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered specialCollapse"><!--table-responsive-->
+
+                <thead class="thead-inverse">
+                  <tr>
+                    <th>#</th>
+                    <th>Encargo</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Dni</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($empleados as $index=>$empleado)
+                    <tr class="fadeIn animated">
+                      <th scope="row">{{$index+1}}</th>
+                      <td>{{$empleado->encargo}}</td>
+                      <td>{{$empleado->nombres}}</td>
+                      <td>{{$empleado->apellidos}}</td>
+                      <td>{{$empleado->dni}}</td>
+                      <td>{{$empleado->direccion}}</td>
+                      <td>{{$empleado->telefono}}</td>
+                      <td>{{$empleado->email}}</td>
+                      <td>
+                        <a href="javascript:mostrarEmpleado({{$empleado->id}},'{{$empleado->nombres}}', '{{$empleado->encargo}}');" class="btn btn-outline-primary btn-sm">Elegir</a>
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Errores-->
+  <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+          </div>
+          <div class="modal-body">
+            <h2 id="errores">Errores</h2>
+            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal aviso para guardar registros -->
+    <div id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+          </div>
+          <div class="modal-body">
+            <h2>¡Se ha guardado correctamente una venta! :)</h2>
+            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!---->
   </section>
+  
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
   <script type="text/javascript">
     $(document).ready(function(){
@@ -288,6 +356,9 @@
     $("#idProveedor").change(function(e){
       console.log(e);
       proveedor_id = e.target.value;
+      $("#codigo").val("");
+      limpiar();
+      llenarCodigosSombreros();
       mostrarAjax();
     });
     $("#cantidad").keyup(function(e){
@@ -303,6 +374,10 @@
       console.log(e);
       calcular_porcentaje_descuento();
       calcularPrecioTotal();
+    });
+    $("#codigo").change(function(e){
+      console.log(e);
+      buscarDatosPorCodigo();
     });
     $("#codigo").keyup(function(e){
       console.log(e);
@@ -328,6 +403,20 @@
         $("#codigo").val("");
       } else {
         $("#codigo").val("");
+      }
+    }
+
+    function llenarCodigosSombreros(){
+      if(proveedor_id!=0){
+        $.get('/ajax-mostrarCodigoSombreroPorProveedor/'+proveedor_id, function(data){
+          //success
+            var codigos = "";
+              $.each(data, function(index, sombrero){
+                codigos = codigos+"<option value='"+sombrero.codigo+"'></option>";
+                
+              });
+              $("#codigosSombrero").html(codigos);
+        });
       }
     }
 
@@ -359,6 +448,8 @@
         $("#utilidad").val(parseFloat($("#precio_total").val())-(parseFloat($("#precio_compra").val())*parseInt($("#cantidad").val())));
         //$("#precio_total").val(parseInt($("#precio_venta").val())-(parseInt($("#precio_venta").val()*(parseInt($("#porcentaje_descuento").val())/100.00)))+"");
       } else {
+        $("#precio_sin_descuento").val("");
+        $("#utilidad").val("");
         $("#precio_total").val("");
       }
     }
@@ -494,7 +585,10 @@
       }
 
       if ($("#cantidad").val()=="") {
-        mensaje = mensaje + "* Debe ingresar la cantidad.";
+        mensaje = mensaje + "* Debe ingresar la cantidad.</br>";
+      }
+      if ($("#empleado").val()==""){
+        mensaje = mensaje + "* Debe seleccionar el empleado.";
       }
       if (mensaje=="") {
         if ($("#idProveedor").prop("disabled")) {//desactivado
@@ -516,7 +610,7 @@
           $.get('/ajax-guardarventa/2/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
           '/'+$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
           descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
-          descripcion, function(data){
+          empleado_id+'/'+ descripcion, function(data){
             //success
             $.each(data, function(index, venta){
               //alert('(2) '+orden.numero_orden);
@@ -525,7 +619,7 @@
               $("#guardar").prop('disabled', 'disabled');
               $("#agregar").removeAttr("disabled");
               //alert(orden.codigo);
-              tabla = tabla+"<tr><td>"+n+", "+venta.id+"</td><td>"+venta.codigo+"</td>"+
+              tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.codigo+"</td>"+
               "<td><img src='/images/sombreros/"+venta.photo+
               "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
               "<td>"+venta.cantidad+"</td><td>"+venta.precio_venta+"</td><td>"+venta.porcentaje_descuento+
@@ -536,6 +630,7 @@
             $("#lista_datos").html(tabla);
             tabla = "";
             $("#myModal2").modal("show");
+            $("#checkempleado").attr('disabled','');
           });
 
         } else {
@@ -558,14 +653,14 @@
           $.get('/ajax-guardarventa/1/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
           '/'+$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
           descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
-          descripcion, function(data){
+          empleado_id+'/'+ descripcion, function(data){
             //success
             $.each(data, function(index, venta){
               //alert('(1) '+orden.numero_orden);
               $("#idProveedor").prop('disabled', 'disabled');
               $("#guardar").prop('disabled', 'disabled');
               $("#agregar").removeAttr("disabled");
-              tabla = tabla+"<tr><td>"+n+", "+venta.id+"</td><td>"+venta.codigo+"</td>"+
+              tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.codigo+"</td>"+
               "<td><img src='/images/sombreros/"+venta.photo+
               "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
               "<td>"+venta.cantidad+"</td><td>"+venta.precio_venta+"</td><td>"+venta.porcentaje_descuento+
@@ -576,6 +671,7 @@
             $("#lista_datos").html(tabla);
             tabla = "";
             $("#myModal2").modal("show");
+            $("#checkempleado").attr('disabled','');
           });
 
         }
@@ -600,5 +696,17 @@
       $("#guardar").removeAttr("disabled");
       $("#agregar").prop('disabled', 'disabled');
     });
+
+    //seleccionar el empleado
+    $("#checkempleado").change(function(e){
+
+      $('#modalEmpleados').modal('show');
+    });
+    function mostrarEmpleado(idEmpleado, nombres, encargo){
+      empleado_id = idEmpleado;
+      $("#empleado").val(nombres);
+      $("#encargo").val(encargo);
+      $('#modalEmpleados').modal('hide');
+    }
   </script>
 @endsection

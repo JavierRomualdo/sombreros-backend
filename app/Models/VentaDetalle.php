@@ -9,11 +9,10 @@ class VentaDetalle extends Model
     //
     protected $table = 'venta_detalle';
     protected $primarykey = 'id';
-    public $timestamps=false;
 
     protected $fillable = [
-      'id', 'idVenta', 'idSombrero', 'cantidad', 'porcentaje_descuento', 'descuento', 'sub_total',
-      'utilidad', 'descripcion'
+      'id', 'idVenta', 'idSombrero', 'cantidad','precio_venta', 'porcentaje_descuento', 
+      'descuento', 'sub_total', 'utilidad', 'comisionempleado', 'descripcion'
     ];
 
     public function Venta()

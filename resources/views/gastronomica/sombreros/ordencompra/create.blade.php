@@ -1,17 +1,17 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/ordencompra/ordencompra')}}">Orden de Compra</a></li>
-        <li class="breadcrumb-item active">Nueva orden de Compra</li>
+        <li class="breadcrumb-item active">Nuevo</li>
       </ul>
     </div>
   </div></br>
   <div class="container-fluid">
+    <center><h1 class="h3 fadeIn animated" id="titulo_codigo">Código: OC-001-17</h1></center>
     @include('partials.messages')
-    <center><h1 class="h3" id="titulo_codigo">Código: OC-001-17</h1></center>
   </div>
 
   <section class="forms">
@@ -20,16 +20,17 @@
       <!--Panel superior-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h5 display">Opciones:</h2>
+              <h2 class="h5 display ion-paperclip"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
+              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
               <div class=""><!--form-inline-->
                 <div class="form-group row">
                   <label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor(*):</strong></label>
                   <div class="col-sm-3">
-                    {!!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'form-control'])!!}
+                    {!!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'form-control','autofocus'])!!}
                   </div>
                   <label class="form-control-label col-sm-2"><strong>Tipo Busqueda:</strong></label>
                   <div class="i-checks col-sm-2"><!--mx-sm-2-->
@@ -45,49 +46,42 @@
                     <label for="radioFoto">Foto</label>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--Panel del centro-->
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card miBorder">
-            <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
-            </div>
-            <div class="card-block">
-              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
-              <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                  <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                <div class="col-sm-12">
+                  <hr/>
                 </div>
-                <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idModelo',$modelo, null,['id'=>'idModelo','name'=>'idModelo','class'=>'form-control','disabled'=>''])!!}
+                <div class="form-group row">
+                    <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
+                    <div class="col-sm-3">
+                      {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control', 'list'=>'codigosSombrero'])!!}
+                      <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                      <datalist id="codigosSombrero">
+                      </datalist>
+                    </div>
+                    <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
+                    <div class="col-sm-3">
+                      {!!Form::select('idModelo',$modelo, null,['id'=>'idModelo','name'=>'idModelo','class'=>'form-control','disabled'=>''])!!}
+                    </div>
+                    <label class="col-sm-1 form-control-label" for="idTejido"><strong>Tejido:</strong></label>
+                    <div class="col-sm-3">
+                      {!!Form::select('idTejido',$tejido, null,['id'=>'idTejido','name'=>'idTejido','class'=>'form-control','disabled'=>''])!!}
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
+                    <div class="col-sm-3">
+                      {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control','disabled'=>''])!!}
+                    </div>
+                    <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
+                    <div class="col-sm-3">
+                      {!!Form::select('idPublicoDirigido',$publicodirigido, null,['id'=>'idPublicoDirigido','name'=>'idPublicoDirigido',
+                        'class'=>'form-control','disabled'=>''])!!}
+                    </div>
+                    <label class="col-sm-1 form-control-label" for="idTalla"><strong>Talla:</strong></label>
+                    <div class="col-sm-3">
+                      {!!Form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control','disabled'=>''])!!}
+                    </div>
                 </div>
-                <label class="col-sm-1 form-control-label" for="idTejido"><strong>Tejido:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idTejido',$tejido, null,['id'=>'idTejido','name'=>'idTejido','class'=>'form-control','disabled'=>''])!!}
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control','disabled'=>''])!!}
-                </div>
-                <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idPublicoDirigido',$publicodirigido, null,['id'=>'idPublicoDirigido','name'=>'idPublicoDirigido',
-                    'class'=>'form-control','disabled'=>''])!!}
-                </div>
-                <label class="col-sm-1 form-control-label" for="idTalla"><strong>Talla:</strong></label>
-                <div class="col-sm-3">
-                  {!!Form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control','disabled'=>''])!!}
-                </div>
+
               </div>
             </div>
           </div>
@@ -96,34 +90,34 @@
       <!--Panel inferios-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
+              <h2 class="h1 display ion-paperclip"> Formulario:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos para la nueva orden de compra.</p>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="precio_unitario"><strong>Precio Unitario:</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('precio_unitario', null,['id'=>'precio_unitario','name'=>'precio_unitario','class'=>'form-control',
-                    'placeholder'=>'Aqui el precio unitario','readonly'=>'true'])!!}
-                </div>
                 <label class="col-sm-1 form-control-label" for="stock_actual"><strong>Stock Actual:</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('stock_actual', null,['id'=>'stock_actual','name'=>'stock_actual','class'=>'form-control',
                     'placeholder'=>'Aqui el stock actual', 'readonly'=>'true'])!!}
                 </div>
-                <label class="col-sm-1 form-control-label" for="cantidad"><strong>Cantidad(*):</strong></label>
+                <label class="col-sm-1 form-control-label" for="precio_unitario"><strong>Precio Unitario:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Ingrese Cantidad',
-                    'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!!}
+                  {!!form::text('precio_unitario', null,['id'=>'precio_unitario','name'=>'precio_unitario','class'=>'form-control',
+                    'placeholder'=>'Aqui el precio unitario','readonly'=>'true'])!!}
                 </div>
-              </div>
-              <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('precio_total', null,['id'=>'precio_total','name'=>'cantidad','class'=>'form-control',
                     'placeholder'=>'Aqui el precio total','readonly'=>'true'])!!}
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-1 form-control-label" for="cantidad"><strong>Cantidad(*):</strong></label>
+                <div class="col-sm-3">
+                  {!!form::text('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Ingrese Cantidad',
+                    'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!!}
                 </div>
                 <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
@@ -140,176 +134,21 @@
       <!--Panel tabla-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Tabla Detalles:</h2>
+              <h2 class="h1 display ion-paperclip"> Tabla Detalles:</h2>
             </div>
             <div class="card-block">
-              <p>Lista de todos los detalles de la orden de compra.</p>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}" class="btn btn-secondary">Cancelar</a>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" id="guardar">Guardar</button>
+                  <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
+                  <button type="button" class="btn btn-outline-primary ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
                   <!--{ !!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
                     'class'=>'btn btn-primary'])!!}-->
-                    <!-- Modal-->
-                    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                      <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                          </div>
-                          <div class="modal-body">
-                            <h2 id="errores">Errores</h2>
-                            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Modal aviso para guardar registros -->
-                    <div id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                      <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                          </div>
-                          <div class="modal-body">
-                            <h2>¡Se ha guardado correctamente una orden de compra! :)</h2>
-                            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!--Modal carrusel de fotos-->
-                    <div id="myModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                      <div role="document" class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="exampleModalLabel" class="modal-title">Seleccionar Imagen</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>Seleccione una imagen de sombrero:</p>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <div class="card miBorder">
-                                  <div class="card-header d-flex align-items-center">
-                                    <h2 class="h1 display display">Formulario:</h2>
-                                  </div>
-                                  <div class="card-block">
-                                    <p>Ingrese los datos del nuevo modelo de sombrero.</p>
-                                    <div class="form-group row">
-                                      <label class="col-sm-2 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
-                                      <div class="col-sm-10">
-                                        {!!Form::select('modalModelo',$modelo, null,['id'=>'modalModelo','name'=>'modalModelo','class'=>'form-control'])!!}
-                                      </div>
-                                    </div>
-                                    <div class="form-group row">
-                                      <label class="col-sm-2 form-control-label" for="idTejido"><strong>Tejido:</strong></label>
-                                      <div class="col-sm-10">
-                                        {!!Form::select('modalTejido',$tejido, null,['id'=>'modalTejido','name'=>'modalTejido','class'=>'form-control'])!!}
-                                      </div>
-                                    </div>
-                                    <div class="form-group row">
-                                      <label class="col-sm-2 form-control-label" for="idMaterial"><strong>Material:</strong></label>
-                                      <div class="col-sm-10">
-                                        {!!Form::select('modalMaterial',$material, null,['id'=>'modalMaterial','name'=>'modalMaterial','class'=>'form-control'])!!}
-                                      </div>
-                                    </div>
-                                    <div class="form-group row">
-                                      <label class="col-sm-2 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
-                                      <div class="col-sm-10">
-                                        {!!Form::select('modalPublico',$publicodirigido, null,['id'=>'modalPublico','name'=>'modalPublico',
-                                          'class'=>'form-control'])!!}
-                                      </div>
-                                    </div>
-                                    <div class="form-group row">
-                                      <label class="col-sm-2 form-control-label" for="idTalla"><strong>Talla:</strong></label>
-                                      <div class="col-sm-10">
-                                        {!!Form::select('modalTalla',$talla, null,['id'=>'modalTalla','name'=>'modalTalla','class'=>'form-control'])!!}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-6">
-                                <div class="card miBorder">
-                                  <div class="card-header d-flex align-items-center">
-                                    <h2 class="h1 display display">Formulario:</h2>
-                                  </div>
-                                  <div class="card-block">
-                                    <p>Imagenes de sombrero.</p>
-                                    <div class="i-checks">
-                                      <input id="check_estado_titular" type="checkbox" value="" class="form-control-custom">
-                                      <label for="check_estado_titular">Elegir</label>
-                                    </div>
-                                    <span>No hay Imagen Elegido</span>
-                                    <!--carrusel-->
-                                    <div id="carouselExampleIndicators" class="carousel slide miBorder" data-ride="carousel">
-                                      <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                      </ol>
-                                      <div class="carousel-inner" role="listbox" id="lista_imagenes">
-                                        @foreach ($imagenes as $key => $imagen)
-                                          @if ($key==1)
-                                            <div class="carousel-item active">
-                                              <center><img class="d-block img-fluid" src="/images/sombreros/{{$imagen->photo}}" width="430px" alt="First slide"></center>
-                                              <div class="carousel-caption d-none d-md-block">
-                                                <h3>Codigo: {{$imagen->codigo}}</h3>
-                                                <h5>Sombrero con Modelo: {{$imagen->modelo}}, material: {{$imagen->material}},
-                                                  calidad de tejido: {{$imagen->tejido}}</h5>
-                                              </div>
-                                            </div>
-                                          @else
-                                            <div class="carousel-item">
-                                              <center><img class="d-block img-fluid" src="/images/sombreros/{{$imagen->photo}}" width="430px" alt="First slide"></center>
-                                              <div class="carousel-caption d-none d-md-block">
-                                                <h3>Codigo: {{$imagen->codigo}}</h3>
-                                                <h5>Sombrero con Modelo: {{$imagen->modelo}}, material: {{$imagen->material}},
-                                                  calidad de tejido: {{$imagen->tejido}}</h5>
-                                              </div>
-                                            </div>
-                                          @endif
-                                        @endforeach
-                                      </div>
-                                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                      </a>
-                                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                      </a>
-                                    </div>
-                                    <!---->
-                                  </div>
-                                </div>
-
-                              </div>
-                            </div>
-
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!---->
+                    
                 </div>
                 <div class="col-sm-1">
-                  <button type="button" class="btn btn-primary" id="agregar" disabled>Agregar</button>
+                  <button type="button" class="btn btn-outline-primary ion-plus-round btn-sm" id="agregar" disabled> Nuevo</button>
                 </div>
               </div>
               <table class="table table-striped table-hover table-bordered">
@@ -334,6 +173,162 @@
       </div>
     </div>
     {!!Form::close()!!}
+
+    <!--Modales-->
+    <!-- Modal-->
+    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+              <h2 id="errores">Errores</h2>
+              <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Modal aviso para guardar registros -->
+    <div id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+              <h2>¡Se ha guardado correctamente una orden de compra! :)</h2>
+              <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Modal carrusel de fotos-->
+      <div id="myModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="exampleModalLabel" class="modal-title">Seleccionar Imagen</h5>
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+              <p>Seleccione una imagen de sombrero:</p>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card miBorder">
+                    <div class="card-header d-flex align-items-center">
+                      <h2 class="h1 display display">Formulario:</h2>
+                    </div>
+                    <div class="card-block">
+                      <p>Ingrese los datos del nuevo modelo de sombrero.</p>
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
+                        <div class="col-sm-10">
+                          {!!Form::select('modalModelo',$modelo, null,['id'=>'modalModelo','name'=>'modalModelo','class'=>'form-control'])!!}
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label" for="idTejido"><strong>Tejido:</strong></label>
+                        <div class="col-sm-10">
+                          {!!Form::select('modalTejido',$tejido, null,['id'=>'modalTejido','name'=>'modalTejido','class'=>'form-control'])!!}
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label" for="idMaterial"><strong>Material:</strong></label>
+                        <div class="col-sm-10">
+                          {!!Form::select('modalMaterial',$material, null,['id'=>'modalMaterial','name'=>'modalMaterial','class'=>'form-control'])!!}
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
+                        <div class="col-sm-10">
+                          {!!Form::select('modalPublico',$publicodirigido, null,['id'=>'modalPublico','name'=>'modalPublico',
+                            'class'=>'form-control'])!!}
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label" for="idTalla"><strong>Talla:</strong></label>
+                        <div class="col-sm-10">
+                          {!!Form::select('modalTalla',$talla, null,['id'=>'modalTalla','name'=>'modalTalla','class'=>'form-control'])!!}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card miBorder">
+                    <div class="card-header d-flex align-items-center">
+                      <h2 class="h1 display display">Formulario:</h2>
+                    </div>
+                    <div class="card-block">
+                      <p>Imagenes de sombrero.</p>
+                      <div class="i-checks">
+                        <input id="check_estado_titular" type="checkbox" value="" class="form-control-custom">
+                        <label for="check_estado_titular">Elegir</label>
+                      </div>
+                      <span>No hay Imagen Elegido</span>
+                      <!--carrusel-->
+                      <div id="carouselExampleIndicators" class="carousel slide miBorder" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox" id="lista_imagenes">
+                          @foreach ($imagenes as $key => $imagen)
+                            @if ($key==1)
+                              <div class="carousel-item active">
+                                <center><img class="d-block img-fluid" src="/images/sombreros/{{$imagen->photo}}" width="430px" alt="First slide"></center>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <h3>Codigo: {{$imagen->codigo}}</h3>
+                                  <h5>Sombrero con Modelo: {{$imagen->modelo}}, material: {{$imagen->material}},
+                                    calidad de tejido: {{$imagen->tejido}}</h5>
+                                </div>
+                              </div>
+                            @else
+                              <div class="carousel-item">
+                                <center><img class="d-block img-fluid" src="/images/sombreros/{{$imagen->photo}}" width="430px" alt="First slide"></center>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <h3>Codigo: {{$imagen->codigo}}</h3>
+                                  <h5>Sombrero con Modelo: {{$imagen->modelo}}, material: {{$imagen->material}},
+                                    calidad de tejido: {{$imagen->tejido}}</h5>
+                                </div>
+                              </div>
+                            @endif
+                          @endforeach
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </div>
+                      <!---->
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!---->
   </section>
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
   <script type="text/javascript">
@@ -376,6 +371,9 @@
     $("#idProveedor").change(function(e){
       console.log(e);
       proveedor_id = e.target.value;
+      $("#codigo").val("");
+      limpiar();
+      llenarCodigosSombreros();
       mostrarAjax();
     });
     $("#cantidad").keyup(function(e){
@@ -400,6 +398,20 @@
         $("#codigo").val("");
       } else {
         $("#codigo").val("");
+      }
+    }
+
+    function llenarCodigosSombreros(){
+      if(proveedor_id!=0){
+        $.get('/ajax-mostrarCodigoSombreroPorProveedor/'+proveedor_id, function(data){
+          //success
+            var codigos = "";
+              $.each(data, function(index, sombrero){
+                codigos = codigos+"<option value='"+sombrero.codigo+"'></option>";
+                
+              });
+              $("#codigosSombrero").html(codigos);
+        });
       }
     }
 
@@ -461,6 +473,10 @@
     });
 
     $("#codigo").keyup(function(e){
+      console.log(e);
+      buscarDatosPorCodigo();
+    });
+    $("#codigo").change(function(e){
       console.log(e);
       buscarDatosPorCodigo();
     });
@@ -545,7 +561,7 @@
       }
 
       if ($("#cantidad").val()=="") {
-        mensaje = mensaje + "* Debe ingresar la cantidad.";
+        mensaje = mensaje + "<br/>* Debe ingresar la cantidad.";
       }
       if (mensaje=="") {
         if ($("#idProveedor").prop("disabled")) {//desactivado
@@ -564,7 +580,7 @@
               //alert('(2) '+orden.numero_orden);
               //alert("entra "+orden.codigo);
               //orden.idOrdenCompra
-              tabla = tabla+"<tr><td>"+n+"</td><td>"+orden.codigo+"</td>"+
+              tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+orden.codigo+"</td>"+
               "<td><img src='/images/sombreros/"+orden.photo+
               "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
               "<td>"+orden.cantidad+"</td><td>"+orden.precio_unitario+"</td><td>"+
@@ -599,7 +615,7 @@
               $("#guardar").prop('disabled', 'disabled');
               $("#agregar").removeAttr("disabled");
               //alert(orden.codigo);
-              tabla = tabla+"<tr><td>"+n+"</td><td>"+orden.codigo+"</td>"+
+              tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+orden.codigo+"</td>"+
               "<td><img src='/images/sombreros/"+orden.photo+
               "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
               "<td>"+orden.cantidad+"</td><td>"+orden.precio_unitario+"</td><td>"+

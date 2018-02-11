@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Modelos')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item active">Modelos</li>
@@ -11,17 +11,19 @@
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h2">Lista de Modelos:</h1>
+        <h1 class="h2 fadeIn animated">Lista de Modelos:</h1>
       </header>
       @include('partials.messages')
-      <a href="{{url('/gastronomica/sombreros/modelos/modelo/create')}}" class="btn btn-primary margenInf">Nuevo</a> &nbsp;
 
       <div class="row">
         <div class="col-lg-12">
 
-          <div class="card miBorder">
-
+          <div class="card miBorder fadeIn animated">
+            <div class="card-header d-flex align-items-center">
+                <h2 class="h1 display ion-paperclip fadeIn animated title"> Historial:</h2>
+            </div>
             <div class="card-block">
+              <a href="{{url('/gastronomica/sombreros/modelos/modelo/create')}}" class="btn btn-outline-primary btn-sm margenInf ion-plus-round"> Nuevo</a> &nbsp;
               <table class="table table-striped table-hover table-bordered">
 
                 <thead class="thead-inverse">

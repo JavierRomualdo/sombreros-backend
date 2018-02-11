@@ -12,7 +12,7 @@ class GuiaIngresoDetalle extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'idGuiaIngreso', 'idSombrero', 'cantidad', 'descripcion'
+      'id', 'idGuiaIngreso', 'idOrdenCompraDetalle', 'cantidad', 'descripcion'
     ];
 
     public function GuiaIngreso()
@@ -21,9 +21,9 @@ class GuiaIngresoDetalle extends Model
       return $this->hasmany(GuiaIngreso::class);
     }
 
-    public function Sombrero()
+    public function OrdenCompraDetalle()
     {
       # code...
-      return $this->hasmany(Sombrero::class);
+      return $this->hasmany(GuiaIngresoDetalle::class);
     }
 }

@@ -23,7 +23,7 @@
           <td><label class="col-sm-2 form-control-label" for="fecha"><strong>Cantidad Items:</strong></label></td>
           <td>{!!$orden->cantidad!!}</td>
           <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label></td>
-          <td>{!!$orden->precio_total!!}</td>
+          <td>S/. {!!$orden->precio_total!!}</td>
         </tr>
       </tbody>
     </table>
@@ -41,7 +41,7 @@
           <th>Cantidad</th>
           <th>Precio Unitario</th>
           <th>Precio Total</th>
-          <th>Proveedor</th>
+          <!--<th>Proveedor</th>-->
           <th>Descripcion</th>
         </tr>
       </thead>
@@ -54,9 +54,9 @@
               <img src="images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
             </td>
             <td>{{$detalle->cantidad}}</td>
-            <td>{{$detalle->precio_unitario}}</td>
-            <td>{{$detalle->cantidad * $detalle->precio_unitario}}</td>
-            <td>{{$detalle->empresa}}</td>
+            <td>S/. {{$detalle->precio_unitario}}</td>
+            <td>S/. {{$detalle->cantidad * $detalle->precio_unitario}}</td>
+            <!--<td>{{$detalle->empresa}}</td>-->
             <td>{{$detalle->descripcion}}</td>
           </tr>
         @endforeach

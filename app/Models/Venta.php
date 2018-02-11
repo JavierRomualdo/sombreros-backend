@@ -9,16 +9,21 @@ class Venta extends Model
     //
     protected $table = 'venta';
     protected $primarykey = 'id';
-    public $timestamps=false;
 
     protected $fillable = [
-      'id', 'numero_venta', 'fecha', 'utilidad', 'idUsuario'
+      'id', 'idEmpleado', 'numero_venta', 'fecha', 'utilidad', 'idUsuario'
     ];
 
     public function User()
     {
       # code...
       return $this->hasmany(User::class);
+    }
+
+    public function Empleado()
+    {
+      # code...
+      return $this->hasmany(Empleado::class);
     }
 
     public function VentaDetalle()

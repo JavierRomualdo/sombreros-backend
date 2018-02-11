@@ -19,7 +19,7 @@
           <br/>
           <div class="card miBorder">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
+              <h2 class="h1 display">Formulario:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>

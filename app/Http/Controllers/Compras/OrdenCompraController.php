@@ -36,7 +36,7 @@ class OrdenCompraController extends Controller
           ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
           ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
           ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
-          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get();
+          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->paginate(4);
 
 
         //$ordenes = OrdenCompra::all();
@@ -69,6 +69,14 @@ class OrdenCompraController extends Controller
         'modelo'=>$modelos, 'tejido'=>$tejidos, 'material'=>$materiales,'publicodirigido'=>$publicosdirigido,
         'talla'=>$tallas,'imagenes'=>$imagenes));
 
+    }
+
+    public function mostrarCodigoSombreroPorProveedor($idProveedor){
+      $datos = Sombrero::select('sombrero.codigo')
+      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->where('proveedor_precio.idProveedor','=', $idProveedor)->get();
+
+      return response()->json($datos);
     }
 
     public function mostrarPorModelo($modelo_id,$tejido_id,$material_id,$publico_id,$talla_id,$proveedor_id)

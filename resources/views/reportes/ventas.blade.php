@@ -12,16 +12,18 @@
   </div>
 
   <div class="row">
-    <h4>Datos Generales:</h4>
-    <table class="table-striped table-hover table-bordered" width="730px">
+    <h4>Consolidado:</h4>
+    <table class="table-striped table-hover table-bordered" width="1030px"><!--width="730px"-->
       <tbody>
         <tr>
           <td><label class="col-sm-2 form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
           <td>{!!$venta->fecha!!}</td>
+          <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad de Items:</strong></label></td>
+          <td>{!!$venta->cantidad!!}</td>          
           <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label></td>
-          <td>{!!$venta->precio_total!!}</td>
+          <td>S/. {!!$venta->precio_total!!}</td>
           <td><label class="col-sm-2 form-control-label" for="user"><strong>Realizado por:</strong></label></td>
-          <td>{!!$venta->name!!}</td>
+          <td>{!!$venta->nombres!!}</td>
         </tr>
       </tbody>
     </table>
@@ -34,11 +36,11 @@
       <thead class="thead-inverse">
         <tr>
           <th>#</th>
-          <th>Codigo Sombrero</th>
+          <th>Articulo</th>
           <th>Foto</th>
           <th>Cantidad</th>
           <th>Precio Venta</th>
-          <th>% Descuento</th>
+          <th>Descuento (%)</th>
           <th>Descuento</th>
           <th>Precio Total</th>
           <th>Descripcion</th>
@@ -53,10 +55,10 @@
               <img src="images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
             </td>
             <td>{{$detalle->cantidad}}</td>
-            <td>{{$detalle->precio_venta}}</td>
+            <td>S/. {{$detalle->precio_venta}}</td>
             <td>{{$detalle->porcentaje_descuento}}</td>
-            <td>{{$detalle->descuento}}</td>
-            <td>{{$detalle->sub_total}}</td>
+            <td>S/. {{$detalle->descuento}}</td>
+            <td>S/. {{$detalle->sub_total}}</td>
             <td>{{$detalle->descripcion}}</td>
           </tr>
         @endforeach
