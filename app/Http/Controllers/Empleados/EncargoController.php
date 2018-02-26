@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Encargo;
 use App\Models\Empleado;
+use App\http\Requests\Encargo\EncargoCreateRequest;
 use Session;
 
 class EncargoController extends Controller
@@ -18,7 +19,7 @@ class EncargoController extends Controller
     public function index()
     {
         //
-        $encargos = Encargo::paginate(5);//all()
+        $encargos = Encargo::all()->take(10);//all()
         return view ('gastronomica/sombreros/encargos/encargo')->with('encargos', $encargos);
     }
 
@@ -39,7 +40,7 @@ class EncargoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EncargoCreateRequest $request)
     {
         //
         Encargo::create($request->all());
@@ -105,7 +106,7 @@ class EncargoController extends Controller
     {
         //
         $encargos = Encargo::FindOrFail($id);
-        $empleados = Empleado::select('id')->where('idCargo','=',$encargos->id)->get();
+        $empleados = Empleado::select('id')->where('idEncargo','=',$encargos->id)->first();
         if ($empleados!=null) {
           # code...
           Session::flash('error-modelo','No se puede eliminar');

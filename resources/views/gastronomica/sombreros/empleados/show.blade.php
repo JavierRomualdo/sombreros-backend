@@ -16,42 +16,42 @@
           <br/>
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"><strong style="color:#f00"> Eliminar:</strong></h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"><strong style="color:#f00"> Eliminar:</strong></h2>
             </div>
             <div class="card-block">
               <p>¿Desea eliminar el empleado?.</p>
               {!!Form::open(['action'=>['Empleados\EmpleadoController@destroy',$empleado->id],'method'=>'DELETE','enctype'=>'multipart/form-data'])!!}
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label"><strong>Encargo:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-4 form-control-label"><strong>Encargo:</strong></label>
+                <div class="col-sm-2 col-8">
                   {!!$encargo->nombre!!}
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Nombres:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-4 form-control-label"><strong>Nombres:</strong></label>
+                <div class="col-sm-2 col-8">
                   {!!$empleado->nombres!!}
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Apellidos:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-4 form-control-label"><strong>Apellidos:</strong></label>
+                <div class="col-sm-2 col-8">
                   {!!$empleado->apellidos!!}
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label"><strong>Dni:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-4 form-control-label"><strong>Dni:</strong></label>
+                <div class="col-sm-2 col-8">
                     {!!$empleado->dni!!}
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Direccion:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-4 form-control-label"><strong>Direccion:</strong></label>
+                <div class="col-sm-2 col-8">
                     {!!$empleado->direccion!!}
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Telefono:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-4 form-control-label"><strong>Telefono:</strong></label>
+                <div class="col-sm-2 col-8">
                   {!!$empleado->telefono!!}
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label"><strong>Email:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-4 form-control-label"><strong>Email:</strong></label>
+                <div class="col-sm-2 col-8">
                   {!!$empleado->email!!}
                 </div>
               </div>

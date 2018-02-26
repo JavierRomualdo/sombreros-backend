@@ -28,7 +28,7 @@ class TejidoController extends Controller
     public function index()
     {
         //
-        $tejidos = Tejidos::paginate(5);//all()
+        $tejidos = Tejidos::all()->take(10);//all()
         return view ('gastronomica/sombreros/tejidos/tejido')->with('tejidos', $tejidos);
     }
 
@@ -145,7 +145,7 @@ class TejidoController extends Controller
     {
         //
         $tejidos = Tejidos::FindOrFail($id);
-        $sombreros = Sombrero::select('id')->where('idTejido','=',$tejidos->id)->get();
+        $sombreros = Sombrero::select('id')->where('idTejido','=',$tejidos->id)->first();
         if ($sombreros!=null) {
           # code...
           Session::flash('error-tejido','No se puede eliminar');

@@ -1,5 +1,5 @@
 @if (count($errors)>0)
-  <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+  <div class='alert alert-danger alert-dismissible fade show fadeIn animated' role='alert'>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -14,7 +14,7 @@
   </div>
 @endif
 @if (Session::has('update'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -22,7 +22,7 @@
   </div>
 @endif
 @if (Session::has('delete'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -30,7 +30,7 @@
   </div>
 @endif
 @if (Session::has('save'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -38,7 +38,7 @@
   </div>
 @endif
 @if (Session::has('error'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -46,7 +46,7 @@
   </div>
 @endif
 @if (Session::has('error-modelo'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -54,7 +54,7 @@
   </div>
 @endif
 @if (Session::has('error-material'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -62,7 +62,7 @@
   </div>
 @endif
 @if (Session::has('error-tejido'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -70,7 +70,7 @@
   </div>
 @endif
 @if (Session::has('error-talla'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -78,7 +78,7 @@
   </div>
 @endif
 @if (Session::has('error-publico'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -86,7 +86,7 @@
   </div>
 @endif
 @if (Session::has('error-proveedor'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-success alert-dismissible fade show fadeIn animated" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

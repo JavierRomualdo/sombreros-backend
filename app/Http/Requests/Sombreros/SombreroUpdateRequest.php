@@ -34,6 +34,7 @@ class SombreroUpdateRequest extends FormRequest
           'codigo'=>'required|max:13|unique:sombrero,codigo,'.$this->get('id'),
           'stock_minimo'=>'required',
           'stock_maximo'=>'required',
+          'precio_venta'=>'required',
       ];
     }
 

@@ -1,16 +1,20 @@
 @extends('layouts.master')
 @section('title','Nuevo Guia Ingreso')
 @section('content')
+
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
+
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/guiaingreso/guiaingreso')}}">Guia de Ingreso</a></li>
+        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/guiaingreso/guiaingreso')}}">Guia Ingreso</a></li>
         <li class="breadcrumb-item active">Nuevo</li>
       </ul>
     </div>
   </div></br>
   <div class="container-fluid">
-    <center><h1 class="h3" id="titulo_codigo">Código: GI-001-17</h1></center>
+    <center><h1 class="h5" id="titulo_codigo">Código: GI-001-17</h1></center>
     @include('partials.messages')
   </div>
 
@@ -26,51 +30,50 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
               <p>Codigo de Orden: <b id='codigoOrden'>####</b></p>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label"><strong>Articulo:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Articulo:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='articulo'>#</label>
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Modelo:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Modelo:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='modelo'>#</label>
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Tejido:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Tejido:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='tejido'>#</label>
                 </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-2 form-control-label"><strong>Material:</strong></label>
-                <div class="col-sm-2">
+
+                <label class="col-sm-2 col-3 form-control-label"><strong>Material:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='material'>#</label>
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Publico Dirigido:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Publico Dirigido:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='publico'>#</label>
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Talla:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Talla:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='talla'>#</label>
                 </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-2 form-control-label"><strong>Proveedor:</strong></label>
-                <div class="col-sm-2">
+
+                <label class="col-sm-2 col-3 form-control-label"><strong>Proveedor:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='proveedor'>#</label>
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Precio Unitario:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Costo Articulo:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='precio_unitario'>#</label>
                 </div>
-                <label class="col-sm-2 form-control-label"><strong>Stock Actual:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Stock Actual:</strong></label>
+                <div class="col-sm-2 col-3">
                    <label id='stock_actual'>#</label>
                 </div>
+
               </div>
             </div>
           </div>
@@ -81,7 +84,7 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip  fadeIn animated"> Formulario:</h2>
+              <h2 class="h5 display ion-paperclip  fadeIn animated"> Ingreso:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos para la nueva guia de ingreso.</p>
@@ -94,7 +97,7 @@
                 <label class="col-sm-3 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
-                    'rows'=>"3", 'cols'=>"8"])!!}
+                    'rows'=>"2", 'cols'=>"8"])!!}
                 </div>
               </div>
             </div>
@@ -106,18 +109,19 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip fadeIn animated title"> Tabla Detalles:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated title"> Detalles:</h2>
             </div>
             <div class="card-block">
               <p>Lista de todos los detalles de la guia de ingreso.</p>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
-                  <button type="button" class="btn btn-outline-primary ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
+                  <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}" class="btn btn-outline-primary ion-android-cancel btn-sm"> Cancelar</a>
+                  <button type="button" class="btn btn-outline-success ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
                 </div>
               </div>
               
-              <table class="table table-striped table-hover table-bordered">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
@@ -126,14 +130,16 @@
                     <th>Articulo</th>
                     <th>Foto</th>
                     <th>Cantidad</th>
-                    <th>Precio Compra</th>
-                    <th>Precio Total</th>
+                    <th>Costo Articulo</th>
+                    <th>Costo Total</th>
                     <th>Descripcion</th>
                   </tr>
                 </thead>
                 <tbody id="lista_datos">
                 </tbody>
               </table>
+              </div>
+              
             </div>
           </div>
         </div>
@@ -145,15 +151,15 @@
         <div role="document" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
+              <h5 id="exampleModalLabel" class="h6 modal-title ion-paperclip"> Mensaje</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-              <h2>¡Se ha guardado correctamente una guia de compra! :)</h2>
+              <h2 class="h6">¡Se ha guardado correctamente una guia de compra! :)</h2>
               <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
+              <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="aceptar">Aceptar</button>
             </div>
           </div>
         </div>
@@ -163,7 +169,7 @@
       <div role="document" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
+            <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip" style="color: red;"> Errores</h5>
             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
           </div>
           <div class="modal-body">
@@ -181,7 +187,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ordenes Compra</h5>
+            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Ordenes Compra</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -189,7 +195,7 @@
           <div class="modal-body">
               <p>Historial</p>
               <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered specialCollapse"><!--table-responsive-->
+                <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableOrdenCompra"><!--table-responsive-->
 
                 <thead class="thead-inverse">
                   <tr>
@@ -197,7 +203,7 @@
                     <th>Codigo de Orden</th>
                     <th>Fecha</th>
                     <th>Cantidad Items</th>
-                    <th>Precio Total</th>
+                    <th>Costo Total</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -208,9 +214,9 @@
                     <th>{{$orden->numero_orden}}</th>
                     <td>{{$orden->fecha}}</td>
                     <td>{{$orden->cantidad}}</td>
-                    <td>S/. {{$orden->precio_total}}</td>
+                    <td>S/ {{$orden->precio_total}}</td>
                     <td>
-                      <a href="javascript:mostrarOrdenCompraDetalles({{$orden->id}},'{{$orden->numero_orden}}');" class="btn btn-outline-primary btn-sm">Elegir</a>
+                      <a href="javascript:mostrarOrdenCompraDetalles({{$orden->id}},'{{$orden->numero_orden}}');" class="btn btn-outline-primary btn-sm ion-android-checkmark-circle"></a>
                     </td>
                   </tr>
                   @endforeach
@@ -228,8 +234,8 @@
                       <th>Foto</th>
                       <th>Cantidad</th>
                       <th>Ingresó</th>
-                      <th>Precio Unitario</th>
-                      <th>Precio Total</th>
+                      <th>Costo Articulo</th>
+                      <th>Costo Total</th>
                       <!--<th>Proveedor</th>-->
                       <th>Descripcion</th>
                       <th>Acciones</th>
@@ -241,8 +247,8 @@
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
           </div>
         </div>
       </div>
@@ -255,6 +261,12 @@
   <script type="text/javascript">
     var articulo = 1;
     $(document).ready(function(){
+      $('#myTableOrdenCompra').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        }
+      });
       articulo = 1;
       mostrarCodigoOrden();
     });
@@ -340,7 +352,7 @@
               tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+
                 "</td><td>"+guia.codigo+"</td>"+"<td><img src='/images/sombreros/"+guia.photo+
                 "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-                "<td>"+guia.cantidad+"</td><td>"+guia.precio+"</td><td>S/. "+(parseInt(guia.cantidad) * parseInt(guia.precio))+
+                "<td>"+guia.cantidad+"</td><td>S/ "+guia.precio+"</td><td>S/ "+(parseInt(guia.cantidad) * parseInt(guia.precio))+
                   "</td><td>"+guia.descripcion+"</td></tr>";
               n++;
               tipo = 2;
@@ -358,7 +370,7 @@
               tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+
                 "</td><td>"+guia.codigo+"</td>"+"<td><img src='/images/sombreros/"+guia.photo+
                 "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-                "<td>"+guia.cantidad+"</td><td>S/. "+guia.precio+"</td><td>S/. "+(parseInt(guia.cantidad) * parseInt(guia.precio))+
+                "<td>"+guia.cantidad+"</td><td>S/ "+guia.precio+"</td><td>S/ "+(parseInt(guia.cantidad) * parseInt(guia.precio))+
                   "</td><td>"+guia.descripcion+"</td></tr>";
               n++;
             });
@@ -389,16 +401,16 @@
         $.each(data, function(index, orden){
           var mensajeBoton = "";
           if(orden.cantidad > orden.cantidad_ingreso){// ya esta orden de compra se ha ingresado en la guia
-            mensajeBoton = "<button class='btn btn-outline-primary btn-sm' onclick='elegirOrdenCompra("+orden.id+")'>Elegir</button>";
+            mensajeBoton = "<button class='btn btn-outline-primary btn-sm ion-android-done' onclick='elegirOrdenCompra("+orden.id+")'></button>";
           } else {//es que aun no se ingresa todo 
-            mensajeBoton = "<button disabled title='Se ha ingresado' class='btn btn-outline-primary btn-sm' onclick='elegirOrdenCompra("+orden.id+")'>Elegir</button>";
+            mensajeBoton = "<button disabled title='Se ha ingresado' class='btn btn-outline-primary btn-sm ion-android-done' onclick='elegirOrdenCompra("+orden.id+")'></button>";
           }
           $("#idProveedor").prop('disabled', 'disabled');
           tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+orden.codigo+
           "</td><td><img src='/images/sombreros/"+orden.photo+
           "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-          "<td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+orden.precio_unitario+
-          "</td><td>"+(orden.cantidad * orden.precio_unitario)+
+          "<td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>S/ "+orden.precio_unitario+
+          "</td><td>S/ "+(orden.cantidad * orden.precio_unitario)+
           "</td><td>"+orden.descripcion+"</td><td>"+mensajeBoton+"</td></tr>";
           n++;
         });

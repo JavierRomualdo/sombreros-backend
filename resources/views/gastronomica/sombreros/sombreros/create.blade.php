@@ -18,7 +18,7 @@
         <div class="col-lg-12"><!--offset-lg-3 col-lg-6-->
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Formulario:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Nuevo:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos para el nuevo modelo de sombrero.</p>
@@ -46,11 +46,11 @@
               <div class="form-group row">
                 <label class="col-sm-2 form-control-label" for="idPublicoDirigido"><strong>Publico Dirigido:</strong></label>
                 <div class="col-sm-4">
-                  {!!Form::select('idPublicoDirigido',$publicodirigido, null,['id'=>'idPublicoDirigido','name'=>'idPublicoDirigido','class'=>'form-control'])!!}
+                  {!!form::select('idPublicoDirigido',$publicodirigido, null,['id'=>'idPublicoDirigido','name'=>'idPublicoDirigido','class'=>'form-control'])!!}
                 </div>
                 <label class="col-sm-2 form-control-label" for="idTalla"><strong>Talla:</strong></label>
                 <div class="col-sm-4">
-                  {!!Form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control'])!!}
+                  {!!form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control'])!!}
                 </div>
               </div>
               <div class="form-group row">
@@ -71,9 +71,9 @@
                   {!!form::text('precio_venta', null,['id'=>'precio_venta','class'=>'form-control','placeholder'=>'Precio Venta','maxlength'=>'7'])!!}
                 </div>
                 <div class="col-sm-6">
-                  <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
+                  <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-outline-primary fadeIn animated btn-sm ion-android-cancel"> Cancelar</a>
                   {!!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
-                  'class'=>'btn btn-outline-primary ion-ios-checkmark-outline btn-sm'])!!}
+                  'class'=>'btn btn-outline-success btn-sm ion-ios-checkmark-outline btn-sm fadeIn animated'])!!}
                 </div>
               </div>
               {!!Form::close()!!}

@@ -1,16 +1,17 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
+
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
+
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item active">Reporte Ventas</li>
+        <li class="breadcrumb-item active">Reporte ventas /</li>
       </ul>
     </div>
   </div></br>
-  <div class="container-fluid">
-    @include('partials.messages')
-  </div>
   <section class="forms">
     <div class="container-fluid">
       {!!Form::open(['action'=>'Compras\OrdenCompraController@store','method'=>'POST'])!!}
@@ -22,12 +23,13 @@
           </div>
         </div>
       </div>
+      <br/>
       <!--Panel superior-->
-      <div class="row" id="panelSombrero" style="visibility: hidden; display: none;">
+      <div class="row" id="panelSombrero" style="visibility: visibility; display: none;">
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Panel Sombrero:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>
@@ -88,7 +90,7 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Panel Fechas:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Panel Fechas:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese las fechas para la busqueda de ventas.</p>
@@ -115,12 +117,13 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Tabla Ventas:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Tabla Ventas:</h2>
             </div>
             <div class="card-block miTabla">
               <a href="{{action('Reportes\ReporteController@reporteGeneralVentas')}}"
-              id="reporte" class="btn btn-outline-primary margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a><br/>
-              <table class="table table-striped table-hover table-bordered"><!--table-responsive-->
+              id="reporte" class="btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a><br/>
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
@@ -136,49 +139,46 @@
                   @foreach ($ventas as $index=>$venta)
                   <tr class="fadeIn animated">
                     <th scope="row">{{$index+1}}</th>
-                    <td>{{$venta->numero_venta}}</td>
+                    <th>{{$venta->numero_venta}}</th>
                     <td>{{$venta->fecha}}</td>
                     <td>{{$venta->cantidad}}</td>
-                    <td>{{$venta->precio_total}}</td>
+                    <td>S/ {{$venta->precio_total}}</td>
                     <td>{{$venta->nombres}}</td>
                     <td>
-                      <a href="{{action('Reportes\ReporteController@verVentas',$venta->id)}}" class="ion-eye" title="Ver"></a>
-                      <a href="{{action('Ventas\VentasController@reporte',$venta->id)}}" target="_blank" class="margenInf ion-document-text" title="reporte"></a>
+                      <a href="{{action('Reportes\ReporteController@verVentas',$venta->id)}}" class="btn btn-outline-primary btn-sm ion-eye" title="Ver"></a>
+                      <a href="{{action('Ventas\VentasController@reporte',$venta->id)}}" target="_blank" class="btn btn-outline-primary btn-sm ion-document-text" title="reporte"></a>
                     </td>
                   </tr>
                   @endforeach
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
       
     </div>
-    <!---->
-      <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-        <div role="document" class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
-              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-            </div>
-            <div class="modal-body">
-              <h2 id="errores">Errores</h2>
-              <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!---->
   </section>
-<script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+
+  <!--Notificacion-->
+  <script src="{{asset('bootstrap4/js/notification/messenger.min.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/messenger-theme-flat.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
+
 <script type="text/javascript">
-$(document).ready(function(){
-});
+  $(document).ready(function(e){
+        Messenger().post({message:"Reporte: ventas.",type:"info",showCloseButton:!0});
+        $('#myTable').DataTable({
+          "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+            responsive: true
+          }
+        });
+  });
 var modelo_id = 0;
 var tejido_id = 0;
 var material_id = 0;
@@ -230,18 +230,18 @@ $("#buscar").click(function(e){
   var mensaje = "";
   if ($("#check_panel_sombrero").is(':checked')) {
     if ($("#codigo").val()=="") {
-      mensaje = mensaje + "* El codigo no debe estar vacío.";
+      mensaje = mensaje + "* El codigo no debe estar vacío.<br/>";
     } else {
       if ($("#codigo").val().length!=13) {
-        mensaje = mensaje + "</br>* El codigo no tiene los 13 caracteres.";
+        mensaje = mensaje + "* El codigo no tiene los 13 caracteres.<br/>";
       }
     }
   }
   if ($("#fecha_inicio").val()=="") {
-    mensaje = mensaje + "</br>* La fecha de inicio no debe estar vacia.";
+    mensaje = mensaje + "* La fecha de inicio no debe estar vacia.<br/>";
   }
   if ($("#fecha_fin").val()=="") {
-    mensaje = mensaje + "</br>* La fecha final no debe estar vacia.";
+    mensaje = mensaje + "* La fecha final no debe estar vacia.";
   }
   if (mensaje=="") {
     var tabla = "";
@@ -253,23 +253,33 @@ $("#buscar").click(function(e){
     }
     $.get('/ajax-reportePorFecha/2/'+codigoSombrero+'/'+$("#fecha_inicio").val()+'/'+
     $("#fecha_fin").val(), function(data){
+      $('#myTable').DataTable().destroy();
       //success
       var fecha_inicio = $("#fecha_inicio").val();
       var fecha_fin = $("#fecha_fin").val();
       $.each(data, function(index, venta){
-        tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.numero_venta+"</td><td>"+
+        tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+venta.numero_venta+"</th><td>"+
         venta.fecha+"</td><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.name+"</td><td>"+
-        "<a href='verventas/"+venta.id+"' class='ion-eye' title='ver'></a> "
-        +"<a href='{{URL::to('gastronomica/sombreros/ventas/reporte/')}}/"+venta.id+"' target='_black' class='ion-document-text'></a></td></tr>";
+        "<a href='verventas/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
+        +"<a href='{{URL::to('gastronomica/sombreros/ventas/reporte/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
         n++;
         $("#reporte").attr('href',"{{URL::to('reporteVentasPorFechas/')}}/"+fecha_inicio+"/"+fecha_fin+"/"+codigoSombrero);
       });
       $("#lista_datos").html(tabla);
       tabla = "";
+
+      $('#myTable').DataTable({
+            "language": {
+              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+              //responsive: true,
+              //data: dato//jQuery.parseJSON(dato),
+            },
+            responsive: true,
+            stateSave: true
+          });
     });
   } else {
-    $("#errores").html(mensaje);
-    $("#myModal").modal("show");
+    Messenger().post({message: mensaje,type:"error",showCloseButton:!0})
   }
 
 });
@@ -278,18 +288,29 @@ $("#mostrarTodo").click(function(e){
   var tabla = "";
   var n = 1;
   $.get('/ajax-mostrarTodoVentas/', function(data){
+    $('#myTable').DataTable().destroy();
       //success
      
       $.each(data, function(index, venta){
-        tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.numero_venta+"</td><td>"+
-        venta.fecha+"</td><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.name+"</td><td>"+
-        "<a href='verventas/"+venta.id+"' class='ion-eye' title='ver'></a> "
-        +"<a href='{{URL::to('gastronomica/sombreros/ventas/reporte/')}}/"+venta.id+"' target='_black' class='ion-document-text'></a></td></tr>";
+        tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+venta.numero_venta+"</th><th>"+
+        venta.fecha+"</th><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.name+"</td><td>"+
+        "<a href='verventas/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
+        +"<a href='{{URL::to('gastronomica/sombreros/ventas/reporte/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
         n++;
         $("#reporte").attr('href',"{{URL::to('gastronomica/sombreros/reporte_venta')}}/");
       });
       $("#lista_datos").html(tabla);
       tabla = "";
+
+      $('#myTable').DataTable({
+            "language": {
+              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+              //responsive: true,
+              //data: dato//jQuery.parseJSON(dato),
+            },
+            responsive: true,
+            stateSave: true
+          });
     });
 });
 
@@ -398,5 +419,7 @@ $("#check_panel_sombrero").click(function(){
     //$("#codigo").val("");
   }
 });
+
+  //
 </script>
 @endsection

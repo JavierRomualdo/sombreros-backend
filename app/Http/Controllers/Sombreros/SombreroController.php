@@ -44,7 +44,7 @@ class SombreroController extends Controller
                   'sombrero.stock_actual','sombrero.pedido_reposicion','sombrero.photo')->join('modelos','modelos.id','=','sombrero.idModelo')->join('tejidos',
                   'tejidos.id','=','sombrero.idTejido')->join('materiales','materiales.id','=','sombrero.idMaterial')->join('publicodirigido',
                   'publicodirigido.id','=','sombrero.idPublicoDirigido')->join('tallas','tallas.id','=',
-                  'sombrero.idTalla')->paginate(5);//->get()
+                  'sombrero.idTalla')->get();//->get() ->take(10)
         //'proveedor_precio.precio'
         //join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
         return view ('gastronomica/sombreros/sombreros/sombrero')->with('sombreros', $sombreros);
@@ -152,14 +152,16 @@ class SombreroController extends Controller
     public function ver($id)
     {
       # code...
-      $sombreros = Sombrero::find($id);
-      $modelos = Modelos::find($sombreros->idModelo);
-      $tejidos = Tejidos::find($sombreros->idTejido);
-      $materiales = Materiales::find($sombreros->idMaterial);
-      $publicosdirigido = PublicoDirigido::find($sombreros->idPublicoDirigido);
-      $tallas = Tallas::find($sombreros->idTalla);
-      return View('gastronomica.sombreros.sombreros.ver', array('sombrero'=>$sombreros,'modelo'=>$modelos, 'tejido'=>$tejidos,
-          'material'=>$materiales,'publicodirigido'=>$publicosdirigido,'talla'=>$tallas));
+      $sombreros = Sombrero::select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material','sombrero.stock_minimo',
+        'publicodirigido.publico','tallas.talla','sombrero.precio_venta', 'sombrero.utilidad', 'sombrero.stock_maximo',
+        'sombrero.stock_actual','sombrero.pedido_reposicion','sombrero.photo')
+        ->join('modelos','modelos.id','=','sombrero.idModelo')
+        ->join('tejidos','tejidos.id','=','sombrero.idTejido')
+        ->join('materiales','materiales.id','=','sombrero.idMaterial')
+        ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
+        ->join('tallas','tallas.id','=','sombrero.idTalla')
+        ->where('sombrero.id','=',$id)->first();
+      return View('gastronomica.sombreros.sombreros.ver', array('sombrero'=>$sombreros));
     }
 
     /**
@@ -227,7 +229,7 @@ class SombreroController extends Controller
         //
 
         $sombreros = Sombrero::FindOrFail($id);
-        $movimientos = Movimientos::select('id')->where('idProducto','=',$id)->get();
+        $movimientos = Movimientos::select('id')->where('idProducto','=',$id)->first();
         if ($movimientos!=null) {
           # code...
           Session::flash('error','No se puede eliminar');
@@ -238,7 +240,5 @@ class SombreroController extends Controller
           Session::flash('delete','Se ha eliminado correctamente');
           return redirect()->action('Sombreros\SombreroController@index');
         }
-
-
     }
 }

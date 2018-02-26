@@ -41,7 +41,7 @@ class VentasController extends Controller
         DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
           ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
           ->join("empleado","empleado.id","=","venta.idEmpleado")
-          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->paginate(4);
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
         return view('gastronomica/sombreros/ventas/ventas')->with('ventas', $ventas);
     }
 
@@ -76,7 +76,7 @@ class VentasController extends Controller
       return response()->json($datos);
     }
 
-    public function guardarVenta($tipo,$codigo,$idProveedor,$cantidad,$precio_unitario,$porcentaje_descuento,
+    public function guardarVenta($tipo,$codigo,$cantidad,$precio_unitario,$porcentaje_descuento,
       $descuento,$sub_total,$nombreUsuario,$utilidad,$idEmpleado,$descripcion)
     {
       # code...
@@ -134,9 +134,16 @@ class VentasController extends Controller
         $sombrero = Sombrero::where('codigo','=',$codigo)->first();
         $empleado = ComisionEmpleado::select('porcentaje')->where('idEmpleado','=',$idEmpleado,'and','idSombrero','=',$sombrero->id)->first();
         $ordenes = Venta::all()->last();//ultimo registro de la tabla orden _compra
-        VentaDetalle::insert(['idVenta'=>$ordenes->id,'idSombrero'=>$sombrero->id,
-        'cantidad'=>$cantidad,'precio_venta'=>$sombrero->precio_venta,'porcentaje_descuento'=>$porcentaje_descuento,'descuento'=>$descuento,
-        'sub_total'=>$sub_total,'utilidad'=>$utilidad,'comisionempleado'=>$empleado->porcentaje,'descripcion'=>$descripcion]);
+        if($descripcion=="0"){
+          VentaDetalle::insert(['idVenta'=>$ordenes->id,'idSombrero'=>$sombrero->id,
+          'cantidad'=>$cantidad,'precio_venta'=>$sombrero->precio_venta,'porcentaje_descuento'=>$porcentaje_descuento,'descuento'=>$descuento,
+          'sub_total'=>$sub_total,'utilidad'=>$utilidad,'comisionempleado'=>$empleado->porcentaje]);
+        } else {
+          VentaDetalle::insert(['idVenta'=>$ordenes->id,'idSombrero'=>$sombrero->id,
+          'cantidad'=>$cantidad,'precio_venta'=>$sombrero->precio_venta,'porcentaje_descuento'=>$porcentaje_descuento,'descuento'=>$descuento,
+          'sub_total'=>$sub_total,'utilidad'=>$utilidad,'comisionempleado'=>$empleado->porcentaje,'descripcion'=>$descripcion]);
+        }
+        
         /*falta para modificar el stock_actual de Sombreros*/
         Venta::where('numero_venta',$ordenes->numero_venta)->update(['utilidad'=>($ordenes->utilidad)+$utilidad]);
         Sombrero::where('codigo',$codigo)->update(['utilidad'=>($sombrero->utilidad)+$utilidad,
@@ -191,6 +198,27 @@ class VentasController extends Controller
         ->where("venta_detalle.idVenta","=",$id)->get();
 
       $pdf = PDF::loadView('reportes/ventas',['venta'=>$ventas,'detalles'=>$detalles]);
+      $pdf->setPaper('a4','landscape');//orientacion horizontal
+      return $pdf->stream();
+    }
+
+    public function reporteConComision($id){
+      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
+        DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+        DB::raw('SUM(venta_detalle.cantidad) as cantidad'),
+        DB::raw('SUM((venta_detalle.comisionempleado/100.00)*venta_detalle.precio_venta*venta_detalle.cantidad) as comision_empleado'))
+        ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+        ->join("empleado","empleado.id","=","venta.idEmpleado")
+        ->where('venta.id','=',$id)
+        ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->first();
+
+      $detalles = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
+        "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
+        "venta_detalle.descuento","venta_detalle.sub_total","venta_detalle.comisionempleado", "venta_detalle.descripcion")
+        ->join("sombrero", "sombrero.id","=","venta_detalle.idSombrero")
+        ->where("venta_detalle.idVenta","=",$id)->get();
+
+      $pdf = PDF::loadView('reportes/ventasporempleado',['venta'=>$ventas,'detalles'=>$detalles]);
       $pdf->setPaper('a4','landscape');//orientacion horizontal
       return $pdf->stream();
     }

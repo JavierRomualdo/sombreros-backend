@@ -1,6 +1,10 @@
 @extends('layouts.master')
 @section('title','Materiales')
 @section('content')
+
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
+
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
@@ -11,20 +15,21 @@
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h2 fadeIn animated text-center ion-clipboard"> Empleados</h1>
+        <h1 class="h5 fadeIn animated text-center ion-clipboard fadeIn animated"> Empleados</h1>
       </header>
       @include('partials.messages')
+      <a href="{{url('/gastronomica/sombreros/empleados/empleado/create')}}" class="btn btn-outline-primary btn-sm margenInf fadeIn animated ion-plus-round"> Nuevo</a> &nbsp;
       <div class="row">
         <div class="col-lg-12">
 
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-                <h2 class="h1 display ion-paperclip fadeIn animated title"> Historial:</h2>
+                <h2 class="h6 display ion-paperclip fadeIn animated title"> Historial:</h2>
             </div>
             <div class="card-block">
-              <a href="{{url('/gastronomica/sombreros/empleados/empleado/create')}}" class="btn btn-outline-primary btn-sm margenInf fadeIn animated ion-plus-round"> Nuevo</a> &nbsp;
+              
               <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered">
+                <table class="table table-striped table-hover table-bordered" id="myTable">
 
                 <thead class="thead-inverse">
                   <tr>
@@ -63,14 +68,23 @@
 
           </div>
         </div>
-        <div class="container">
+        <!--<div class="container">
           <div class="paginacion">
-            {!!$empleados->links()!!}
+            { !!$empleados->links()!!}
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </section>
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
-
+  <script>
+    $(document).ready(function(){
+      $('#myTable').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        }
+      });
+    });
+  </script>
 @endsection

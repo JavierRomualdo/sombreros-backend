@@ -7,36 +7,14 @@ $(document).ready(function () {
     var brandPrimary = '#33b35a';
 
     // ------------------------------------------------------- //
-    // For demo purposes only
-    // ------------------------------------------------------ //
-
-    if ($.cookie("theme_csspath")) {
-        $('link#theme-stylesheet').attr("href", $.cookie("theme_csspath"));
-    }
-
-    $("#colour").change(function () {
-
-        if ($(this).val() !== '') {
-
-            var theme_csspath = 'css/style.' + $(this).val() + '.css';
-
-            $('link#theme-stylesheet').attr("href", theme_csspath);
-
-            $.cookie("theme_csspath", theme_csspath, { expires: 365, path: document.URL.substr(0, document.URL.lastIndexOf('/')) });
-        }
-
-        return false;
-    });
-
-    // ------------------------------------------------------- //
     // Custom Scrollbar
     // ------------------------------------------------------ //
 
     if ($(window).outerWidth() > 992) {
-        $("nav.side-navbar").niceScroll({
-            cursorcolor: brandPrimary,
-            cursorwidth: '3px',
-            cursorborder: 'none'
+         $(window).on("load",function(){
+            $("nav.side-navbar").mCustomScrollbar({
+                scrollInertia: 200
+            });
         });
     }
 
@@ -80,22 +58,29 @@ $(document).ready(function () {
     });
 
     // ------------------------------------------------------- //
-    // Transition Placeholders
+    // Material Inputs
     // ------------------------------------------------------ //
-    $('input').on('focus', function () {
-        $(this).siblings('.label-custom').addClass('active');
+
+    var materialInputs = $('input.input-material');
+
+    // activate labels for prefilled values
+    materialInputs.filter(function() { return $(this).val() !== ""; }).siblings('.label-material').addClass('active');
+
+    // move label on focus
+    materialInputs.on('focus', function () {
+        $(this).siblings('.label-material').addClass('active');
     });
 
-    $('input').on('blur', function () {
-        $(this).siblings('.label-custom').removeClass('active');
+    // remove/keep label on blur
+    materialInputs.on('blur', function () {
+        $(this).siblings('.label-material').removeClass('active');
 
         if ($(this).val() !== '') {
-            $(this).siblings('.label-custom').addClass('active');
+            $(this).siblings('.label-material').addClass('active');
         } else {
-            $(this).siblings('.label-custom').removeClass('active');
+            $(this).siblings('.label-material').removeClass('active');
         }
     });
-
 
     // ------------------------------------------------------- //
     // Jquery Progress Circle
@@ -115,6 +100,34 @@ $(document).ready(function () {
 
         e.preventDefault();
         window.open($(this).attr("href"));
+    });
+
+    // ------------------------------------------------------ //
+    // For demo purposes, can be deleted
+    // ------------------------------------------------------ //
+
+    var stylesheet = $('link#theme-stylesheet');
+    $( "<link id='new-stylesheet' rel='stylesheet'>" ).insertAfter(stylesheet);
+    var alternateColour = $('link#new-stylesheet');
+
+    if ($.cookie("theme_csspath")) {
+        alternateColour.attr("href", $.cookie("theme_csspath"));
+    }
+
+    $("#colour").change(function () {
+
+        if ($(this).val() !== '') {
+
+            var theme_csspath = 'http://127.0.0.1:8000/bootstrap4/css/style.' + $(this).val() + '.css';
+
+            alternateColour.attr("href", theme_csspath);
+	    alternateColour.attr("rel", "stylesheet");
+
+            $.cookie("theme_csspath", theme_csspath, { expires: 365, path: document.URL.substr(0, document.URL.lastIndexOf('/')) });
+
+        }
+
+        return false;
     });
 
 });

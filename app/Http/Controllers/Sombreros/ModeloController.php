@@ -29,7 +29,7 @@ class ModeloController extends Controller
     public function index()
     {
         //
-        $modelos = Modelos::paginate(5);//all()
+        $modelos = Modelos::all()->take(10);//all()
         return view ('gastronomica/sombreros/modelos/modelo')->with('modelos', $modelos);
     }
 
@@ -124,7 +124,7 @@ class ModeloController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        //Validacion la hora de actualizar los datos
         $validar = $request->validate([
           'modelo'=>'required|max:50|unique:modelos,modelo,'.$id,
           'photo'=>'max:50',
@@ -148,7 +148,7 @@ class ModeloController extends Controller
     {
         //
         $modelos = Modelos::FindOrFail($id);
-        $sombreros = Sombrero::select('id')->where('idModelo','=',$modelos->id)->get();
+        $sombreros = Sombrero::select('id')->where('idModelo','=',$modelos->id)->first();
         if ($sombreros!=null) {
           # code...
           Session::flash('error-modelo','No se puede eliminar');

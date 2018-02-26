@@ -1,16 +1,20 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
+
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
+
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/ventas/ventas')}}">Ventas</a></li>
-        <li class="breadcrumb-item active">Nuevo Venta</li>
+        <li class="breadcrumb-item active">Nuevo</li>
       </ul>
     </div>
   </div></br>
   <div class="container-fluid">
-    <center><h1 class="h3 fadeIn animated" id="titulo_codigo">Código: OV-001-17</h1></center>
+    <center><h1 class="h5 fadeIn animated" id="titulo_codigo">Código: OV-001-17</h1></center>
     @include('partials.messages')
   </div>
 
@@ -28,10 +32,10 @@
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>
               <div class="">
                 <div class="form-group row">
-                  <label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor(*):</strong></label>
+                  <!--<label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor:</strong></label>
                   <div class="col-sm-3">
-                    {!!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'form-control'])!!}
-                  </div>
+                    { !!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'form-control'])!!}
+                  </div>-->
                   <label class="form-control-label col-sm-2"><strong>Tipo Busqueda:</strong></label>
                   <div class="i-checks col-sm-2"><!--mx-sm-2-->
                     <input id="radioCodigo" type="radio" checked="" value="option1" name="a" class="opcion form-control-custom radio-custom">
@@ -50,12 +54,10 @@
                   <hr/>
                 </div>
                 <div class="form-group row">
-                  <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
+                  <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                   <div class="col-sm-3">
-                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus','list'=>'codigosSombrero'])!!}
-                    <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
-                    <datalist id="codigosSombrero">
-                    </datalist>
+                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
+                    <span class="help-block-none">El código son de 13 caracteres.</span>
                   </div>
                   <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                   <div class="col-sm-3">
@@ -67,7 +69,7 @@
                   </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
+                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
                 <div class="col-sm-3">
                   {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control','disabled'=>''])!!}
                 </div>
@@ -92,7 +94,7 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Formulario:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Cantidad:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos para la nueva orden de compra.</p>
@@ -168,7 +170,7 @@
                 <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
-                    'rows'=>"3", 'cols'=>"8"])!!}
+                    'rows'=>"2", 'cols'=>"8"])!!}
                 </div>
               </div>
 
@@ -181,23 +183,25 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Tabla Detalles:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Detalles:</h2>
             </div>
             <div class="card-block">
               <p>Lista de todos los detalles de la venta.</p>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <a href="{{url('gastronomica/sombreros/ventas/ventas')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
-                  <button type="button" class="btn btn-outline-primary ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
+                  <a href="{{url('gastronomica/sombreros/ventas/ventas')}}" class="btn btn-outline-primary ion-android-cancel btn-sm"> Cancelar</a>
+                  <button type="button" class="btn btn-outline-success ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
                   <!--{ !!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
                     'class'=>'btn btn-primary'])!!}-->
                     
                 </div>
                 <div class="col-sm-1">
-                  <button type="button" class="btn btn-outline-primary ion-plus-round btn-sm" id="agregar" disabled> Agregar</button>
+                  <!--<button type="button" class="btn btn-outline-primary ion-plus-round btn-sm" id="agregar" disabled> Agregar</button>-->
                 </div>
               </div>
-              <table class="table table-striped table-hover table-bordered">
+              <div class="form-group">
+                <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
@@ -214,6 +218,8 @@
                 <tbody id="lista_datos">
                 </tbody>
               </table>
+              </div>
+              </div>
             </div>
           </div>
         </div>
@@ -225,15 +231,14 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Empleados</h5>
+            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Empleados</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-              <p>Historial</p>
               <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered specialCollapse"><!--table-responsive-->
+                <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableEmpleados"><!--table-responsive-->
 
                 <thead class="thead-inverse">
                   <tr>
@@ -260,7 +265,7 @@
                       <td>{{$empleado->telefono}}</td>
                       <td>{{$empleado->email}}</td>
                       <td>
-                        <a href="javascript:mostrarEmpleado({{$empleado->id}},'{{$empleado->nombres}}', '{{$empleado->encargo}}');" class="btn btn-outline-primary btn-sm">Elegir</a>
+                        <a href="javascript:mostrarEmpleado({{$empleado->id}},'{{$empleado->nombres}}', '{{$empleado->encargo}}');" class="btn btn-outline-primary btn-sm ion-android-done"></a>
                       </td>
                     </tr>
                   @endforeach
@@ -269,8 +274,8 @@
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
           </div>
         </div>
       </div>
@@ -280,15 +285,15 @@
       <div role="document" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
+            <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip" style="color: red;"> Errores</h5>
             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
           </div>
           <div class="modal-body">
-            <h2 id="errores">Errores</h2>
+            <h2 id="errores" class="h6">Errores</h2>
             <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="si">Aceptar</button>
           </div>
         </div>
       </div>
@@ -318,6 +323,12 @@
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
   <script type="text/javascript">
     $(document).ready(function(){
+      $('#myTableEmpleados').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        }
+      });
       mostrarCodigoVenta();
       buscarDatosPorCodigo();
     });
@@ -326,7 +337,7 @@
     var material_id = 0;
     var publico_id = 0;
     var talla_id = 0;
-    var proveedor_id = 0;
+    var tipo = 1;
     var codSombrero = "";
     $("#idModelo").change(function(e){
       console.log(e);
@@ -353,14 +364,14 @@
       talla_id = e.target.value;
       mostrarAjax();
     });
-    $("#idProveedor").change(function(e){
+    /*$("#idProveedor").change(function(e){
       console.log(e);
       proveedor_id = e.target.value;
       $("#codigo").val("");
       limpiar();
       llenarCodigosSombreros();
       mostrarAjax();
-    });
+    });*/
     $("#cantidad").keyup(function(e){
       console.log(e);
       calcularPrecioTotal();
@@ -387,9 +398,9 @@
     function mostrarAjax(){
       //alert(modelo_id+" - "+tejido_id+" - "+material_id+" - "+publico_id+" - "+talla_id);
       if (modelo_id!=0 && tejido_id!=0 && material_id!=0 &&
-          publico_id!=0 && talla_id!=0 && proveedor_id!=0) {
+          publico_id!=0 && talla_id!=0) {
             $.get('/ajax-verdatos/'+modelo_id+'/'+tejido_id+'/'+material_id+'/'+publico_id+
-            '/'+talla_id+'/'+proveedor_id, function(data){
+            '/'+talla_id, function(data){
               //success
               $.each(data, function(index, cuentaObj){
                 $("#codigo").val(cuentaObj.codigo);
@@ -398,15 +409,12 @@
                 $("#stock_actual").val(cuentaObj.stock_actual);
               });
             });
-      } else if(proveedor_id==0) {
-        limpiar();
-        $("#codigo").val("");
       } else {
         $("#codigo").val("");
       }
     }
 
-    function llenarCodigosSombreros(){
+    /*function llenarCodigosSombreros(){
       if(proveedor_id!=0){
         $.get('/ajax-mostrarCodigoSombreroPorProveedor/'+proveedor_id, function(data){
           //success
@@ -418,7 +426,7 @@
               $("#codigosSombrero").html(codigos);
         });
       }
-    }
+    }*/
 
     function calcular_descuento() {
       if ($("#precio_venta").val()!="" && $("#porcentaje_descuento").val()!="" && $("#cantidad").val()!="") {
@@ -570,9 +578,9 @@
 
     $("#guardar").click(function(){
       var mensaje = "";
-      if ($("#idProveedor").val()==0) {
+      /*if ($("#idProveedor").val()==0) {
         mensaje = mensaje + "* Debe seleccionar un proveedor.</br>";
-      }
+      }*/
       if ($("#codigo").val()=="") {
         mensaje = mensaje + "* El codigo no debe estar vacío.</br>";
       } else {
@@ -581,60 +589,20 @@
         }
       }
       if (parseInt($("#cantidad").val())>parseInt($("#stock_actual").val())) {
-        mensaje = mensaje + "* La cantidad excede al stock actual de sombreros.";
+        mensaje = mensaje + "* La cantidad excede al stock actual del articulo.<br/>";
       }
 
       if ($("#cantidad").val()=="") {
         mensaje = mensaje + "* Debe ingresar la cantidad.</br>";
       }
+      if($("#cantidad").val()<=$("#stock_actual").val()){
+        mensaje = mensaje + "* La cantidad ingresa se excedio del stock actual del articulo.<br/>";
+      }
       if ($("#empleado").val()==""){
         mensaje = mensaje + "* Debe seleccionar el empleado.";
       }
       if (mensaje=="") {
-        if ($("#idProveedor").prop("disabled")) {//desactivado
-          //solo se guardar todas las ordenes de compras detalle
-          var tabla = "";
-          var n = 1;
-          var porcentaje_descuento = "0";
-          var descuento = "0";
-          if ($("#porcentaje_descuento").val()!="") {
-            porcentaje_descuento = $("#porcentaje_descuento").val();
-          }
-          if ($("#descuento").val()!="") {
-            descuento = $("#descuento").val();
-          }
-          var descripcion = $("#descripcion").val();
-          if (descripcion=="") {
-            descripcion = "0";
-          }
-          $.get('/ajax-guardarventa/2/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
-          '/'+$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
-          descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
-          empleado_id+'/'+ descripcion, function(data){
-            //success
-            $.each(data, function(index, venta){
-              //alert('(2) '+orden.numero_orden);
-              //alert("entra "+orden.codigo);
-              $("#idProveedor").prop('disabled', 'disabled');
-              $("#guardar").prop('disabled', 'disabled');
-              $("#agregar").removeAttr("disabled");
-              //alert(orden.codigo);
-              tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.codigo+"</td>"+
-              "<td><img src='/images/sombreros/"+venta.photo+
-              "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-              "<td>"+venta.cantidad+"</td><td>"+venta.precio_venta+"</td><td>"+venta.porcentaje_descuento+
-              "</td><td>"+venta.descuento+"</td><td>"+venta.sub_total+"</td><td>"+venta.descripcion+"</td></tr>";
-              n++;
-            });
-            //alert(tabla);
-            $("#lista_datos").html(tabla);
-            tabla = "";
-            $("#myModal2").modal("show");
-            $("#checkempleado").attr('disabled','');
-          });
-
-        } else {
-          //se guardan el primer en orden compra y orden de compra detalle;
+          
           var tabla = "";
           var n = 1;
           var porcentaje_descuento = 0.0;
@@ -645,36 +613,65 @@
           if ($("#descuento").val()!="") {
             descuento = parseFloat($("#descuento").val());
           }
+          
           var descripcion = $("#descripcion").val();
           if (descripcion=="") {
             descripcion = "0";
           }
-          //alert("Cantidad (Inicio):"+$("#cantidad").val());
-          $.get('/ajax-guardarventa/1/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
-          '/'+$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
-          descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
-          empleado_id+'/'+ descripcion, function(data){
-            //success
-            $.each(data, function(index, venta){
-              //alert('(1) '+orden.numero_orden);
-              $("#idProveedor").prop('disabled', 'disabled');
-              $("#guardar").prop('disabled', 'disabled');
-              $("#agregar").removeAttr("disabled");
-              tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.codigo+"</td>"+
-              "<td><img src='/images/sombreros/"+venta.photo+
-              "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-              "<td>"+venta.cantidad+"</td><td>"+venta.precio_venta+"</td><td>"+venta.porcentaje_descuento+
-              "</td><td>"+venta.descuento+"</td><td>"+venta.sub_total+"</td><td>"+venta.descripcion+"</td></tr>";
-              n++;
+          
+          if(tipo==2){
+            //solo se guardar todas las ordenes de compras detalle
+            $.get('/ajax-guardarventa/2/'+$("#codigo").val()+'/'
+            +$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
+            descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
+            empleado_id+'/'+ descripcion, function(data){
+              //success
+              $.each(data, function(index, venta){
+                //alert('(2) '+orden.numero_orden);
+                //alert("entra "+orden.codigo);
+                //$("#guardar").prop('disabled', 'disabled');
+                //$("#agregar").removeAttr("disabled");
+                //alert(orden.codigo);
+                tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.codigo+"</td>"+
+                "<td><img src='/images/sombreros/"+venta.photo+
+                "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
+                "<td>"+venta.cantidad+"</td><td>"+venta.precio_venta+"</td><td>"+venta.porcentaje_descuento+
+                "</td><td>"+venta.descuento+"</td><td>"+venta.sub_total+"</td><td>"+venta.descripcion+"</td></tr>";
+                n++;
+              });
+              //alert(tabla);
+              $("#lista_datos").html(tabla);
+              tabla = "";
+              $("#myModal2").modal("show");
+              $("#checkempleado").attr('disabled','');
             });
-            //alert(tabla);
-            $("#lista_datos").html(tabla);
-            tabla = "";
-            $("#myModal2").modal("show");
-            $("#checkempleado").attr('disabled','');
-          });
+          } else {
+            //se guardan el primer en orden compra y orden de compra detalle;
+            $.get('/ajax-guardarventa/1/'+$("#codigo").val()+'/'
+            +$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
+            descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
+            empleado_id+'/'+ descripcion, function(data){
+              //success
+              $.each(data, function(index, venta){
+                //alert('(1) '+orden.numero_orden);
+                //$("#guardar").prop('disabled', 'disabled');
+                //$("#agregar").removeAttr("disabled");
+                tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+venta.codigo+"</td>"+
+                "<td><img src='/images/sombreros/"+venta.photo+
+                "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
+                "<td>"+venta.cantidad+"</td><td>"+venta.precio_venta+"</td><td>"+venta.porcentaje_descuento+
+                "</td><td>"+venta.descuento+"</td><td>"+venta.sub_total+"</td><td>"+venta.descripcion+"</td></tr>";
+                n++;
+                tipo = 2;
+              });
+              //alert(tabla);
+              $("#lista_datos").html(tabla);
+              tabla = "";
+              $("#myModal2").modal("show");
+              $("#checkempleado").attr('disabled','');
+            });
+          }
 
-        }
       } else {
         $("#errores").html(mensaje);
         $("#myModal").modal("show");
@@ -692,10 +689,10 @@
 
     });*/
 
-    $("#agregar").click(function(){
+    /*$("#agregar").click(function(){
       $("#guardar").removeAttr("disabled");
       $("#agregar").prop('disabled', 'disabled');
-    });
+    });*/
 
     //seleccionar el empleado
     $("#checkempleado").change(function(e){

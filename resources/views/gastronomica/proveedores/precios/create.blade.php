@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
-  <div class="breadcrumb-holder">
+  <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/proveedores/precios/precios')}}">Precios</a></li>
-        <li class="breadcrumb-item active">Nuevo Precio</li>
+        <li class="breadcrumb-item active">Nuevo</li>
       </ul>
     </div>
   </div></br>
@@ -18,30 +18,30 @@
       <!--Panel superior-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h5 display">Opciones:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated title"> Opciones:</h2>
             </div>
             <div class="card-block">
-              <div class="form-inline">
-                <div class="form-group">
-                  <label class="form-control-label mx-sm-3" for="idTipoMovimiento"><strong>Proveedor:</strong></label>
-                  {!!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'mx-sm-4 form-control','autofocus'])!!}
-                </div>
-                <div class="form-group">
-                  <label class="form-control-label mx-sm-3"><strong>Tipo Busqueda:</strong></label>
-                  <div class="i-checks mx-sm-2">
+              <div class="form">
+                <div class="form-group row">
+                  <label class="form-control-label col-sm-2 col-md-2" for="idTipoMovimiento"><strong>Proveedor (*):</strong></label>
+                  <div class="col-sm-4 col-md-3">
+                    {!!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'form-control','autofocus'])!!}
+                  </div>
+                  <label class="form-control-label col-sm-3 col-md-2"><strong>Tipo Busqueda:</strong></label>
+                  <div class="i-checks col-sm-2 col-md-1">
                     <input id="radioCodigo" type="radio" checked="" value="option1" name="a" class="opcion form-control-custom radio-custom">
                     <label for="radioCodigo">Código</label>
                   </div>
-                  <div class="i-checks mx-sm-2">
+                  <div class="i-checks col-sm-2 col-md-1">
                     <input id="radioModelo" type="radio" value="option2" name="a" class="opcion form-control-custom radio-custom">
                     <label for="radioModelo">Modelos</label>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="precio_compra" class="form-control-label mx-sm-3"><strong>Precio:</strong></label>
-                  {!!form::text('precio_compra', null,['id'=>'precio_compra','name'=>'precio_compra','class'=>'form-control mx-sm-3'])!!}
+                  <label for="precio_compra" class="form-control-label col-sm-2 col-md-1"><strong>Precio:</strong></label>
+                  <div class="col-sm-4 col-md-2">
+                      {!!form::text('precio_compra', null,['id'=>'precio_compra','name'=>'precio_compra','class'=>'form-control'])!!}
+                    </div>
                 </div>
               </div>
             </div>
@@ -51,14 +51,14 @@
       <!--Panel del centro-->
       <div class="row">
         <div class="col-lg-12">
-          <div class="card miBorder">
+          <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display display">Formulario:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated title"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="codigo"><strong>Codigo:</strong></label>
+                <label class="col-sm-2 form-control-label" for="codigo"><strong>Codigo (*):</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control'])!!}
                   <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
@@ -89,9 +89,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <a href="{{url('/gastronomica/proveedores/precios/precios')}}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{url('/gastronomica/proveedores/precios/precios')}}" class="btn btn-outline-primary fadeIn animated btn-sm ion-android-cancel"> Cancelar</a>
                 {!!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>','class'=>'btn
-                  btn-primary'])!!}
+                  btn-outline-success btn-sm'])!!}
               </div>
             </div>
           </div>

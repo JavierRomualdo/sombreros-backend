@@ -33,6 +33,7 @@ class SombreroCreateRequest extends FormRequest
             'codigo'=>'required|min:13|max:13|unique:sombrero,codigo',
             'stock_minimo'=>'required',
             'stock_maximo'=>'required',
+            'precio_venta'=>'required',
         ];
     }
 

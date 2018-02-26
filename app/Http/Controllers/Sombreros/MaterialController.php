@@ -29,7 +29,7 @@ class MaterialController extends Controller
     public function index()
     {
         //
-        $materiales = Materiales::paginate(5);//all()
+        $materiales = Materiales::all()->take(10);//all()
         return view ('gastronomica/sombreros/materiales/material')->with('materiales', $materiales);
     }
 
@@ -146,7 +146,7 @@ class MaterialController extends Controller
     {
         //
         $materiales = Materiales::FindOrFail($id);
-        $sombreros = Sombrero::select('id')->where('idMaterial','=',$materiales->id)->get();
+        $sombreros = Sombrero::select('id')->where('idMaterial','=',$materiales->id)->first();
         if ($sombreros!=null) {
           # code...
           Session::flash('error-material','No se puede eliminar');

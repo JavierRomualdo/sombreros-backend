@@ -78,7 +78,7 @@ Route::get('/ajax-estadosg/{nombre_titular}/{dni_titular}/{telefono_titular}/{em
 Route::get('gastronomica/sombreros/movimientos/reporte/{somb_id}', 'Sombreros\MovimientoController@reporte');
 /*********************COMPRAS*****************/
 Route::resource('gastronomica/sombreros/ordencompra/ordencompra', 'Compras\OrdenCompraController');
-Route::get('/ajax-verdatos/{modelo_id}/{tejido_id}/{material_id}/{publico_id}/{talla_id}/{proveedor_id}','Compras\OrdenCompraController@mostrarPorModelo');
+Route::get('/ajax-verdatos/{modelo_id}/{tejido_id}/{material_id}/{publico_id}/{talla_id}','Compras\OrdenCompraController@mostrarPorModelo');
 Route::get('/ajax-OCSomb/{codSombrero}','Compras\OrdenCompraController@mostrarSombrero');
 Route::get('/ajax-mostrarCOC/{cod}','Compras\OrdenCompraController@mostrarIdOrden');
 Route::get('/ajax-guardarorden/{tipo}/{codigo}/{idProveedor}/{cantidad}/{precio_unitario}/{descripcion}','Compras\OrdenCompraController@guardarOrden');
@@ -106,7 +106,7 @@ Route::resource('gastronomica/sombreros/ventas/ventas', 'Ventas\VentasController
 Route::get('gastronomica/sombreros/ventas/ver/{venta_id}','Ventas\VentasController@ver');
 Route::get('gastronomica/sombreros/ventas/reporte/{venta_id}','Ventas\VentasController@reporte');
 Route::get('/ajax-mostrarCOV/{cod}','Ventas\VentasController@mostrarIdVenta');
-Route::get('/ajax-guardarventa/{tipo}/{codigo}/{idProveedor}/{cantidad}/{precio_unitario}/{porcentaje_descuento}/{descuento}/{sub_total}/{usuario}/{utilidad}/{idEmpleado}/{descripcion}','Ventas\VentasController@guardarVenta');
+Route::get('/ajax-guardarventa/{tipo}/{codigo}/{cantidad}/{precio_unitario}/{porcentaje_descuento}/{descuento}/{sub_total}/{usuario}/{utilidad}/{idEmpleado}/{descripcion}','Ventas\VentasController@guardarVenta');
 Route::get('/ajax-mostrarTodoVentas/', 'Reportes\ReporteController@mostrarTodoVentas');
 /******************REPORTES*********************/
 Route::get('gastronomica/sombreros/reportes/compras', 'Reportes\ReporteController@indexCompras');
@@ -122,10 +122,16 @@ Route::get('gastronomica/sombreros/reportes/ventasver/{venta_id}','Reportes\Repo
 Route::get('gastronomica/sombreros/reporte_venta','Reportes\ReporteController@reporteGeneralVentas');
 Route::get('reporteUtilidadSombrerosPorCodigo/{codigo}','Reportes\ReporteController@reporteUtilidadSombrerosPorCodigo');
 
-//reporte por ventas por cliente
-Route::get('gastronomica/sombreros/reportes/ventasporcliente', 'Reportes\ReporteController@indexVentasPorCliente');
-Route::get('/ajax-reporteVentaPorEmpleado/{idEmpleado}/{fecha_inicio}/{fecha_fin}','Reportes\ReporteController@ventasPorCliente');
-Route::get('/ajax-reporteVentaPorEmpleadoConsolidado/{idEmpleado}/{fecha_inicio}/{fecha_fin}','Reportes\ReporteController@ventaPorClienteConsolidado');
+//reporte por ventas por empleado
+Route::get('gastronomica/sombreros/reportes/ventasporempleado', 'Reportes\ReporteController@indexVentasPorEmpleado');
+Route::get('gastronomica/sombreros/reportes/verventasporempleado/{venta_id}','Reportes\ReporteController@verVentasPorEmpleado');
+Route::get('/ajax-reporteVentaPorEmpleado/{idEmpleado}/{fecha_inicio}/{fecha_fin}','Reportes\ReporteController@ventasPorEmpleado');
+Route::get('/ajax-reporteVentaPorEmpleadoConsolidado/{idEmpleado}/{fecha_inicio}/{fecha_fin}','Reportes\ReporteController@ventaPorEmpleadoConsolidado');
+Route::get('/ajax-numeroVentasPorEmpleadoConsolidado/{idEmpleado}/{fecha_inicio}/{fecha_fin}','Reportes\ReporteController@numeroVentasPorEmpleadoConsolidado');
+
+Route::get('gastronomica/sombreros/reportes/reporteporempleado/{venta_id}','Ventas\VentasController@reporteConComision');
+Route::get('gastronomica/sombreros/reportes/reporteporempleados/{venta_id}','Reportes\ReporteController@ventaPorEmpleadoDescarga');
+Route::get('reporteventasporempleado/{idEmpleado}/{fecha_inicio}/{fecha_fin}','Reportes\ReporteController@reporteventasporempleado');
 /**Utilidades */
 Route::get('gastronomica/sombreros/reportes/utilidades', 'Reportes\ReporteController@indexUtilidadesVentas');
 Route::get('/ajax-mostrarTodoUtilidadVentas/','Reportes\ReporteController@mostrarTodoUtilidadVentas');
@@ -140,6 +146,21 @@ Route::get('/ajax-mostrarTodoUtilidadSombreros/','Reportes\ReporteController@mos
 //
 Route::get('reporteComprasPorFechas/{fecha_inicio}/{fecha_fin}/{codigo_sombrero}','Reportes\ReporteController@ReporteComprasPorFechas');
 Route::get('reporteVentasPorFechas/{fecha_inicio}/{fecha_fin}/{codigo_sombrero}','Reportes\ReporteController@ReporteVentasPorFechas');
+/**Consultas* */
+//orden de compra
+Route::get('gastronomica/sombreros/consultas/ordencompra','Consultas\ConsultaController@indexOrdenCompra');
+Route::get('/ajax-indexOrdenCompraConsolidado/{numero_orden}','Consultas\ConsultaController@indexOrdenCompraConsolidado');
+Route::get('/ajax-indexOrdenCompraDetalles/{numero_orden}','Consultas\ConsultaController@indexOrdenCompraDetalles');
+Route::get("/ajax-guiasIngresoPorOrdenCompraDetalle/{idOrdenCompraDetalle}","Consultas\ConsultaController@guiasIngresoPorOrdenCompraDetalle");
+Route::get("/ajax-guiasIngresoPorOrdenCompraDetalleCabecera/{idOrdenCompraDetalle}","Consultas\ConsultaController@guiasIngresoPorOrdenCompraDetalleCabecera");
+//orden de compra por proveedor
+Route::get('gastronomica/sombreros/consultas/ordencompraproveedor','Consultas\ConsultaController@indexOrdenCompraProveedor');
+Route::get('/ajax-ordenCompraProveedorConsolidado/{idProveedor}','Consultas\ConsultaController@ordenCompraProveedorConsolidado');
+Route::get('/ajax-ordenCompraDetallesProveedor/{idOrdenCompra}', 'Consultas\ConsultaController@ordenCompraDetallesProveedor');
+Route::get('/ajax-numeroOrdenCompra/{idOrdenCompra}', 'Consultas\ConsultaController@numeroOrdenCompra');
+//orden de compra por articulo
+Route::get('/gastronomica/sombreros/consultas/ordencompraarticulo','Consultas\ConsultaController@indexOrdenCompraArticulo');
+Route::get('/ajax-ordenCompraArticuloConsolidado/{codSombrero}','Consultas\ConsultaController@ordenCompraArticuloConsolidado');
 /******************USUARIOS*********************/
 Route::resource('gastronomica/usuarios/usuario', 'Usuarios\UsuarioController');
 /******************FACTURA*********************/

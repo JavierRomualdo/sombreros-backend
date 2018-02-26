@@ -27,7 +27,7 @@ class PreciosController extends Controller
     {
         //
         $proveedoresprecio = ProveedorPrecio::select('proveedor_precio.id','proveedor_precio.precio',
-        'proveedor.empresa','sombrero.codigo')->join('proveedor','proveedor.id','=',
+        'proveedor.empresa','sombrero.codigo', 'sombrero.photo')->join('proveedor','proveedor.id','=',
           'proveedor_precio.idProveedor')->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')->get();
         return view ('gastronomica/proveedores/precios/precios')->with('proveedoresprecio', $proveedoresprecio);
     }

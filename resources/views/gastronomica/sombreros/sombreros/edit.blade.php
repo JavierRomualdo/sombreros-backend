@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}">Sombreros</a></li>
-        <li class="breadcrumb-item active">Editar Sombrero</li>
+        <li class="breadcrumb-item active">Editar</li>
       </ul>
     </div>
   </div><br/>
@@ -15,62 +15,72 @@
   <section class="forms">
     <div class="container-fluid">
       <div class="row">
-        <div class="offset-lg-3 col-lg-6">
-          <br/>
+        <div class="offset-lg-0 col-lg-12">
+
           <div class="card miBorder">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display">Formulario:</h2>
+              <h2 class="h5 display ion-paperclip"> Editar:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>
               {!!Form::model($sombrero, ['action'=>['Sombreros\SombreroController@update',$sombrero->id],'method'=>'PUT','enctype'=>'multipart/form-data'])!!}
-              <div class="form-group">
-                <label class="form-control-label" for="codigo"><strong>Codigo:</strong></label>
-                {!!form::text('codigo', null,['id'=>'codigo','class'=>'form-control','placeholder'=>'Ingrese Codigo', 'autofocus','readonly'=>'','maxlength'=>'13'])!!}
-                <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
-                <div class="i-checks">
-                  <input id="checkeditar" type="checkbox" value="" class="form-control-custom">
-                  <label for="checkeditar">Editar</label>
+              <div class="form-group row">
+                <label class="form-control-label col-sm-2" for="codigo"><strong>Codigo:</strong></label>
+                <div class="col-sm-4">
+                  {!!form::text('codigo', null,['id'=>'codigo','class'=>'form-control','placeholder'=>'Ingrese Codigo', 'autofocus','readonly'=>'','maxlength'=>'13'])!!}
+                  <span class="help-block">El código son de 13 caracteres.</span>
+                  <!--<div class="i-checks">
+                    <input id="checkeditar" type="checkbox" value="" class="form-control-custom">
+                    <label for="checkeditar">Editar</label>
+                  </div>-->
+                </div>
+                <label class="form-control-label col-sm-2" for="idModelo"><strong>Modelo:</strong></label>
+                <div class="col-sm-4">
+                    {!!Form::select('idModelo',$modelo, null,['id'=>'idModelo','name'=>'idModelo','class'=>'form-control'])!!}
                 </div>
               </div>
-              <div class="form-group">
-                <label class="form-control-label" for="idModelo"><strong>Modelo:</strong></label>
-                {!!Form::select('idModelo',$modelo, null,['id'=>'idModelo','name'=>'idModelo','class'=>'form-control'])!!}
+              <div class="form-group row">
+                <label class="form-control-label col-sm-2" for="idTejido"><strong>Tejido:</strong></label>
+                <div class="col-sm-4">
+                    {!!Form::select('idTejido',$tejido, null,['id'=>'idTejido','name'=>'idTejido','class'=>'form-control'])!!}
+                </div>
+                <label class="form-control-label col-sm-2" for="idMaterial"><strong>Material:</strong></label>
+                <div class="col-sm-4">
+                    {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control'])!!}
+                </div>
               </div>
-              <div class="form-group">
-                <label class="form-control-label" for="idTejido"><strong>Tejido:</strong></label>
-                {!!Form::select('idTejido',$tejido, null,['id'=>'idTejido','name'=>'idTejido','class'=>'form-control'])!!}
+              <div class="form-group row">
+                <label class="form-control-label col-sm-2" for="idPublicoDirigido"><strong>Publico Dirigido:</strong></label>
+                <div class="col-sm-4">
+                    {!!Form::select('idPublicoDirigido',$publicodirigido, null,['id'=>'idPublicoDirigido','name'=>'idPublicoDirigido','class'=>'form-control'])!!}
+                </div>
+                <label class="form-control-label col-sm-2" for="idTalla"><strong>Talla:</strong></label>
+                <div class="col-sm-4">
+                    {!!Form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control'])!!}
+                </div>
               </div>
-              <div class="form-group">
-                <label class="form-control-label" for="idMaterial"><strong>Material:</strong></label>
-                {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control'])!!}
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" for="idPublicoDirigido"><strong>Publico Dirigido:</strong></label>
-                {!!Form::select('idPublicoDirigido',$publicodirigido, null,['id'=>'idPublicoDirigido','name'=>'idPublicoDirigido','class'=>'form-control'])!!}
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" for="idTalla"><strong>Talla:</strong></label>
-                {!!Form::select('idTalla',$talla, null,['id'=>'idTalla','name'=>'idTalla','class'=>'form-control'])!!}
-              </div>
-              <div class="form-group">
-                <strong>{!!form::label('Stock Minimo:',null,['for'=>'stock_minimo'])!!}</strong>
-                {!!form::text('stock_minimo', null,['id'=>'stock_minimo','class'=>'form-control','placeholder'=>'Stock Minimo','maxlength'=>'7',
+              <div class="form-group row">
+                <label class="form-control-label col-sm-2" for="stock_minimo"><strong>Stock Minimo:</strong></label>
+                <div class="col-sm-4">
+                  {!!form::text('stock_minimo', null,['id'=>'stock_minimo','class'=>'form-control','placeholder'=>'Stock Minimo','maxlength'=>'7',
                   'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!!}
-              </div>
-              <div class="form-group">
-                <strong>{!!form::label('Stock Maximo:',null,['for'=>'stock_maximo'])!!}</strong>
-                {!!form::text('stock_maximo', null,['id'=>'stock_maximo','class'=>'form-control','placeholder'=>'Stock Maximo','maxlength'=>'7',
+                </div>
+                <label class="form-control-label col-sm-2" for="stock_maximo"><strong>Stock Maximo:</strong></label>
+                <div class="col-sm-4">
+                  {!!form::text('stock_maximo', null,['id'=>'stock_maximo','class'=>'form-control','placeholder'=>'Stock Maximo','maxlength'=>'7',
                   'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!!}
+                </div>
               </div>
-              <div class="form-group">
-                <strong>{!!form::label('Precio Venta:',null,['for'=>'precio_venta'])!!}</strong>
-                {!!form::text('precio_venta', null,['id'=>'precio_venta','class'=>'form-control','placeholder'=>'Precio Venta','maxlength'=>'7'])!!}
-              </div>
-              <div class="form-group">
-                <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-secondary">Cancelar</a>
+              <div class="form-group row">
+                <label class="form-control-label col-sm-2" for="precio_venta"><strong>Precio Venta:</strong></label>
+                <div class="col-sm-4">
+                  {!!form::text('precio_venta', null,['id'=>'precio_venta','class'=>'form-control','placeholder'=>'Precio Venta','maxlength'=>'7'])!!}
+                </div>
+                <div class="col-sm-6">
+                  <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-outline-primary btn-sm ion-android-cancel"> Cancelar</a>
                 {!!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>','class'=>'btn
-                  btn-primary'])!!}
+                  btn-outline-success btn-sm'])!!}
+                </div>
               </div>
               {!!Form::close()!!}
             </div>

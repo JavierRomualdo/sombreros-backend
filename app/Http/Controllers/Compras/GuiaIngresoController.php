@@ -177,6 +177,8 @@ class GuiaIngresoController extends Controller
       } else if($cantidad_nueva < $orden_compra_detalle->cantidad){
          OrdenCompraDetalle::where('id',$idOrdenCompraDetalle)->update(['cantidad_ingreso'=>$cantidad_nueva, 'estado_ingreso'=>'Falta Ingresar']);
       }
+
+      $guiaDeIngreso = GuiaIngreso::all()->last();
       //estod datos pasan a la TABLA
       $datos = GuiaIngresoDetalle::select("orden_compra.numero_orden","sombrero.codigo","sombrero.photo","proveedor.empresa",
       "guia_ingreso_detalle.cantidad", "guia_ingreso_detalle.cantidad", "proveedor_precio.precio","guia_ingreso_detalle.descripcion")
@@ -185,7 +187,8 @@ class GuiaIngresoController extends Controller
       ->join('orden_compra','orden_compra.id','=','orden_compra_detalle.idOrdenCompra')
       ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
       ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
-      ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')->get();
+      ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
+      ->where('guia_ingreso_detalle.idGuiaIngreso','=',$guiaDeIngreso->id)->get();
 
       return response()->json($datos);
     }

@@ -11,8 +11,8 @@
   </div></br>
   <section class="forms">
     <div class="container-fluid">
-      <a href="{{action('Ventas\VentasController@reporte',$venta->id)}}" target="_blank" class="btn btn-outline-primary margenInf ion-document-text" title="reporte"> Reporte</a>
-      <a href="{{action('Reportes\ReporteController@ventaDescarga',$venta->id)}}" id="descargar" class="btn btn-outline-primary margenInf ion-ios-download-outline" title="descargar"> Decargar</a>
+      <a href="{{action('Ventas\VentasController@reporte',$venta->id)}}" target="_blank" class="btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte"> Reporte</a>
+      <a href="{{action('Reportes\ReporteController@ventaDescarga',$venta->id)}}" id="descargar" class="btn btn-outline-primary btn-sm margenInf ion-ios-download-outline" title="descargar"> Decargar</a>
       <!--<a href="{ {action('Sombreros\MovimientoController@reporte',$sombrero->id)}}" target="_blank" class="btn btn-primary margenInf">Reporte</a>
       -->
       <div class="row">

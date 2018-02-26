@@ -20,7 +20,7 @@
         <div class="col-lg-4">
           <div class="card miBorder">
             <div class="card-header">
-              <h2 class="h1 display display">Titular:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Titular:</h2>
             </div>
             <div class="card-block">
               <p>Editar Titular</p>
@@ -85,7 +85,7 @@
         <div class="col-lg-4">
           <div class="card miBorder">
             <div class="card-header">
-              <h2 class="h1 display display">Segundo Contacto:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Segundo Contacto:</h2>
             </div>
             <div class="card-block">
               <p>Editar Segundo Contacto</p>
@@ -142,7 +142,7 @@
         <div class="col-lg-4">
           <div class="card miBorder">
             <div class="card-header">
-              <h2 class="h1 display display">Empresa:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Empresa:</h2>
             </div>
             <div class="card-block">
               <p>Editar Empresa</p>
@@ -193,9 +193,9 @@
                 </tbody>
               </table>
               <div class="form-group">
-                <a href="{{url('/gastronomica/proveedores/proveedores/proveedor')}}" class="btn btn-secondary">Cancelar</a>
-                <button type="button" class="btn btn-primary" id="editar">Editar</button>
-                <a href="" class="disabled btn btn-primary" id="guardar">Guardar</a>
+                <a href="{{url('/gastronomica/proveedores/proveedores/proveedor')}}" class="btn btn-outline-primary fadeIn animated btn-sm ion-android-cancel"> Cancelar</a>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="editar">Editar</button>
+                <a href="" class="disabled btn btn-outline-success btn-sm" id="guardar">Guardar</a>
                 <!--<button type="button" class="btn btn-primary" id="guardar" name="button" disabled="true">Guardar</button>-->
                 <!--{ !!form::submit('Guardar',['disabled'=>'true','name'=>'Guardar','id'=>'guardar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>','class'=>'btn
                   btn-primary'])!!}-->

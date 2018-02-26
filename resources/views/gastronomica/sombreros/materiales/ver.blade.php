@@ -16,16 +16,16 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display fadeIn animated ion-paperclip"> Panel Material:</h2>
+              <h2 class="h5 display fadeIn animated ion-paperclip"> Detalles:</h2>
             </div>
             <div class="card-block">
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="nombres"><strong>Material:</strong></label>
-                <div class="col-sm-4">
+                <label class="col-sm-2 col-3 form-control-label" for="nombres"><strong>Material:</strong></label>
+                <div class="col-sm-4 col-3">
                   <label for="">{!!$material->material!!}</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="nombres"><strong>Descripción:</strong></label>
-                <div class="col-sm-4">
+                <label class="col-sm-2 col-4 form-control-label" for="nombres"><strong>Descripción:</strong></label>
+                <div class="col-sm-4 col-2">
                   <label for="">{!!$material->descripcion!!}</label>
                 </div>
               </div>
@@ -35,7 +35,7 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display fadeIn animated ion-paperclip"> Imagen: <span>{!!$material->photo!!}</span></h2>
+              <h2 class="h5 display fadeIn animated ion-paperclip"> Imagen: <span>{!!$material->photo!!}</span></h2>
             </div>
             <div class="card-block">
               <img class="rounded mx-auto d-block  img-fluid fadeIn animated" src="/images/materiales/{!!$material->photo!!}" width="330px" height="333px" alt="First slide">

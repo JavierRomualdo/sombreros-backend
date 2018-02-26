@@ -58,7 +58,7 @@ class ReporteController extends Controller
           ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
           ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
           ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
-          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->paginate(5);
+          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get()->take(10);
 
       /*$ordenes = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
         DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'))
@@ -83,7 +83,7 @@ class ReporteController extends Controller
       DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
       ->join('venta_detalle','venta_detalle.idVenta',
       '=','venta.id')->join("empleado","empleado.id","=","venta.idEmpleado")->groupBy('venta.id',
-      'venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
+      'venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get()->take(10);
 
       return view ('gastronomica/sombreros/reportes/ventas', array('modelo'=>$modelos, 'tejido'=>$tejidos,
       'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'ventas'=>$ventas));
@@ -103,7 +103,7 @@ class ReporteController extends Controller
       DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
       ->join('venta_detalle','venta_detalle.idVenta', '=','venta.id')
       ->join("users","users.id","=","venta.idUsuario")
-      ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'users.name', 'venta.utilidad')->paginate(5);
+      ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'users.name', 'venta.utilidad')->get()->take(10);
 
       return view ('gastronomica/sombreros/reportes/utilidades', array('modelo'=>$modelos, 'tejido'=>$tejidos,
       'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'sombreros'=> $ventas));
@@ -127,27 +127,30 @@ class ReporteController extends Controller
         ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
         ->groupBy('sombrero.codigo', 'sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
           'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
-          'sombrero.utilidad','sombrero.photo')->paginate(5);
+          'sombrero.utilidad','sombrero.photo')->get()->take(10);
       
       return view ('gastronomica/sombreros/reportes/utilidadessombreros', array('modelo'=>$modelos, 'tejido'=>$tejidos,
         'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'utilidades'=> $sombreros));
     }
 
-    public function indexVentasPorCliente(){
+    public function indexVentasPorEmpleado(){
       $empleados = Empleado::select('empleado.id','encargo.nombre as encargo','empleado.nombres',
         'empleado.apellidos','empleado.dni','empleado.direccion','empleado.telefono','empleado.email')
-        ->join('encargo','encargo.id','=','empleado.idEncargo')->get();
-      return view ('gastronomica/sombreros/reportes/ventasporcliente')->with('empleados',$empleados);
+        ->join('encargo','encargo.id','=','empleado.idEncargo')->get()->take(10);
+      return view ('gastronomica/sombreros/reportes/ventasporempleado')->with('empleados',$empleados);
     }
 
-    public function ventaPorClienteConsolidado($idEmpleado, $fecha_inicio, $fecha_fin){
-      /*$datos = Venta::select(
+    //Ventas por empleado
+    public function numeroVentasPorEmpleadoConsolidado($idEmpleado, $fecha_inicio, $fecha_fin){
+      $datos = Venta::select(
         DB::raw('count(venta.idEmpleado) as cantidad_venta'))
         ->join("empleado","empleado.id","=","venta.idEmpleado")
         ->where('empleado.id','=',$idEmpleado)
-        ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])
-        ->first();*/
-      
+        ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])->get();
+      return response()->json($datos);
+    }
+
+    public function ventaPorEmpleadoConsolidado($idEmpleado, $fecha_inicio, $fecha_fin){      
       $datos = VentaDetalle::select(
         DB::raw('COUNT(venta.idEmpleado) as cantidad_venta'),
         DB::raw('SUM((venta_detalle.comisionempleado/100.00)*venta_detalle.precio_venta*venta_detalle.cantidad) as comision_total'),
@@ -158,7 +161,7 @@ class ReporteController extends Controller
       return response()->json($datos);
     }
 
-    public function ventasPorCliente($idEmpleado, $fecha_inicio, $fecha_fin){
+    public function ventasPorEmpleado($idEmpleado, $fecha_inicio, $fecha_fin){
       $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
       DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
       DB::raw('SUM(venta_detalle.cantidad) as cantidad'),
@@ -170,6 +173,59 @@ class ReporteController extends Controller
         ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
       return response()->json($datos);
     }
+
+    public function verVentasPorEmpleado($id){
+      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
+        DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+        DB::raw('SUM(venta_detalle.cantidad) as cantidad'),
+        DB::raw('SUM((venta_detalle.comisionempleado/100.00)*venta_detalle.precio_venta*venta_detalle.cantidad) as comision_empleado'))
+        ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+        ->join("empleado","empleado.id","=","venta.idEmpleado")
+        ->where('venta.id','=',$id)
+        ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->first();
+
+      $detalles = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
+        "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
+        "venta_detalle.descuento","venta_detalle.sub_total","venta_detalle.comisionempleado", "venta_detalle.descripcion")
+        ->join("sombrero", "sombrero.id","=","venta_detalle.idSombrero")
+        ->where("venta_detalle.idVenta","=",$id)->get();
+
+      return View('gastronomica.sombreros.reportes.ventasporempleadover',array('venta'=>$ventas,'detalles'=>$detalles));
+    }
+
+    public function reporteventasporempleado($idEmpleado, $fecha_inicio, $fecha_fin){
+      $empleado = Empleado::select("nombres")->where('id','=',$idEmpleado)->first();
+      $numventas = Venta::select(
+        DB::raw('count(venta.idEmpleado) as num_ventas'))
+        ->join("empleado","empleado.id","=","venta.idEmpleado")
+        ->where('empleado.id','=',$idEmpleado)
+        ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])->first();
+      
+      $datos = VentaDetalle::select(
+        DB::raw('COUNT(venta.idEmpleado) as cantidad_venta'),
+        DB::raw('SUM((venta_detalle.comisionempleado/100.00)*venta_detalle.precio_venta*venta_detalle.cantidad) as comision_total'),
+        DB::raw('SUM(venta_detalle.sub_total) as total'))
+        ->join('venta','venta.id','=','venta_detalle.idVenta')
+        ->where('venta.idEmpleado','=',$idEmpleado)
+        ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])->first();
+      
+      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
+      DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+      DB::raw('SUM(venta_detalle.cantidad) as cantidad'),
+      DB::raw('SUM((venta_detalle.comisionempleado/100.00)*venta_detalle.precio_venta*venta_detalle.cantidad) as comision_empleado'))
+        ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+        ->join("empleado","empleado.id","=","venta.idEmpleado")
+        ->where('empleado.id','=',$idEmpleado)
+        ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])
+        ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
+      
+      $pdf = PDF::loadView('reportes/ventasporempleadogeneral',['empleado'=>$empleado,'fechaInicio'=>$fecha_inicio,
+      'fechaFin'=>$fecha_fin,'numventas'=>$numventas,'venta'=>$datos,'detalles'=>$ventas]);
+      $pdf->setPaper('a4','landscape');//orientacion horizontal
+      return $pdf->stream();
+    }
+
+    //
 
     public function reportePorFecha($tipo,$codigo,$fecha_inicio,$fecha_fin)
     {
@@ -371,7 +427,29 @@ class ReporteController extends Controller
         ->where("venta_detalle.idVenta","=",$id)->get();
 
         $pdf = PDF::loadView('reportes/ventas',['venta'=>$ventas,'detalles'=>$detalles]);
+        $pdf->setPaper('a4','landscape');//orientacion horizontal
         return $pdf->download('reporte_venta.pdf');
+    }
+
+    public function ventaPorEmpleadoDescarga($id){
+      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
+        DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+        DB::raw('SUM(venta_detalle.cantidad) as cantidad'),
+        DB::raw('SUM((venta_detalle.comisionempleado/100.00)*venta_detalle.precio_venta*venta_detalle.cantidad) as comision_empleado'))
+        ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+        ->join("empleado","empleado.id","=","venta.idEmpleado")
+        ->where('venta.id','=',$id)
+        ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->first();
+
+      $detalles = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
+        "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
+        "venta_detalle.descuento","venta_detalle.sub_total","venta_detalle.comisionempleado", "venta_detalle.descripcion")
+        ->join("sombrero", "sombrero.id","=","venta_detalle.idSombrero")
+        ->where("venta_detalle.idVenta","=",$id)->get();
+
+      $pdf = PDF::loadView('reportes/ventasporempleado',['venta'=>$ventas,'detalles'=>$detalles]);
+      $pdf->setPaper('a4','landscape');//orientacion horizontal
+      return $pdf->download('reporte_venta.pdf');
     }
 
     public function reporteGeneralCompras()
@@ -623,7 +701,7 @@ class ReporteController extends Controller
       //echo($ordenes.'<br/>');
       //echo($detalles);
       $pdf = PDF::loadView('reportes/ordencomprageneral',['ordenes'=>$ordenes,'detalles'=>$detalles,
-        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin, 'codigo'=>$codigo]);
+        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin, 'codigo'=>$codigo, 'codSombrero'=>$codigo_sombrero]);
       $pdf->setPaper('a4','landscape');//orientacion horizontal
       return $pdf->stream();
     }

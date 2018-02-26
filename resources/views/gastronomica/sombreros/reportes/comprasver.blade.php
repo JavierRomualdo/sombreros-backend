@@ -4,41 +4,41 @@
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/reportes/compras')}}">Reporte Orden Compra</a></li>
+        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/reportes/compras')}}">Reporte orden compra</a></li>
         <li class="breadcrumb-item active">Ver</li>
       </ul>
     </div>
   </div></br>
   <section class="forms">
     <div class="container-fluid">
-      <a href="{{action('Compras\OrdenCompraController@reporte',$orden->id)}}" target="_blank" class="btn btn-outline-primary margenInf ion-document-text" title="reporte"> Reporte</a>
-      <a href="{{action('Reportes\ReporteController@reporteDescargar',$orden->id)}}" id="descargar" class="btn btn-outline-primary margenInf ion-ios-download-outline" title="descargar"> Decargar</a>
+      <a href="{{action('Compras\OrdenCompraController@reporte',$orden->id)}}" target="_blank" class="btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte"> Reporte</a>
+      <a href="{{action('Reportes\ReporteController@reporteDescargar',$orden->id)}}" id="descargar" class="btn btn-outline-primary btn-sm margenInf ion-ios-download-outline" title="descargar"> Decargar</a>
       <!--<a href="{ {action('Sombreros\MovimientoController@reporte',$sombrero->id)}}" target="_blank" class="btn btn-primary margenInf">Reporte</a>
       -->
       <div class="row">
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display display ion-paperclip"> Consolidado:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Consolidado:</h2>
             </div>
             <div class="card-block">
               <p>Codigo: <strong>{!!$orden->numero_orden!!}</strong></p>
               <div class="form-group row">
-                <label class="col-smd-1 form-control-label" for="fecha"><strong>Fecha:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="fecha">{!!$orden->fecha!!}</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="fecha"><strong>Proveedor:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Proveedor:</strong></label>
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="fecha">{!!$orden->empresa!!}</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="fecha"><strong>Cantidad Items:</strong></label>
-                <div class="col-sm-1">
+                <label class="col-sm-2 col-3 form-control-label" for="fecha"><strong>Cantidad Items:</strong></label>
+                <div class="col-sm-1 col-3">
                   <label class="form-control-label" for="fecha">{!!$orden->cantidad!!}</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
-                <div class="col-sm-1">
-                  <label class="form-control-label" for="precio_total">{!!$orden->precio_total!!}</label>
+                <label class="col-sm-2 col-3 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
+                <div class="col-sm-1 col-3">
+                  <label class="form-control-label" for="precio_total">S/{!!$orden->precio_total!!}</label>
                 </div>
               </div>
             </div>
@@ -50,13 +50,14 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display ion-paperclip"> Detalles:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Detalles:</h2>
             </div>
             <div class="card-block">
-              <table class="table table-striped table-hover table-bordered">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
 
                 <thead class="thead-inverse">
-                  <tr class="fadeIn animated">
+                  <tr>
                   <th>#</th>
                   <th>Articulo</th><!--Codigo Sombrero-->
                   <th>Foto</th>
@@ -70,7 +71,7 @@
                 <tbody>
                   <?php $n =1;?>
                   @foreach ($detalles as $index=>$detalle)
-                    <tr>
+                    <tr class="fadeIn animated">
                       <th scope="row">{{$n++}}</th>
                       <td>{{$detalle->codigo}}</td>
                       <td>
@@ -78,13 +79,14 @@
                         data-toggle="modal" class="img-fluid pull-xs-left rounded" alt="..." width="28"><!--data-target="#myModal"-->
                       </td>
                       <td>{{$detalle->cantidad}}</td>
-                      <td>{{$detalle->precio_unitario}}</td>
-                      <td>{{$detalle->cantidad * $detalle->precio_unitario}}</td>
+                      <td>S/ {{$detalle->precio_unitario}}</td>
+                      <td>S/ {{$detalle->cantidad * $detalle->precio_unitario}}</td>
                       <!--<td>{ {$detalle->empresa}}</td>-->
                       <td>{{$detalle->descripcion}}</td>
                     </tr>
                   @endforeach
               </table>
+              </div>
             </div>
           </div>
         </div>

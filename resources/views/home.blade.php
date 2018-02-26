@@ -20,7 +20,9 @@
         <div class="col-md-5">
             <div class="wrap">
                 <div class="widget bg-primary fadeIn animated">
+                  
                   <div class="fecha">
+                    <i class="ion-ios-time"></i> 
                     <p id="diaSemana" class="diaSemana">Martes</p>
                     <p id="dia" class="dia">27</p>
                     <p>de </p>
@@ -133,7 +135,13 @@
     </div>
   </section>
 
+  <!--Notificacion-->
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+
+  <script src="{{asset('bootstrap4/js/notification/messenger.min.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/messenger-theme-flat.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
+
   <script type="text/javascript">
   //$("#li-home").attr('class','active');
     $(document).ready(function(e){
@@ -143,6 +151,14 @@
           alert("se ha actualizado");
         });
       });*/
+      var usuario = $("#usuario").html();
+      if(parseInt($("#horas").html()) < 12 && $("#ampm").html()=="AM"){
+        Messenger().post({message:"¡ Buenas dias ! es hora de trabajar :/ "+usuario,type:"info",showCloseButton:!0});
+      } else if(parseInt($("#horas").html()) >= 1 && parseInt($("#horas").html()) < 7 && $("#ampm").html()=="PM"){
+        Messenger().post({message:"¡ Buenas tardes ! "+usuario+" hace mucho calor :(",type:"info",showCloseButton:!0});
+      } else if(parseInt($("#horas").html()) >= 7 && $("#ampm").html()=="PM") {
+        Messenger().post({message:"¡ Buenas Noches ! cuidado con los zancudos :'v "+usuario,type:"info",showCloseButton:!0});
+      }
   });
   </script>
 @endsection

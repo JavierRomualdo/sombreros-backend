@@ -36,8 +36,7 @@ class OrdenCompraController extends Controller
           ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
           ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
           ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
-          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->paginate(4);
-
+          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get();
 
         //$ordenes = OrdenCompra::all();
         return view('gastronomica/sombreros/ordencompra/ordencompra')->with('ordenes', $ordenes);
@@ -51,7 +50,6 @@ class OrdenCompraController extends Controller
     public function create()
     {
         //
-
         Session::flash('save','Eliga el modelo de sombrero, el proveedor e ingresar la cantidad.');
         $imagenes = Sombrero::
                 select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
@@ -65,6 +63,7 @@ class OrdenCompraController extends Controller
         $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
         $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
         $proveedores = Proveedor::pluck('empresa','id')->prepend('Seleccione Proveedor...');
+        
         return view('gastronomica/sombreros/ordencompra/create', array('proveedor'=>$proveedores,
         'modelo'=>$modelos, 'tejido'=>$tejidos, 'material'=>$materiales,'publicodirigido'=>$publicosdirigido,
         'talla'=>$tallas,'imagenes'=>$imagenes));
@@ -79,7 +78,7 @@ class OrdenCompraController extends Controller
       return response()->json($datos);
     }
 
-    public function mostrarPorModelo($modelo_id,$tejido_id,$material_id,$publico_id,$talla_id,$proveedor_id)
+    public function mostrarPorModelo($modelo_id,$tejido_id,$material_id,$publico_id,$talla_id)
     {
       # code...
       /*$datos = Sombrero::where('idModelo','=', $modelo_id, 'and', 'idTejido','=',$tejido_id,

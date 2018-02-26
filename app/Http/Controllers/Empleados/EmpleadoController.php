@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Empleado;
 use App\Models\Encargo;
+use App\http\Requests\Trabajador\TrabajadorCreateRequest;
 use Session;
 
 class EmpleadoController extends Controller
@@ -20,7 +21,7 @@ class EmpleadoController extends Controller
         //
         $empleados = Empleado::select('empleado.id','encargo.nombre as encargo','empleado.nombres',
         'empleado.apellidos','empleado.dni','empleado.direccion','empleado.telefono','empleado.email')
-        ->join('encargo','encargo.id','=','empleado.idEncargo')->paginate(5);
+        ->join('encargo','encargo.id','=','empleado.idEncargo')->get()->take(10);
         return view ('gastronomica/sombreros/empleados/empleado')->with('empleados', $empleados);
     }
 
@@ -42,7 +43,7 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TrabajadorCreateRequest $request)
     {
         //
         Empleado::create($request->all());
@@ -91,6 +92,17 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //
+        $validar = $request->validate([
+            'idEncargo'=>'required|not_in:0',
+            'nombres'=>'required|max:50',
+            'apellidos'=>'required|max:50',
+            'dni'=>'required|max:8|unique:empleado,dni,'.$id,
+            'direccion'=>'max:100',
+            'telefono'=>'required|max:9',
+            'email'=>'max:50',
+            'descripcion'=>'max:100',
+          ]);
         //
         Empleado::where('id',$id)->update(['idEncargo'=>$request->idEncargo,
           'nombres'=>$request->nombres, 'apellidos'=>$request->apellidos, 'dni'=>$request->dni,

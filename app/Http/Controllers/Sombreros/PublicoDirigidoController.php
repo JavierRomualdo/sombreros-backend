@@ -26,7 +26,7 @@ class PublicoDirigidoController extends Controller
     public function index()
     {
         //
-        $publicosdirigido = PublicoDirigido::paginate(5);//all()
+        $publicosdirigido = PublicoDirigido::all()->take(10);//all()
         return view ('gastronomica/sombreros/publicodirigido/publicodirigido')->with('publicosdirigido', $publicosdirigido);
     }
 
@@ -113,7 +113,7 @@ class PublicoDirigidoController extends Controller
     {
         //
         $publicosdirigido = PublicoDirigido::FindOrFail($id);
-        $sombreros = Sombrero::select('id')->where('idPublicoDirigido','=',$publicosdirigido->id)->get();
+        $sombreros = Sombrero::select('id')->where('idPublicoDirigido','=',$publicosdirigido->id)->first();
         if ($sombreros!=null) {
           # code...
           Session::flash('error-publico','No se puede eliminar');

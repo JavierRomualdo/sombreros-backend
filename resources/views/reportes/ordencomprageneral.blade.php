@@ -51,7 +51,12 @@
             @if ($detalle->idOrdenCompra == $orden->id)
               <tr>
                 <th scope="row">{{$n++}}</th>
-                <td>{{$detalle->codigo}}</td>
+                @if ($codSombrero == $detalle->codigo)
+                  <td><label style="background:yellow;">{{$detalle->codigo}}</label></td>
+                @else
+                  <td><label>{{$detalle->codigo}}</label></td>
+                @endif
+                
                 <td>
                   <img src="images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
                 </td>

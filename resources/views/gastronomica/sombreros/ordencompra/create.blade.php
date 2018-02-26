@@ -1,16 +1,19 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
+
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/ordencompra/ordencompra')}}">Orden de Compra</a></li>
+        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/ordencompra/ordencompra')}}">Orden de compra</a></li>
         <li class="breadcrumb-item active">Nuevo</li>
       </ul>
     </div>
   </div></br>
   <div class="container-fluid">
-    <center><h1 class="h3 fadeIn animated" id="titulo_codigo">Código: OC-001-17</h1></center>
+    <center><h1 class="h5 fadeIn animated" id="titulo_codigo">Código: OC-001-17</h1></center>
     @include('partials.messages')
   </div>
 
@@ -22,13 +25,13 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h5 display ion-paperclip"> Panel Sombrero:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>
               <div class=""><!--form-inline-->
                 <div class="form-group row">
-                  <label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor(*):</strong></label>
+                  <label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor:</strong></label>
                   <div class="col-sm-3">
                     {!!Form::select('idProveedor',$proveedor, null,['id'=>'idProveedor','name'=>'idProveedor','class'=>'form-control','autofocus'])!!}
                   </div>
@@ -50,10 +53,10 @@
                   <hr/>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
+                    <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                     <div class="col-sm-3">
                       {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control', 'list'=>'codigosSombrero'])!!}
-                      <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                      <span class="help-block-none">El código son de 13 caracteres.</span>
                       <datalist id="codigosSombrero">
                       </datalist>
                     </div>
@@ -67,7 +70,7 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
+                    <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
                     <div class="col-sm-3">
                       {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control','disabled'=>''])!!}
                     </div>
@@ -92,37 +95,34 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Formulario:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Cantidad:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos para la nueva orden de compra.</p>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="stock_actual"><strong>Stock Actual:</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('stock_actual', null,['id'=>'stock_actual','name'=>'stock_actual','class'=>'form-control',
-                    'placeholder'=>'Aqui el stock actual', 'readonly'=>'true'])!!}
+                <label class="col-sm-2 form-control-label" for="stock_actual"><strong>Stock Actual:</strong></label>
+                <div class="col-sm-2">
+                  <label for="" id="stock_actual">##</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="precio_unitario"><strong>Precio Unitario:</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('precio_unitario', null,['id'=>'precio_unitario','name'=>'precio_unitario','class'=>'form-control',
-                    'placeholder'=>'Aqui el precio unitario','readonly'=>'true'])!!}
+                <label class="col-sm-2 form-control-label" for="precio_unitario"><strong>Costo Articulo (S/):</strong></label>
+                <div class="col-sm-2">
+                  <label for="" id="precio_unitario">##</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('precio_total', null,['id'=>'precio_total','name'=>'cantidad','class'=>'form-control',
-                    'placeholder'=>'Aqui el precio total','readonly'=>'true'])!!}
+                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Costo Total (S/):</strong></label>
+                <div class="col-sm-2">
+                  <label for="" id="precio_total">##</label>
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="cantidad"><strong>Cantidad(*):</strong></label>
-                <div class="col-sm-3">
+                <label class="col-sm-2 form-control-label" for="cantidad"><strong>Cantidad:</strong></label>
+                <div class="col-sm-2">
                   {!!form::text('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Ingrese Cantidad',
                     'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!!}
                 </div>
-                <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
+                <label class="col-sm-2 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
-                    'rows'=>"3", 'cols'=>"8"])!!}
+                    'rows'=>"2", 'cols'=>"8"])!!}
                 </div>
               </div>
 
@@ -136,22 +136,23 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Tabla Detalles:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Tabla Detalles:</h2>
             </div>
             <div class="card-block">
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
-                  <button type="button" class="btn btn-outline-primary ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
+                  <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}" class="btn btn-outline-primary ion-android-cancel btn-sm"> Cancelar</a>
+                  <button type="button" class="btn btn-outline-success ion-ios-checkmark-outline btn-sm" data-toggle="modal" id="guardar"> Guardar</button>
                   <!--{ !!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
                     'class'=>'btn btn-primary'])!!}-->
                     
                 </div>
                 <div class="col-sm-1">
-                  <button type="button" class="btn btn-outline-primary ion-plus-round btn-sm" id="agregar" disabled> Nuevo</button>
+                  <!--<button type="button" class="btn btn-outline-primary ion-plus-round btn-sm" id="agregar" disabled> Nuevo</button>-->
                 </div>
               </div>
-              <table class="table table-striped table-hover table-bordered">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
@@ -167,6 +168,7 @@
                 <tbody id="lista_datos">
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </div>
@@ -180,15 +182,15 @@
         <div role="document" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
+              <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip" style="color: red;"> Errores</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-              <h2 id="errores">Errores</h2>
+              <h2 id="errores" class="h6">Errores</h2>
               <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
+              <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="si">Aceptar</button>
             </div>
           </div>
         </div>
@@ -198,15 +200,15 @@
         <div role="document" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 id="exampleModalLabel" class="modal-title">Mensaje</h5>
+              <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip"> Mensaje</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-              <h2>¡Se ha guardado correctamente una orden de compra! :)</h2>
+              <h2 class="h6">¡Se ha guardado correctamente una orden de compra! :)</h2>
               <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Aceptar</button>
+              <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="aceptar">Aceptar</button>
             </div>
           </div>
         </div>
@@ -225,7 +227,7 @@
                 <div class="col-sm-6">
                   <div class="card miBorder">
                     <div class="card-header d-flex align-items-center">
-                      <h2 class="h1 display display">Formulario:</h2>
+                      <h2 class="h5 display">Formulario:</h2>
                     </div>
                     <div class="card-block">
                       <p>Ingrese los datos del nuevo modelo de sombrero.</p>
@@ -385,12 +387,12 @@
       if (modelo_id!=0 && tejido_id!=0 && material_id!=0 &&
           publico_id!=0 && talla_id!=0 && proveedor_id!=0) {
             $.get('/ajax-verdatos/'+modelo_id+'/'+tejido_id+'/'+material_id+'/'+publico_id+
-            '/'+talla_id+'/'+proveedor_id, function(data){
+            '/'+talla_id, function(data){
               //success
               $.each(data, function(index, cuentaObj){
                 $("#codigo").val(cuentaObj.codigo);
-                $("#precio_unitario").val(cuentaObj.precio);
-                $("#stock_actual").val(cuentaObj.stock_actual);
+                $("#precio_unitario").html(cuentaObj.precio);
+                $("#stock_actual").html(cuentaObj.stock_actual);
               });
             });
       } else if(proveedor_id==0) {
@@ -416,10 +418,10 @@
     }
 
     function calcularPrecioTotal() {
-      if ($("#precio_unitario").val()!="" && $("#cantidad").val()!="") {
-        $("#precio_total").val(parseInt($("#cantidad").val())*parseInt($("#precio_unitario").val())+"");
+      if ($("#precio_unitario").html()!="##" && $("#cantidad").val()!="") {
+        $("#precio_total").html(parseInt($("#cantidad").val())*parseInt($("#precio_unitario").html())+"");
       } else {
-        $("#precio_total").val("");
+        $("#precio_total").html("##");
       }
     }
 
@@ -438,10 +440,10 @@
       talla_id = 0;
       codSombrero = "";
 
-      $("#precio_unitario").val("");
-      $("#stock_actual").val("");
+      $("#precio_unitario").html("##");
+      $("#stock_actual").html("##");
       $("#cantidad").val("");
-      $("#precio_total").val("");
+      $("#precio_total").html("##");
       $("#descripcion").val("");
     }
 
@@ -524,14 +526,14 @@
                   $("#idMaterial").val(material_id);
                   $("#idPublicoDirigido").val(publico_id);
                   $("#idTalla").val(talla_id);
-                  $("#precio_unitario").val(sombrero.precio+"");
+                  $("#precio_unitario").html(sombrero.precio+"");
 
                   $('#idModelo option[value="'+modelo_id+'"]').attr('selected','selected');
                   $('#idTejido option[value="'+tejido_id+'"]').attr('selected','selected');
                   $('#idMaterial option[value="'+material_id+'"]').attr('selected','selected');
                   $('#idPublicoDirigido option[value="'+publico_id+'"]').attr('selected','selected');
                   $('#idTalla option[value="'+talla_id+'"]').attr('selected','selected');
-                  $("#stock_actual").val(sombrero.stock_actual);
+                  $("#stock_actual").html(sombrero.stock_actual);
                   $("#precio").val("");
             }
           });
@@ -550,18 +552,18 @@
     $("#guardar").click(function(){
       var mensaje = "";
       if ($("#idProveedor").val()==0) {
-        mensaje = mensaje + "* Debe seleccionar un proveedor.";
+        mensaje = mensaje + "* Debe seleccionar un proveedor.<br/>";
       }
       if ($("#codigo").val()=="") {
-        mensaje = mensaje + "</br>* El codigo no debe estar vacío.";
+        mensaje = mensaje + "* El codigo no debe estar vacío.<br/>";
       } else {
         if ($("#codigo").val().length!=13) {
-          mensaje = mensaje + "</br>* El codigo no tiene los 13 caracteres.";
+          mensaje = mensaje + "* El codigo no tiene los 13 caracteres.<br/>";
         }
       }
 
       if ($("#cantidad").val()=="") {
-        mensaje = mensaje + "<br/>* Debe ingresar la cantidad.";
+        mensaje = mensaje + "* Debe ingresar la cantidad.";
       }
       if (mensaje=="") {
         if ($("#idProveedor").prop("disabled")) {//desactivado
@@ -573,7 +575,7 @@
             descripcion = "0";
           }
           $.get('/ajax-guardarorden/2/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
-          '/'+$("#cantidad").val()+'/'+$("#precio_unitario").val()+'/'+
+          '/'+$("#cantidad").val()+'/'+$("#precio_unitario").html()+'/'+
           descripcion, function(data){
             //success
             $.each(data, function(index, orden){
@@ -586,8 +588,8 @@
               "<td>"+orden.cantidad+"</td><td>"+orden.precio_unitario+"</td><td>"+
               orden.cantidad * orden.precio_unitario+"</td><td>"+orden.empresa+"</td><td>"+
               orden.descripcion+"</td></tr>";
-              $("#guardar").prop('disabled', 'disabled');
-              $("#agregar").removeAttr("disabled");
+              //$("#guardar").prop('disabled', 'disabled');
+              //$("#agregar").removeAttr("disabled");
               n++;
             });
             //alert(tabla);
@@ -606,14 +608,14 @@
           }
           //alert("Cantidad (Inicio):"+$("#cantidad").val());
           $.get('/ajax-guardarorden/1/'+$("#codigo").val()+'/'+$("#idProveedor").val()+
-          '/'+$("#cantidad").val()+'/'+$("#precio_unitario").val()+'/'+
+          '/'+$("#cantidad").val()+'/'+$("#precio_unitario").html()+'/'+
           descripcion, function(data){
             //success
             $.each(data, function(index, orden){
               //alert('(1) '+orden.numero_orden);
               $("#idProveedor").prop('disabled', 'disabled');
-              $("#guardar").prop('disabled', 'disabled');
-              $("#agregar").removeAttr("disabled");
+              //$("#guardar").prop('disabled', 'disabled');
+              //$("#agregar").removeAttr("disabled");
               //alert(orden.codigo);
               tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+orden.codigo+"</td>"+
               "<td><img src='/images/sombreros/"+orden.photo+
@@ -647,10 +649,10 @@
 
     });*/
 
-    $("#agregar").click(function(){
+    /*$("#agregar").click(function(){
       $("#guardar").removeAttr("disabled");
       $("#agregar").prop('disabled', 'disabled');
-    });
+    });*/
 
     /*carousel*/
     $("#modalModelo").change(function(e){

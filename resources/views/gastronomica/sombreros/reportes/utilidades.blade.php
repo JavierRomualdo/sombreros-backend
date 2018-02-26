@@ -1,16 +1,17 @@
 @extends('layouts.master')
 @section('title','Sombreros')
 @section('content')
+
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
+
 <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item active">Reporte Utilidades en Ventas</li>
+        <li class="breadcrumb-item active">Reporte utilidades en Ventas /</li>
       </ul>
     </div>
   </div></br>
-  <div class="container-fluid">
-    @include('partials.messages')
-  </div>
   <section class="forms">
     <div class="container-fluid">
       <!--<header>
@@ -23,13 +24,13 @@
               <label for="check_panel_sombrero">Panel Sombrero (Mostrar)</label>
           </div>
         </div>
-      </div>
+      </div><br/>
       <!--Panel superior-->
-      <div class="row" id="panelSombrero" style="visibility: hidden; display: none;">
+      <div class="row" id="panelSombrero" style="visibility: visibility; display: none;">
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Panel Sombrero:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese los datos del nuevo modelo de sombrero.</p>
@@ -52,10 +53,10 @@
                 <hr/>
               </div>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
+                <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                 <div class="col-sm-3">
                   {!!Form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                  <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                  <span class="help-block-none">El código son de 13 caracteres.</span>
                 </div>
                 <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                 <div class="col-sm-3">
@@ -67,7 +68,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
+                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
                 <div class="col-sm-3">
                   {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control','disabled'=>''])!!}
                 </div>
@@ -92,7 +93,7 @@
                 <div class="col-lg-12">
                   <div class="card miBorder fadeIn animated">
                     <div class="card-header d-flex align-items-center">
-                      <h2 class="h1 display ion-paperclip"> Panel Fechas:</h2>
+                      <h2 class="h6 display ion-paperclip fadeIn animated"> Panel Fechas:</h2>
                     </div>
                     <div class="card-block">
                       <p>Ingrese las fechas.</p>
@@ -119,11 +120,12 @@
                 <div class="col-lg-12 col-sm-12 col-md-12">
                   <div class="card miBorder fadeIn animated">
                     <div class="card-header d-flex align-items-center">
-                      <h2 class="h1 display ion-paperclip"> Tabla Utilidades Ventas:</h2>
+                      <h2 class="h6 display ion-paperclip fadeIn animated"> Tabla Utilidades Ventas:</h2>
                     </div>
                     <div class="card-block miTabla">
-                        <a href="{{action('Reportes\ReporteController@reporteGeneralUtilidadesVentas')}}" id="reporte" class="btn btn-outline-primary margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
-                      <table class="table table-striped table-hover table-bordered"><!--table-responsive-->
+                        <a href="{{action('Reportes\ReporteController@reporteGeneralUtilidadesVentas')}}" id="reporte" class="btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
+                      <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
         
                         <thead class="thead-inverse">
                           <tr>
@@ -150,42 +152,38 @@
                           @endforeach
                         </tbody>
                       </table>
+                      </div>
         
                   </div>
                 </div>
-                <div class="container">
+                <!--<div class="container">
                   <div class="paginacion">
-                    {!!$sombreros->links()!!}
+                    { !!$sombreros->links()!!}
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
         </div>
       </div>
       
-    <!--Modal Erroes-->
-    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-      <div role="document" class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 id="exampleModalLabel" class="modal-title">Errores</h5>
-            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <h2 id="errores">Errores</h2>
-            <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="si">Aceptar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!---->
   </section>
-  <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+
+    <!--Notificacion-->
+    <script src="{{asset('bootstrap4/js/notification/messenger.min.js')}}"></script>
+    <script src="{{asset('bootstrap4/js/notification/messenger-theme-flat.js')}}"></script>
+    <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
+
   <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function(e){
+        Messenger().post({message:"Reporte: Utilidades en las ventas.",type:"info",showCloseButton:!0});
+        $('#myTable').DataTable({
+            "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+            responsive: true
+            }
+        });
     });
     var modelo_id = 0;
     var tejido_id = 0;
@@ -242,15 +240,15 @@
           mensaje = mensaje + "* El codigo no debe estar vacío.";
         } else {
           if ($("#codigo").val().length!=13) {
-            mensaje = mensaje + "</br>* El codigo no tiene los 13 caracteres.";
+            mensaje = mensaje + "* El codigo no tiene los 13 caracteres.<br/>";
           }
         }
       }
       if ($("#fecha_inicio").val()=="") {
-        mensaje = mensaje + "</br>* La fecha de inicio no debe estar vacia.";
+        mensaje = mensaje + "* La fecha de inicio no debe estar vacia.<br/>";
       }
       if ($("#fecha_fin").val()=="") {
-        mensaje = mensaje + "</br>* La fecha final no debe estar vacia.";
+        mensaje = mensaje + "* La fecha final no debe estar vacia.";
       }
 
       if (mensaje=="") {//osea no hay mensajes de errores
@@ -263,6 +261,7 @@
         }
         $.get('/ajax-reportePorFecha/3/'+codigoSombrero+'/'+$("#fecha_inicio").val()+'/'+
         $("#fecha_fin").val(), function(data){
+          $('#myTable').DataTable().destroy();
           //success
           var fecha_inicio = $("#fecha_inicio").val();
           var fecha_fin = $("#fecha_fin").val();
@@ -275,11 +274,18 @@
           });
           $("#lista_datos").html(tabla);
           tabla = "";
+
+          $('#myTable').DataTable({
+            "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    },
+                    responsive: true,
+                    stateSave: true
+                });
         });
 
       } else {
-        $("#errores").html(mensaje);
-        $("#myModal").modal("show");
+        Messenger().post({message: mensaje,type:"error",showCloseButton:!0});
       }
     });
 
@@ -372,6 +378,7 @@
           var codigoSombrero = $("#codigo").val();
           
           $.get('/ajax-mostrarTodoUtilidadVentas/', function(data){
+            $('#myTable').DataTable().destroy();
             //success
             $.each(data, function(index, utilidad){
               tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+utilidad.numero_venta+"</th><td>"+
@@ -384,6 +391,13 @@
         });
         $("#lista_datos").html(tabla);
         tabla = "";
+
+        $('#myTable').DataTable({
+          "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"},
+          responsive: true,
+          stateSave: true
+        });
     });
   }
     $("#check_panel_sombrero").click(function(){

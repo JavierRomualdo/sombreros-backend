@@ -18,7 +18,7 @@
         <div class="col-lg-12"><!--offset-lg-3 col-lg-6-->
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h1 display ion-paperclip"> Formulario:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Formulario:</h2>
             </div>
             <div class="card-block">
               <p>Edite los datos del empleado.</p>
@@ -59,9 +59,9 @@
                   {!!form::text('email', null,['id'=>'email','class'=>'form-control','placeholder'=>'Ingreso Email'])!!}
                 </div>
                 <div class="col-sm-6">
-                  <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-outline-danger ion-android-cancel btn-sm"> Cancelar</a>
+                  <a href="{{url('/gastronomica/sombreros/empleados/empleado')}}" class="btn btn-outline-primary ion-android-cancel btn-sm"> Cancelar</a>
                   {!!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
-                  'class'=>'btn btn-outline-primary ion-ios-checkmark-outline btn-sm'])!!}
+                  'class'=>'btn btn-outline-success ion-ios-checkmark-outline btn-sm'])!!}
                 </div>
               </div>
               {!!Form::close()!!}

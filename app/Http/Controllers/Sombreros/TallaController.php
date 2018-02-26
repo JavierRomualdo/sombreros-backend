@@ -26,7 +26,7 @@ class TallaController extends Controller
     public function index()
     {
         //
-        $tallas = Tallas::paginate(5);//all()
+        $tallas = Tallas::all();//all()->take(10)
         return view ('gastronomica/sombreros/tallas/talla')->with('tallas', $tallas);
     }
 
@@ -113,7 +113,7 @@ class TallaController extends Controller
     {
         //
         $tallas = Tallas::FindOrFail($id);
-        $sombreros = Sombrero::select('id')->where('idTalla','=',$tallas->id)->get();
+        $sombreros = Sombrero::select('id')->where('idTalla','=',$tallas->id)->first();
         if ($sombreros!=null) {
           # code...
           Session::flash('error-talla','No se puede eliminar');

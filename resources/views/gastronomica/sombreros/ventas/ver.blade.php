@@ -18,25 +18,25 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display ion-paperclip"> Consolidado:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Consolidado:</h2>
             </div>
             <div class="card-block">
               <p>Codigo: <strong>{!!$venta->numero_venta!!}</strong></p>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="fecha"><strong>Fecha:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="fecha">{!!$venta->fecha!!}</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label>
-                <div class="col-sm-1">
+                <label class="col-sm-2 col-3 form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label>
+                <div class="col-sm-1 col-3">
                   <label class="form-control-label" for="precio_total">{!!$venta->cantidad!!}</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="precio_total"><strong>Total:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-1 col-3 form-control-label" for="precio_total"><strong>Total:</strong></label>
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="precio_total">S/.{!!$venta->precio_total!!}</label>
                 </div>
-                <label class="col-sm-1 form-control-label" for="user"><strong>Realizado:</strong></label>
-                <div class="col-sm-2">
+                <label class="col-sm-1 col-3 form-control-label" for="user"><strong>Realizado:</strong></label>
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="user">{!!$venta->nombres!!}</label>
                 </div>
               </div>
@@ -49,7 +49,7 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display ion-paperclip"> Detalles:</h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Detalles:</h2>
             </div>
             <div class="card-block miTabla">
               <div class="table-responsive">
