@@ -86,7 +86,7 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h5 display ion-paperclip fadeIn animated"> Imagen: <!--<span>{ !!$sombrero->photo!!}--></span></h2>
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Imagen: <!--<span>{ !!$sombrero->photo!!}</span>--></h2>
             </div>
             <div class="card-block">
               <img class="rounded mx-auto d-block img-fluid fadeIn animated" src="/images/sombreros/{{$sombrero->photo}}" width="330px" height="333px" alt="First slide">

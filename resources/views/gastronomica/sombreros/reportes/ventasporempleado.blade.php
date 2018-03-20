@@ -91,7 +91,7 @@
               <h2 class="h6 display ion-paperclip fadeIn animated"> Tabla Ventas:</h2>
             </div>
             <div class="card-block miTabla">
-              <a href="{{action('Reportes\ReporteController@reporteGeneralVentas')}}" id="reporte" class="disabled btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a><br/>
+              <a href="" id="reporte" class="disabled btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a><br/>
               <div class="table-responsive">
                 <table class="table table-striped table-hover table-bordered" id="myTableVentas"><!--table-responsive-->
                   <thead class="thead-inverse">
@@ -243,9 +243,16 @@ $("#buscar").click(function(e){
         //success
         $.each(data, function(index, consolidado){
             $("#cantidad_venta").html(consolidado.cantidad_venta);
-            $("#total").html(consolidado.total);
-            $("#comision_total").html("S/. "+parseFloat(consolidado.comision_total).toFixed(2));
-            
+            if(consolidado.total!=null){
+              $("#total").html(consolidado.total);
+            } else {
+              $("#total").html("0");
+            }
+            if(consolidado.comision_total!=null){
+              $("#comision_total").html("S/ "+parseFloat(consolidado.comision_total).toFixed(2));
+            } else {
+              $("#comision_total").html("S/ 0");
+            }
         });
     });
     //Llena la tabla ventas
@@ -261,9 +268,8 @@ $("#buscar").click(function(e){
             "<a href='verventasporempleado/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
             +"<a href='{{URL::to('gastronomica/sombreros/reportes/reporteporempleado/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
             n++;
-            $("#reporte").attr('href',"{{URL::to('reporteventasporempleado/')}}/"+empleado_id+"/"+fecha_inicio+"/"+fecha_fin);
         });
-        
+        $("#reporte").attr('href',"{{URL::to('reporteventasporempleado/')}}/"+empleado_id+"/"+fecha_inicio+"/"+fecha_fin);
         $("#reporte").removeClass("disabled");
         $("#lista_datos").html(tabla);
         tabla = "";

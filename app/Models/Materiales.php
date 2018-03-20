@@ -12,7 +12,7 @@ class Materiales extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'material', 'photo', 'descripcion'
+      'id', 'material','codigo', 'photo', 'descripcion'
     ];
 
     public function Sombrero()

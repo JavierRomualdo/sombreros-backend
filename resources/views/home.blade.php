@@ -67,7 +67,7 @@
             </div>
             <div class="card miBorder fadeIn animated">
               <div class="card-img-top text-center">
-                <img class=" fadeIn animated" src="images/eventos/verano.PNG" alt="Card image cap" width="215px">
+                <img class=" fadeIn animated" src="/images/temporadas" alt="Card image cap" width="215px">
               </div>
               <div class="card-body container">
                 <h5 class="card-title ion-android-open"> Ventas</h5>

@@ -12,7 +12,7 @@ class Tejidos extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'tejido', 'photo', 'descripcion'
+      'id', 'tejido','codigo', 'photo', 'descripcion'
     ];
 
     public function Sombrero()

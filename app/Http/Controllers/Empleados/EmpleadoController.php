@@ -21,7 +21,7 @@ class EmpleadoController extends Controller
         //
         $empleados = Empleado::select('empleado.id','encargo.nombre as encargo','empleado.nombres',
         'empleado.apellidos','empleado.dni','empleado.direccion','empleado.telefono','empleado.email')
-        ->join('encargo','encargo.id','=','empleado.idEncargo')->get()->take(10);
+        ->join('encargo','encargo.id','=','empleado.idEncargo')->get();
         return view ('gastronomica/sombreros/empleados/empleado')->with('empleados', $empleados);
     }
 
@@ -121,7 +121,7 @@ class EmpleadoController extends Controller
     {
         //
         $venta = Venta::select('id')->where('idEmpleado','=',$id)->get();
-        if ($movimientos!=null) {
+        if ($venta!=null) {
           # code...
           Session::flash('error','No se puede eliminar');
         } else {

@@ -29,8 +29,13 @@ class ModeloController extends Controller
     public function index()
     {
         //
-        $modelos = Modelos::all()->take(10);//all()
+        $modelos = Modelos::all();//all()
         return view ('gastronomica/sombreros/modelos/modelo')->with('modelos', $modelos);
+    }
+
+    public function mostrarCodigo($id){
+      $datos = Modelos::select("modelos.codigo")->where('modelos.id','=',$id)->get();
+      return response()->json($datos);
     }
 
     /**
@@ -134,6 +139,15 @@ class ModeloController extends Controller
         $modelos = Modelos::FindOrFail($id);
         $input = $request->all();
         $modelos->fill($input)->save();
+
+        /*Sombrero::where('sombrero.idModelo',$id)
+        ->update(['sombrero.codigo'=>('modelos.modelo'+'tejidos.tejido'+'materiales.material'+'publicodirigido.publico'+'tallas.talla')])
+        ->join('modelos','modelos.id','=','sombrero.idModelo')
+        ->join('tejidos','tejidos.id','=','sombrero.idTejido')
+        ->join('materiales','materiales.id','=','sombrero.idMaterial')
+        ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
+        ->join('tallas','tallas.id','=','sombrero.idTalla');*/
+
         Session::flash('update','Se ha actualizado correctamente');
         return redirect()->action('Sombreros\ModeloController@index');
     }

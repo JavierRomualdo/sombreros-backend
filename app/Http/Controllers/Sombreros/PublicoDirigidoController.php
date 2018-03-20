@@ -30,6 +30,11 @@ class PublicoDirigidoController extends Controller
         return view ('gastronomica/sombreros/publicodirigido/publicodirigido')->with('publicosdirigido', $publicosdirigido);
     }
 
+    public function mostrarCodigo($id){
+      $datos = PublicoDirigido::select("publicodirigido.codigo")->where('publicodirigido.id','=',$id)->get();
+      return response()->json($datos);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

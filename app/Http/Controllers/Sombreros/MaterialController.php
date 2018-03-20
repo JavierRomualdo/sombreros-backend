@@ -33,6 +33,11 @@ class MaterialController extends Controller
         return view ('gastronomica/sombreros/materiales/material')->with('materiales', $materiales);
     }
 
+    public function mostrarCodigo($id){
+      $datos = Materiales::select("materiales.codigo")->where('materiales.id','=',$id)->get();
+      return response()->json($datos);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -16,6 +16,7 @@ class CreatePublicodirigoTable extends Migration
         Schema::create('publicodirigido', function (Blueprint $table) {
             $table->increments('id');
             $table->string('publico', 50);
+            $table->string('codigo', 3);
             $table->string('descripcion', 100)->nullable();
         });
     }

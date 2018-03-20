@@ -42,9 +42,29 @@ class ConsultaController extends Controller
         //
     }
 
+    /**Stock Actual */
+    public function indexStockActual(){
+
+        $modelos = Modelos::pluck('modelo','id')->prepend('Seleccione el Modelo...');
+        $tejidos = Tejidos::pluck('tejido','id')->prepend('Seleccione el Tejido...');
+        $materiales = Materiales::pluck('material','id')->prepend('Seleccione el Material...');
+        $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
+        $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
+
+        $datos = Sombrero::select('sombrero.id', 'sombrero.codigo','sombrero.stock_actual', 'modelos.modelo', 'tejidos.tejido', 
+        'materiales.material', 'publicodirigido.publico','tallas.talla','sombrero.photo')
+        ->join('modelos','modelos.id','=','sombrero.idModelo')
+        ->join('tejidos','tejidos.id','=','sombrero.idTejido')
+        ->join('materiales','materiales.id','=','sombrero.idMaterial')
+        ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
+        ->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+
+        return view ('gastronomica/sombreros/consultas/articulos/stockactual', array('modelo'=>$modelos, 'tejido'=>$tejidos,
+        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'imagenes'=>$datos));       
+    }
     /**Orden de Compra */
     public function indexOrdenCompra(){
-        return view ('gastronomica/sombreros/consultas/ordencompra');
+        return view ('gastronomica/sombreros/consultas/ordencompra/ordencompra');
     }
 
     public function indexOrdenCompraConsolidado($numeroOrden){
@@ -109,13 +129,14 @@ class ConsultaController extends Controller
 
     public function indexOrdenCompraProveedor(){
         $proveedor = Proveedor::select("id","empresa", "ruc", "direccion")->get();
-        return view ('gastronomica/sombreros/consultas/ordencompraproveedor')->with("proveedores", $proveedor);
+        return view ('gastronomica/sombreros/consultas/ordencompra/ordencompraproveedor')->with("proveedores", $proveedor);
     }
 
     public function ordenCompraProveedorConsolidado($idProveedor){
         $datos = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
           DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'),
-          DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),'proveedor.empresa')
+          DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),
+          DB::raw('SUM(orden_compra_detalle.cantidad_ingreso) as ingresos'),'proveedor.empresa')
           ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
           ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
           ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
@@ -151,13 +172,21 @@ class ConsultaController extends Controller
         $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
         $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
 
-        return view ('gastronomica/sombreros/consultas/ordencompraarticulo', array('modelo'=>$modelos, 'tejido'=>$tejidos,
-        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas));
+        $imagenes = Sombrero::
+                select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+                  'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
+                  'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
+                  'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
+                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+
+        return view ('gastronomica/sombreros/consultas/ordencompra/ordencompraarticulo', array('modelo'=>$modelos, 'tejido'=>$tejidos,
+        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'imagenes'=>$imagenes));
     }
     public function ordenCompraArticuloConsolidado($codigoSombrero){
         $datos = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
           DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'),
-          DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),'proveedor.empresa')
+          DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),
+          DB::raw('SUM(orden_compra_detalle.cantidad_ingreso) as ingresos'),'proveedor.empresa')
           ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
           ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
           ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')

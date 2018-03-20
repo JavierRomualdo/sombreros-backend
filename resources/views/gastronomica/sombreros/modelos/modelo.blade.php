@@ -35,6 +35,7 @@
                         <tr>
                           <th>#</th>
                           <th>Modelo</th>
+                          <th>Codigo</th>
                           <th>Descripcion</th>
                           <th>Imagen</th>
                           <th>Acciones</th>
@@ -45,6 +46,7 @@
                           <tr>
                             <th scope="row">{{$index+1}}</th>
                             <td>{{$modelo->modelo}}</td>
+                            <td>{{$modelo->codigo}}</td>
                             <td>{{$modelo->descripcion}}</td>
                             <td>
                               <a href="{{action('Sombreros\ModeloController@foto',$modelo->id)}}">

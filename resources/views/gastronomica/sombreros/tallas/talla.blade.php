@@ -33,6 +33,7 @@
                   <tr>
                     <th>#</th>
                     <th>Talla</th>
+                    <th>Codigo</th>
                     <th>Descripcion</th>
                     <th>Acciones</th>
                   </tr>
@@ -42,6 +43,7 @@
                     <tr class="fadeIn animated">
                       <th scope="row">{{$index+1}}</th>
                       <td>{{$talla->talla}}</td>
+                      <td>{{$talla->codigo}}</td>
                       <td>{{$talla->descripcion}}</td>
                       <td>
                         <a href="{{action('Sombreros\TallaController@edit', $talla->id)}}" class="btn btn-outline-primary btn-sm ion-edit" title="Editar"></a>

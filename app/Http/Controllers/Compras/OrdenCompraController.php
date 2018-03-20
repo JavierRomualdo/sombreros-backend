@@ -90,14 +90,29 @@ class OrdenCompraController extends Controller
       //'and','sombrero.idTalla','=',$talla_id,'and','sombrero.idTejido','=',$tejido_id,'and',
       //'sombrero.idModelo','=',$modelo_id)->first();
 
-      $sombrero = Sombrero::select('codigo')
+      $modelo = Modelos::select('modelo')->where('modelos.id','=',$modelo_id)->first();
+      $tejido = Tejidos::select('tejido')->where('tejidos.id','=',$tejido_id)->first();
+      $material = Materiales::select('material')->where('materiales.id','=',$material_id)->first();
+      $publicosdirigido = PublicoDirigido::select('publico')->where('publicodirigido.id','=',$publico_id)->first();
+      $tallas = Tallas::select('talla')->where('tallas.id','=',$talla_id)->first();
+      
+      $codigo = substr($modelo->modelo,0,3).substr($tejido->tejido,0,3).substr($material->material,0,3).substr($publicosdirigido->publico,0,3).substr($tallas->talla,0,3);
+      $codigo = strtolower($codigo);
+
+      //$datos = Sombrero::select('codigo')->where('sombrero.codigo','=',$codigo)->get();
+
+      $datos = Sombrero::select('sombrero.codigo','sombrero.precio_venta','sombrero.stock_actual','proveedor_precio.precio')
+      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->where('sombrero.codigo','=',$codigo)->get();
+
+      /*$sombrero = Sombrero::select('codigo')
       ->where('sombrero.idTalla','=',$talla_id,'and','sombrero.idMaterial','=',$material_id,
       'and','sombrero.idPublicoDirigido','=',$publico_id,'and','sombrero.idTejido','=',$tejido_id,'and',
       'sombrero.idModelo','=',$modelo_id)->first();
 
       $datos = Sombrero::select('sombrero.codigo','sombrero.precio_venta','sombrero.stock_actual','proveedor_precio.precio')
       ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
-      ->where('sombrero.codigo','=',$sombrero->codigo)->get();
+      ->where('sombrero.codigo','=',$sombrero->codigo)->get();*/
 
       /*$datos = Sombrero::select('sombrero.codigo','sombrero.precio_venta','proveedor_precio.precio')->join('proveedor_precio',
       'proveedor_precio.idSombrero','=','sombrero.id')->where('sombrero.idModelo','=',$modelo_id,'and',

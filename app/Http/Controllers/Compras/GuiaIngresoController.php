@@ -258,6 +258,63 @@ class GuiaIngresoController extends Controller
        return $pdf->stream();
      }
 
+    public function guiasIngreso($codSombrero, $fecha_inicio,$fecha_fin){
+      $datos = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", "guia_ingreso.fecha",
+        DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
+        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
+        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
+        ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
+        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
+        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->where('sombrero.id','=',$codSombrero)
+        ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])
+        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->get();
+
+      return response()->json($datos);
+    }
+
+    public function guiasIngresoPorArticulo($fecha_inicio,$fecha_fin){
+      $datos = GuiaIngreso::select("sombrero.id","sombrero.codigo","sombrero.photo","guia_ingreso.id","guia_ingreso.numero_guia", "guia_ingreso.fecha",
+        DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
+        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'), "sombrero.id")
+        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
+        ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
+        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
+        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])
+        ->groupBy("sombrero.id","sombrero.codigo","sombrero.photo",'guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha', "sombrero.id")->get();
+
+      return response()->json($datos);
+    }
+
+    public function guiaIngresoDetalle($idGuiaIngreso){
+      $datos = GuiaIngresoDetalle::select("orden_compra.numero_orden","sombrero.codigo","sombrero.photo","proveedor.empresa",
+      "guia_ingreso_detalle.cantidad", "guia_ingreso_detalle.cantidad", "proveedor_precio.precio","guia_ingreso_detalle.descripcion")
+      ->join('guia_ingreso','guia_ingreso.id','=','guia_ingreso_detalle.idGuiaIngreso')
+      ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
+      ->join('orden_compra','orden_compra.id','=','orden_compra_detalle.idOrdenCompra')
+      ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
+      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
+      ->where('guia_ingreso_detalle.idGuiaIngreso','=',$idGuiaIngreso)->get();
+
+      return response()->json($datos);
+    }
+
+    public function guiasIngresoPorCodSombrero($codSombrero){
+      $datos = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", "guia_ingreso.fecha",
+        DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
+        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
+        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
+        ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
+        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
+        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->where('sombrero.codigo','=',$codSombrero)
+        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->get();
+
+        return response()->json($datos);
+    }
+
     public function store(Request $request)
     {
         //

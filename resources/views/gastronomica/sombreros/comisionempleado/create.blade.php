@@ -99,29 +99,35 @@
                     <datalist id="nombresEmpleados">
                     </datalist>
                 </div>
+                <label class="col-sm-2 form-control-label" for="idMaterial"><strong>Temporada:</strong></label>
+                <div class="col-sm-4">
+                  {!!Form::select('idTemporada',$temporada, null,['id'=>'idTemporada','name'=>'idTemporada','class'=>'form-control'])!!}
+                </div>
+              </div>
+              <div class="form-group row">
                 <label class="col-sm-2 form-control-label" for="porcentaje"><strong>Porcentaje (%):</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('porcentaje', null,['id'=>'porcentaje','class'=>'form-control','placeholder'=>'Ingrese Porcentaje'])!!}
                 </div>
-              </div>
-              <div class="form-group row">
                 <label class="col-sm-2 form-control-label" for="precio_venta"><strong>Precio Venta:</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('precio_venta', null,['id'=>'precio_venta','class'=>'form-control','placeholder'=>'Aqui precio venta','readonly'=>'true'])!!}
                 </div>
+              </div>
+              <div class="form-group row">
                 <label class="col-sm-2 form-control-label" for="comision"><strong>Comision:</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('comision', null,['id'=>'comision','class'=>'form-control','placeholder'=>'Aqui la comision','readonly'=>'true'])!!}
                 </div>
-              </div>
-              <div class="form-group row">
                 <label class="col-sm-2 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-4">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
                     'rows'=>"3", 'cols'=>"8"])!!}
                 </div>
-                  <div class="col-sm-6">
-                    <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-outline-primary ion-android-cancel"> Cancelar</a>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-outline-primary ion-android-cancel"> Cancelar</a>
                   {!!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',
                   'class'=>'btn btn-outline-primary ion-ios-checkmark-outline'])!!}
                 </div>

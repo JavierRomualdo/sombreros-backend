@@ -35,6 +35,7 @@
                         <tr>
                           <th>#</th>
                           <th>Material</th>
+                          <th>Codigo</th>
                           <th>Descripcion</th>
                           <th>Imagen</th>
                           <th>Acciones</th>
@@ -45,6 +46,7 @@
                           <tr class="fadeIn animated">
                             <th scope="row">{{$index+1}}</th>
                             <td>{{$material->material}}</td>
+                            <td>{{$material->codigo}}</td>                            
                             <td>{{$material->descripcion}}</td>
                             <td>
                               <a href="{{action('Sombreros\MaterialController@foto',$material->id)}}">

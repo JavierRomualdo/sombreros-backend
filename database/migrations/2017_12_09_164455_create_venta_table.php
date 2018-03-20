@@ -16,6 +16,7 @@ class CreateVentaTable extends Migration
         Schema::create('venta', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('idEmpleado')->unsigned();
+            $table->integer('idCliente')->unsigned();
             $table->string('numero_venta', 10)->unique();
             $table->date('fecha')->nullable();
             $table->decimal('utilidad', 7,2)->default('0.0');
@@ -24,6 +25,8 @@ class CreateVentaTable extends Migration
 
             $table->foreign('idUsuario')->references('id')->on('users');
             $table->foreign('idEmpleado')->references('id')->on('empleado');
+            $table->foreign('idCliente')->references('id')->on('cliente');
+            
         });
     }
 

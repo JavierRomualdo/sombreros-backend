@@ -12,7 +12,7 @@ class Tallas extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'talla', 'descripcion'
+      'id', 'talla','codigo', 'descripcion'
     ];
 
     public function Sombrero()

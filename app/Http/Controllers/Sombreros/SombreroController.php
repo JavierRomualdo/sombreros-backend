@@ -70,9 +70,11 @@ class SombreroController extends Controller
         $materiales = Materiales::pluck('material','id')->prepend('Seleccione el Material...');
         $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
         $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
+
+        //$atributos = Atributos::FindOrFail(1);
         //$proveedores = Proveedor::pluck('empresa','id')->prepend('Seleccione Proveedor...');
         return View('gastronomica.sombreros.sombreros.create', array('modelo'=>$modelos, 'tejido'=>$tejidos,
-            'material'=>$materiales,'publicodirigido'=>$publicosdirigido,'talla'=>$tallas));
+            'material'=>$materiales,'publicodirigido'=>$publicosdirigido,'talla'=>$tallas));//,'atributos'=>$atributos
     }
 
     /**
@@ -183,7 +185,7 @@ class SombreroController extends Controller
        # code...
        $foto = $request->file('photo');
        $filename = time().'.'.$foto->getClientOriginalExtension();
-       Image::make($foto)->resize(320,240)->save(public_path('images/sombreros/'.$filename));
+       Image::make($foto)->resize(1200,800)->save(public_path('images/sombreros/'.$filename));
        $sombreros = Sombrero::find($request->get('id'));
        if ($sombreros->photo!="nofoto.png") {
          # code...
@@ -216,6 +218,28 @@ class SombreroController extends Controller
         $sombreros->save();
         Session::flash('update','Se ha actualizado correctamente');
         return redirect()->action('Sombreros\SombreroController@index');
+    }
+
+    public function paraMovimientoPorArticulo($codSombrero){
+      $datos = Sombrero::select('sombrero.id', 'sombrero.precio_venta', 'sombrero.utilidad', 'sombrero.stock_actual',
+      'sombrero.pedido_reposicion','sombrero.photo')->where('sombrero.codigo','=',$codSombrero)->get();
+      return response()->json($datos);
+    }
+
+    public function movimientoArticulos(){
+      $datos = Sombrero::select('sombrero.id', 'sombrero.codigo', 'sombrero.photo', 'sombrero.stock_actual', 'sombrero.utilidad')
+      ->join('modelos','modelos.id','=','sombrero.idModelo')
+      ->join('tejidos','tejidos.id','=','sombrero.idTejido')
+      ->join('materiales','materiales.id','=','sombrero.idMaterial')
+      ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
+      ->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+
+      return response()->json($datos);
+    }
+
+    public function mostrarCodSombrero($id){
+      $datos = Sombrero::select('sombrero.codigo')->where('sombrero.id','=',$id)->get();
+      return response()->json($datos);
     }
 
     /**

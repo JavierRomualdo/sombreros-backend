@@ -13,6 +13,8 @@ use App\Models\Modelos;
 use App\Models\Tallas;
 use App\Models\Sombrero;
 use App\Models\ProveedorPrecio;
+use App\Models\Precios;
+
 use App\http\Requests\ProveedorPrecio\ProveedorPrecioCreateRequest;
 use Session;
 
@@ -81,6 +83,13 @@ class PreciosController extends Controller
         $sombrero = Sombrero::where('codigo','=',$request->codigo)->first();
         ProveedorPrecio::insert(['idProveedor'=>$request->idProveedor,
           'idSombrero'=>$sombrero->id, 'precio'=>$request->precio_compra]);
+
+        //tabla precios
+        Precios::select('id')->where('idSombrero','=',$sombrero->id,'and','precio','<>',$request->precio_compra)->get();
+
+        Precios::insert(['idSombrero'=>$sombrero->id,'stock'=>0,
+        'costo'=>$request->precio_compra, 'precio'=>0.00]);
+        //
         Session::flash('save','Se ha creado correctamente');
         return redirect()->action('Proveedores\PreciosController@index');
 

@@ -77,6 +77,12 @@ class Sombrero extends Model
       return $this->hasmany(Tallas::class);
     }
 
+    public function Precios()
+    {
+      # code...
+      return $this->belongsto(Precios::class);
+    }
+
     /*public function Movimientos()
     {
       # code...

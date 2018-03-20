@@ -14,6 +14,8 @@ use App\Models\Tallas;
 use App\Models\Proveedor;
 use App\Models\TipoMovimiento;
 use App\Models\Movimientos;
+use App\Models\GuiaIngreso;
+use App\Models\Venta;
 use App\http\Requests\Movimiento\MovimientoCreateRequest;
 use App\http\Requests\Movimiento\MovimientoUpdateRequest;
 use DB;
@@ -39,10 +41,11 @@ class MovimientoController extends Controller
         $proveedores = Proveedor::pluck('empresa','id')->prepend('Seleccione Proveedor...');*/
 
         /**************PARA LA TABLA***************/
-        $movimientosCompra = Movimientos::select("sombrero.codigo","sombrero.precio_compra", DB::raw('SUM(movimientos.cantidad) as cantidad'),
+        /*$movimientosCompra = Movimientos::select("sombrero.codigo","sombrero.precio_compra", DB::raw('SUM(movimientos.cantidad) as cantidad'),
           DB::raw('COUNT(*) as total'),"movimientos.idTipoMovimiento","sombrero.precio_venta","sombrero.stock_actual","sombrero.id")
           ->join('sombrero','sombrero.id','=','movimientos.idProducto')->groupBy('sombrero.codigo','movimientos.idTipoMovimiento','sombrero.precio_compra',
           'sombrero.precio_venta','sombrero.stock_actual','sombrero.id')->paginate(5);//get()
+*/
           //echo($movimientosCompra);
         /*$movimientosVenta = Movimientos::select("sombrero.codigo","sombrero.precio_venta", DB::raw('SUM(movimientos.cantidad) as cantidad'),
           DB::raw('COUNT(*) as total'))->join('sombrero','sombrero.id','=','movimientos.idProducto')->where('idTipoMovimiento',
@@ -57,8 +60,20 @@ class MovimientoController extends Controller
           'users.id','=','movimientos.idUsuario')->where('idTipoMovimiento','=',1)->get();*/
 
         //echo("compras: ".$movimientosCompra." | ventas: ".$movimientosVenta);
-        return view ('gastronomica/sombreros/movimientos/movimiento', array('movimientoscompra'=>$movimientosCompra));
-    }
+        //return view ('gastronomica/sombreros/movimientos/movimiento', array('movimientoscompra'=>$movimientosCompra));
+        return view ('gastronomica/sombreros/movimientos/movimientogeneral');
+      }
+
+      public function indexMovimientoPorArticulo(){
+        $modelos = Modelos::pluck('modelo','id')->prepend('Seleccione el Modelo...');
+        $tejidos = Tejidos::pluck('tejido','id')->prepend('Seleccione el Tejido...');
+        $materiales = Materiales::pluck('material','id')->prepend('Seleccione el Material...');
+        $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
+        $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
+
+        return view ('gastronomica/sombreros/movimientos/movimientoporarticulo', array('modelo'=>$modelos, 'tejido'=>$tejidos,
+        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas));
+      }
 
     /**
      * Show the form for creating a new resource.
@@ -151,6 +166,44 @@ class MovimientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /**Reporte por movimiento por articulo */
+    public function reporteMovimientoArticulo($idSombrero, $fecha_inicio, $fecha_fin){
+      $sombrero = Sombrero::select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+        'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.utilidad',
+        'sombrero.stock_actual','sombrero.pedido_reposicion','sombrero.photo')
+        ->join('modelos','modelos.id','=','sombrero.idModelo')
+        ->join('tejidos','tejidos.id','=','sombrero.idTejido')
+        ->join('materiales','materiales.id','=','sombrero.idMaterial')
+        ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
+        ->join('tallas','tallas.id','=','sombrero.idTalla')
+        ->where('sombrero.id','=',$idSombrero)->first();
+
+      $guias = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", "guia_ingreso.fecha",
+        DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
+        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
+        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
+        ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
+        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
+        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->where('sombrero.id','=',$idSombrero)
+        ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])
+        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->get(); 
+      
+      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
+          DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+          DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
+          ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+          ->join('sombrero','sombrero.id','=','venta_detalle.idSombrero')
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
+          ->where('sombrero.id', '=', $idSombrero)
+          ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
+
+      $pdf = PDF::loadView('reportes/movimientoarticulo',['fecha_inicio'=>$fecha_inicio,
+      'fecha_fin'=>$fecha_fin,'sombrero'=>$sombrero,'guias'=>$guias,'ventas'=>$ventas]);
+      $pdf->setPaper('a4','landscape');//orientacion horizontal
+      return $pdf->stream();
+     }
      public function reporte($id)
      {
        # code...

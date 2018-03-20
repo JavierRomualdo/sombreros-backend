@@ -23,6 +23,18 @@
       {!!Form::open(['action'=>'Ventas\VentasController@store','method'=>'POST'])!!}
       <!--Panel superior-->
       <div class="row">
+        <!--<div class="col-lg-12">
+          <div class="col-lg-6">
+              <div class="card line-chart-example">
+                <div class="card-header d-flex align-items-center">
+                  <h4>Line Chart Example</h4>
+                </div>
+                <div class="card-body">
+                  <canvas id="lineChartExample"></canvas>
+                </div>
+              </div>
+            </div>
+        </div>-->
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
@@ -167,6 +179,16 @@
                   {!!form::text('encargo', null,['id'=>'encargo','name'=>'encargo','class'=>'form-control',
                     'placeholder'=>'Aqui el encargo','readonly'=>'true'])!!}
                 </div>
+                <label class="col-sm-1 form-control-label" for="cliente"><strong>Cliente:</strong></label>
+                <div class="col-sm-3">
+                  {!!form::text('cliente', null,['id'=>'cliente','name'=>'cliente','class'=>'form-control',
+                    'placeholder'=>'Aqui el cliente','readonly'=>'true'])!!}
+                    <div class="i-checks">
+                        <input id="checkcliente" type="checkbox" value="" class="form-control-custom">
+                        <label for="checkcliente">Selecione cliente</label>
+                      </div>
+                  <!--<span class="help-block-none">Nota: Clickea para seleccionar empleado.</span>-->
+                </div>
                 <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
@@ -248,8 +270,6 @@
                     <th>Apellidos</th>
                     <th>Dni</th>
                     <th>Direccion</th>
-                    <th>Telefono</th>
-                    <th>Email</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -262,8 +282,6 @@
                       <td>{{$empleado->apellidos}}</td>
                       <td>{{$empleado->dni}}</td>
                       <td>{{$empleado->direccion}}</td>
-                      <td>{{$empleado->telefono}}</td>
-                      <td>{{$empleado->email}}</td>
                       <td>
                         <a href="javascript:mostrarEmpleado({{$empleado->id}},'{{$empleado->nombres}}', '{{$empleado->encargo}}');" class="btn btn-outline-primary btn-sm ion-android-done"></a>
                       </td>
@@ -272,6 +290,81 @@
                 </tbody>
               </table>
               </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Modal Clientes-->
+    <div class="modal fade bd-example-modal-lg" id="modalClientes" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Clientes</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <p>Ingrese nuevo cliente</p>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <label class="col-sm-2 form-control-label" for="nombres"><strong>Nombres (*):</strong></label>
+                    <div class="col-sm-4">
+                      {!!form::text('nombres', null,['id'=>'nombres','class'=>'form-control','placeholder'=>'Ingrese nombres completos', 'autofocus'])!!}
+                    </div>
+                    <label class="col-sm-2 form-control-label" for="dni"><strong>Dni (*):</strong></label>
+                    <div class="col-sm-4">
+                      {!!form::text('dni', null,['id'=>'dni','class'=>'form-control','placeholder'=>'Ingrese Dni'])!!}
+                    </div>
+                    <label class="col-sm-2 form-control-label" for="direccion"><strong>Direccion:</strong></label>
+                    <div class="col-sm-4">
+                      {!!form::text('direccion', null,['id'=>'direccion','class'=>'form-control','placeholder'=>'Ingrese Direccion'])!!}
+                    </div>
+                    <label class="col-sm-2 form-control-label" for="telefono"><strong>Telefono:</strong></label>
+                    <div class="col-sm-4">
+                      {!!form::text('telefono', null,['id'=>'telefono','class'=>'form-control','placeholder'=>'Ingrese Telefono'])!!}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableClientes"><!--table-responsive-->
+                    <thead class="thead-inverse">
+                      <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Dni</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($clientes as $index=>$cliente)
+                        <tr class="fadeIn animated">
+                          <th scope="row">{{$index+1}}</th>
+                          <td>{{$cliente->nombres}}</td>
+                          <td>{{$cliente->dni}}</td>
+                          <td>{{$cliente->direccion}}</td>
+                          <td>{{$cliente->telefono}}</td>
+                          <td>
+                            <a href="javascript:mostrarCliente({{$cliente->id}},'{{$cliente->nombres}}');" class="btn btn-outline-primary btn-sm ion-android-done"></a>
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+              </div>
+              
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
@@ -318,9 +411,77 @@
       </div>
     </div>
     <!---->
+    <!--Modal de fotos-->
+    <div id="myModalFotos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 id="exampleModalLabel" class="modal-title ion-paperclip"> Sombreros</h6>
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+              <p>Seleccione una imagen de sombrero:</p>
+              <hr/>
+              <div class="row">
+                  <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo</strong></label>
+                  <div class="col-sm-3">
+                    {!!Form::select('modalModelo',$modelo, null,['id'=>'modalModelo','name'=>'modalModelo','class'=>'form-control'])!!}
+                  </div>
+                  <label class="col-sm-1 form-control-label" for="idTejido"><strong>Tejido</strong></label>
+                  <div class="col-sm-3">
+                    {!!Form::select('modalTejido',$tejido, null,['id'=>'modalTejido','name'=>'modalTejido','class'=>'form-control'])!!}
+                  </div>
+                  <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
+                  <div class="col-sm-3">
+                    {!!Form::select('modalMaterial',$material, null,['id'=>'modalMaterial','name'=>'modalMaterial','class'=>'form-control'])!!}
+                  </div><br/><br/>
+                  <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
+                  <div class="col-sm-3">
+                    {!!Form::select('modalPublico',$publicodirigido, null,['id'=>'modalPublico','name'=>'modalPublico',
+                            'class'=>'form-control'])!!}
+                  </div>
+                  <label class="col-sm-1 form-control-label" for="idTalla"><strong>Talla</strong></label>
+                  <div class="col-sm-3">
+                    {!!Form::select('modalTalla',$talla, null,['id'=>'modalTalla','name'=>'modalTalla','class'=>'form-control'])!!}
+                  </div>
+              </div>
+              <hr/>
+              <div class="row" id='galeria'>
+                      @foreach ($imagenes as $key => $imagen)
+                      <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                      <div class="card"><a href="/images/sombreros/{{$imagen->photo}}" data-lightbox="gallery" data-title="[{{$key+1}}] Sombrero: {{$imagen->codigo}}" title="{{$imagen->codigo}}"><img src="/images/sombreros/{{$imagen->photo}}" alt="Image {{$imagen->codigo}}" class="img-fluid"></a>
+                          <div class="card-body">
+                          <input id="radio{{$key+1}}" type="radio" value="{{$imagen->codigo}}" onClick="guardarCodigoSombrero({{$imagen->id}})" name="b" class="opcion form-control-custom radio-custom">
+                          <label for="radio{{$key+1}}">Image{{$key+1}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      @endforeach
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptarImagen">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--fin modal de fotos-->
   </section>
+  <!-- JavaScript files-->
+  <!--<script src="https://d19m59y37dris4.cloudfront.net/dashboard-premium/1-4-0/vendor/jquery/jquery.min.js"></script>
+  <script src="https://d19m59y37dris4.cloudfront.net/dashboard-premium/1-4-0/js/charts-custom.js"></script>-->
+  
   
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+
+  <!--Notificacion-->
+  <script src="{{asset('bootstrap4/js/notification/messenger.min.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/messenger-theme-flat.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
+  <!--Charts-->
+  <script src="{{asset('bootstrap4/js/charts/charts-custom.js')}}"></script>
+  
   <script type="text/javascript">
     $(document).ready(function(){
       $('#myTableEmpleados').DataTable({
@@ -329,8 +490,33 @@
           responsive: true
         }
       });
+      $('#myTableClientes').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        }
+      });
       mostrarCodigoVenta();
       buscarDatosPorCodigo();
+
+      /*var speedCanvas = document.getElementById("lineChartExample");
+      
+      speedCanvas = new Chart(speedCanvas,{
+        type: 'line',
+        data: {
+                labels: ["Mesa","Silla","Perro","Pc","Lapicero","Enero"],
+                datasets: 
+                [
+                  {
+                    label: "Data One", data:[20,30,10,50,40,60], backgroundColor:"rgba(51, 179, 90, 0.38)"
+                  }, 
+                  {
+                    label: "Data Dos", data:[40,70,20,30,80,10]
+                  }
+                ]
+              }
+      });*/
+
     });
     var modelo_id = 0;
     var tejido_id = 0;
@@ -339,6 +525,7 @@
     var talla_id = 0;
     var tipo = 1;
     var codSombrero = "";
+    var cliente_id = 0;
     $("#idModelo").change(function(e){
       console.log(e);
       modelo_id = e.target.value;
@@ -399,15 +586,24 @@
       //alert(modelo_id+" - "+tejido_id+" - "+material_id+" - "+publico_id+" - "+talla_id);
       if (modelo_id!=0 && tejido_id!=0 && material_id!=0 &&
           publico_id!=0 && talla_id!=0) {
+            var bandera = false;
             $.get('/ajax-verdatos/'+modelo_id+'/'+tejido_id+'/'+material_id+'/'+publico_id+
             '/'+talla_id, function(data){
               //success
               $.each(data, function(index, cuentaObj){
+                bandera = true;
                 $("#codigo").val(cuentaObj.codigo);
                 $("#precio_compra").val(cuentaObj.precio);
                 $("#precio_venta").val(cuentaObj.precio_venta);
                 $("#stock_actual").val(cuentaObj.stock_actual);
               });
+              if(!bandera){
+                Messenger().post({message:"¡ No existe el sombrero !.",type:"info",showCloseButton:!0});
+                $("#codigo").val("");
+                $("#precio_compra").val("");
+                $("#precio_venta").val("");
+                $("#stock_actual").val("");
+              }
             });
       } else {
         $("#codigo").val("");
@@ -500,6 +696,8 @@
         $("#idMaterial").removeAttr("disabled");
         $("#idPublicoDirigido").removeAttr("disabled");
         $("#idTalla").removeAttr("disabled");
+      } else if($("#radioFoto").is(":checked")){
+        $("#myModalFotos").modal("show");
       } else{//POR CODIGO
         //mostrarDatosEnCombos();
         limpiar();
@@ -595,11 +793,11 @@
       if ($("#cantidad").val()=="") {
         mensaje = mensaje + "* Debe ingresar la cantidad.</br>";
       }
-      if($("#cantidad").val()<=$("#stock_actual").val()){
-        mensaje = mensaje + "* La cantidad ingresa se excedio del stock actual del articulo.<br/>";
-      }
       if ($("#empleado").val()==""){
-        mensaje = mensaje + "* Debe seleccionar el empleado.";
+        mensaje = mensaje + "* Debe seleccionar el empleado.<br/>";
+      }
+      if($("#cliente").val()==""){
+        mensaje = mensaje + "* Debe seleccionar el cliente.";
       }
       if (mensaje=="") {
           
@@ -620,11 +818,13 @@
           }
           
           if(tipo==2){
+            alert("primero la venta detalle 2");
+            
             //solo se guardar todas las ordenes de compras detalle
             $.get('/ajax-guardarventa/2/'+$("#codigo").val()+'/'
             +$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
             descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
-            empleado_id+'/'+ descripcion, function(data){
+            empleado_id+'/'+cliente_id+'/'+ descripcion, function(data){
               //success
               $.each(data, function(index, venta){
                 //alert('(2) '+orden.numero_orden);
@@ -644,13 +844,15 @@
               tabla = "";
               $("#myModal2").modal("show");
               $("#checkempleado").attr('disabled','');
+              $("#checkcliente").attr('disabled','');              
             });
           } else {
+            
             //se guardan el primer en orden compra y orden de compra detalle;
             $.get('/ajax-guardarventa/1/'+$("#codigo").val()+'/'
             +$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
             descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
-            empleado_id+'/'+ descripcion, function(data){
+            empleado_id+'/'+cliente_id+'/'+descripcion, function(data){
               //success
               $.each(data, function(index, venta){
                 //alert('(1) '+orden.numero_orden);
@@ -669,6 +871,7 @@
               tabla = "";
               $("#myModal2").modal("show");
               $("#checkempleado").attr('disabled','');
+              $("#checkcliente").attr('disabled','');
             });
           }
 
@@ -699,11 +902,98 @@
 
       $('#modalEmpleados').modal('show');
     });
+    //seleccionn el cliente
+    $("#checkcliente").change(function(e){
+      $('#modalClientes').modal('show');
+    });
     function mostrarEmpleado(idEmpleado, nombres, encargo){
       empleado_id = idEmpleado;
       $("#empleado").val(nombres);
       $("#encargo").val(encargo);
       $('#modalEmpleados').modal('hide');
     }
+
+    function mostrarCliente(idCliente, nombres){
+      cliente_id = idCliente;
+      $("#cliente").val(nombres);
+      $('#modalClientes').modal('hide');
+    }
+
+    /*------------------Galeria de imagenes-------------*/
+    var idSombrero = 0;
+    var modelo_modal = 0;
+    var tejido_modal = 0;
+    var material_modal = 0;
+    var publico_modal = 0;
+    var talla_modal = 0;
+    $("#modalModelo").change(function(e){
+      console.log(e);
+      modelo_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalTejido").change(function(e){
+      console.log(e);
+      tejido_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalMaterial").change(function(e){
+      console.log(e);
+      material_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalPublico").change(function(e){
+      console.log(e);
+      publico_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalTalla").change(function(e){
+      console.log(e);
+      talla_modal = e.target.value;
+      mostrarImagenes();
+    });
+    
+    function mostrarImagenes(){
+      var bandera = false;
+            var miGaleria = "";
+            var n=1;
+            $.get('/ajax-mostrarGaleria/'+modelo_modal+'/'+tejido_modal+'/'+material_modal+'/'+publico_modal+
+                '/'+talla_modal, function(data){
+                //success
+                
+                $.each(data, function(index, cuentaObj){
+                    bandera = true;
+                    miGaleria = miGaleria+"<div class='col-6 col-md-4 col-lg-3 col-xl-2'><div class='card'>"+
+                    "<a href='/images/sombreros/"+cuentaObj.photo+"' data-lightbox='gallery' data-title='["+n+"] Sombrero:"+cuentaObj.codigo+"' title='"+cuentaObj.codigo+"'>"+
+                    "<img src='/images/sombreros/"+cuentaObj.photo+"' class='img-fluid' alt='Image"+cuentaObj.codigo+"'>"+"</a> "+
+                    "<div class='card-body'><input id='radio"+n+"' onClick='guardarCodigoSombrero("+cuentaObj.id+");' type='radio' value='"+cuentaObj.codigo+"' name='b' class='opcion form-control-custom radio-custom'>"+
+                    "<label for='radio"+n+"'>Image"+n+"</label></div>"+"</div></div>";
+
+                    //$("#codigo").val(cuentaObj.codigo);
+                    n++;
+                });
+                $("#galeria").html(miGaleria);
+                if(!bandera){
+                    Messenger().post({message:"¡ No existe el sombrero !.",type:"info",showCloseButton:!0});
+                    $("#codigo").val("");
+                }
+            });
+    }
+
+    function guardarCodigoSombrero($id){
+      //
+      idSombrero = $id;
+    }
+    $("#aceptarImagen").click(function(){
+      if(idSombrero!=0){
+        //mostrarCodSombrero
+        $.get('/ajax-mostrarCodSombrero/'+idSombrero, function(data){
+                  //
+          $.each(data, function(index, sombrero){
+            $("#codigo").val(sombrero.codigo);
+            buscarDatosPorCodigo();
+          });
+        });
+      }
+    });
   </script>
 @endsection

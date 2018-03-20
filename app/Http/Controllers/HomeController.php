@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\EstadosProveedor;
 use App\Models\Cargo;
+use App\Models\Temporada;
 
 class HomeController extends Controller
 {
@@ -35,13 +36,18 @@ class HomeController extends Controller
             'estado_empresa'=>'N', 'estado_ruc'=>'N', 'estado_direccion'=>'N', 'estado_numero_cuenta'=>'N']);
         }
 
+        $now = new \DateTime();
+        $fecha =$now->format('Y-m-d');
+
+       /*$temporada = Temporada::select("temporada.photo")
+       ->whereBetween($fecha,['temporada.fecha_inicio','temporada.fecha_fin'])->first();*/
         /*Ingreso: se registra dos registros en tabla cargo*/
         /*if (Cargo::count()==0) {
             # code...
             $cargos = Cargo::insert(['cargo'=>'Usuario', 'descripcion'=>'Encargado para ingresar, consultar y reportar.'],
             ['cargo'=>'Administrador', 'descripcion'=>'Encargado para configurar el sistema de acuerdo a sus politicas.']);
         }*/
-        
-        return view('home');
+        //echo($temporada);
+        return view('home');//->with('temporada',$temporada)
     }
 }

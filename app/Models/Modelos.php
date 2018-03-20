@@ -12,7 +12,7 @@ class Modelos extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'modelo', 'photo', 'descripcion'
+      'id', 'modelo','codigo', 'photo', 'descripcion'
     ];
 
     public function Sombrero()

@@ -19,7 +19,8 @@ class CreateSombreroTable extends Migration
             $table->integer('idTejido')->unsigned();
             $table->integer('idPublicoDirigido')->unsigned();
             $table->integer('idMaterial')->unsigned();
-            $table->integer('idTalla')->unsigned();
+            $table->integer('idTalla')->unsigned();           
+            //$table->integer('idAtributo')->unsigned();
             $table->string('codigo', 13)->unique();
             $table->decimal('precio_venta', 7, 2)->default('0.0');
             $table->decimal('utilidad',7,2)->default('0.0');
@@ -33,7 +34,7 @@ class CreateSombreroTable extends Migration
             $table->foreign('idTejido')->references('id')->on('tejidos');
             $table->foreign('idPublicoDirigido')->references('id')->on('publicodirigido');
             $table->foreign('idMaterial')->references('id')->on('materiales');
-            $table->foreign('idTalla')->references('id')->on('tallas');
+            //$table->foreign('idAtributo')->references('id')->on('atributos');            
         });
     }
 

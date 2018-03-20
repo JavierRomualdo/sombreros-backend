@@ -12,7 +12,7 @@ class PublicoDirigido extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'publico', 'descripcion'
+      'id', 'publico','codigo', 'descripcion'
     ];
 
     public function Sombrero()

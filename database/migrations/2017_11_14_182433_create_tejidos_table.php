@@ -16,6 +16,7 @@ class CreateTejidosTable extends Migration
         Schema::create('tejidos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tejido', 50);
+            $table->string('codigo', 3);
             $table->string('photo', 50)->default('nofoto.png');
             $table->string('descripcion', 100)->nullable();
         });

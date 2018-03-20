@@ -52,10 +52,10 @@
                 <hr/>
               </div>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo(*):</strong></label>
+                <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                  <span class="help-block-none">Nota: El código son de 13 caracteres.</span>
+                  <span class="help-block-none">El código son de 13 caracteres.</span>
                 </div>
                 <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                 <div class="col-sm-3">
@@ -67,7 +67,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material:</strong></label>
+                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
                 <div class="col-sm-3">
                   {!!Form::select('idMaterial',$material, null,['id'=>'idMaterial','name'=>'idMaterial','class'=>'form-control','disabled'=>''])!!}
                 </div>
@@ -159,6 +159,63 @@
       </div>
       
     </div>
+
+    <!--Modal de fotos-->
+    <div id="myModalFotos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+      <div role="document" class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 id="exampleModalLabel" class="modal-title ion-paperclip"> Sombreros</h6>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+          </div>
+          <div class="modal-body">
+            <p>Seleccione una imagen de sombrero:</p>
+            <hr/>
+            <div class="row">
+                <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo</strong></label>
+                <div class="col-sm-3">
+                  {!!Form::select('modalModelo',$modelo, null,['id'=>'modalModelo','name'=>'modalModelo','class'=>'form-control'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="idTejido"><strong>Tejido</strong></label>
+                <div class="col-sm-3">
+                  {!!Form::select('modalTejido',$tejido, null,['id'=>'modalTejido','name'=>'modalTejido','class'=>'form-control'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
+                <div class="col-sm-3">
+                  {!!Form::select('modalMaterial',$material, null,['id'=>'modalMaterial','name'=>'modalMaterial','class'=>'form-control'])!!}
+                </div><br/><br/>
+                <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
+                <div class="col-sm-3">
+                  {!!Form::select('modalPublico',$publicodirigido, null,['id'=>'modalPublico','name'=>'modalPublico',
+                          'class'=>'form-control'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="idTalla"><strong>Talla</strong></label>
+                <div class="col-sm-3">
+                  {!!Form::select('modalTalla',$talla, null,['id'=>'modalTalla','name'=>'modalTalla','class'=>'form-control'])!!}
+                </div>
+            </div>
+            <hr/>
+            <div class="row" id='galeria'>
+                    @foreach ($imagenes as $key => $imagen)
+                    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="card"><a href="/images/sombreros/{{$imagen->photo}}" data-lightbox="gallery" data-title="[{{$key+1}}] Sombrero: {{$imagen->codigo}}" title="{{$imagen->codigo}}"><img src="/images/sombreros/{{$imagen->photo}}" alt="Image {{$imagen->codigo}}" class="img-fluid"></a>
+                        <div class="card-body">
+                        <input id="radio{{$key+1}}" type="radio" value="{{$imagen->codigo}}" onClick="guardarCodigoSombrero({{$imagen->id}})" name="b" class="opcion form-control-custom radio-custom">
+                        <label for="radio{{$key+1}}">Image{{$key+1}}</label>
+                        </div>
+                      </div>
+                    </div>
+                    @endforeach
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptarImagen">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!--fin modal de fotos-->
   </section>
 
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -214,12 +271,18 @@ $("#idTalla").change(function(e){
 function mostrarAjax(){
   if (modelo_id!=0 && tejido_id!=0 && material_id!=0 &&
       publico_id!=0 && talla_id!=0) {
+        var bandera = false;
         $.get('/ajax-vercodigo/'+modelo_id+'/'+tejido_id+'/'+material_id+'/'+publico_id+
         '/'+talla_id, function(data){
           //success
           $.each(data, function(index, cuentaObj){
+            bandera = true;
             $("#codigo").val(cuentaObj.codigo);
           });
+          if(!bandera){
+            Messenger().post({message:"¡ No existe el sombrero !.",type:"info",showCloseButton:!0});
+            $("#codigo").val("");
+          }
         });
   } else {
     $("#codigo").val("");
@@ -259,12 +322,12 @@ $("#buscar").click(function(e){
       var fecha_fin = $("#fecha_fin").val();
       $.each(data, function(index, venta){
         tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+venta.numero_venta+"</th><td>"+
-        venta.fecha+"</td><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.name+"</td><td>"+
+        venta.fecha+"</td><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.nombres+"</td><td>"+
         "<a href='verventas/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
         +"<a href='{{URL::to('gastronomica/sombreros/ventas/reporte/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
         n++;
-        $("#reporte").attr('href',"{{URL::to('reporteVentasPorFechas/')}}/"+fecha_inicio+"/"+fecha_fin+"/"+codigoSombrero);
       });
+      $("#reporte").attr('href',"{{URL::to('reporteVentasPorFechas/')}}/"+fecha_inicio+"/"+fecha_fin+"/"+codigoSombrero);
       $("#lista_datos").html(tabla);
       tabla = "";
 
@@ -279,7 +342,7 @@ $("#buscar").click(function(e){
           });
     });
   } else {
-    Messenger().post({message: mensaje,type:"error",showCloseButton:!0})
+    Messenger().post({message: mensaje,type:"error",showCloseButton:!0});
   }
 
 });
@@ -293,7 +356,7 @@ $("#mostrarTodo").click(function(e){
      
       $.each(data, function(index, venta){
         tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+venta.numero_venta+"</th><th>"+
-        venta.fecha+"</th><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.name+"</td><td>"+
+        venta.fecha+"</th><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.nombres+"</td><td>"+
         "<a href='verventas/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
         +"<a href='{{URL::to('gastronomica/sombreros/ventas/reporte/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
         n++;
@@ -341,6 +404,8 @@ $(".opcion").change(function(){
     $("#idMaterial").removeAttr("disabled");
     $("#idPublicoDirigido").removeAttr("disabled");
     $("#idTalla").removeAttr("disabled");
+  } else if($("#radioFoto").is(":checked")){
+    $("#myModalFotos").modal("show");
   } else{//POR CODIGO
     //mostrarDatosEnCombos();
     limpiar();
@@ -421,5 +486,81 @@ $("#check_panel_sombrero").click(function(){
 });
 
   //
+  /*------------------Galeria de imagenes-------------*/
+  var idSombrero = 0;
+    var modelo_modal = 0;
+    var tejido_modal = 0;
+    var material_modal = 0;
+    var publico_modal = 0;
+    var talla_modal = 0;
+    $("#modalModelo").change(function(e){
+      console.log(e);
+      modelo_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalTejido").change(function(e){
+      console.log(e);
+      tejido_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalMaterial").change(function(e){
+      console.log(e);
+      material_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalPublico").change(function(e){
+      console.log(e);
+      publico_modal = e.target.value;
+      mostrarImagenes();
+    });
+    $("#modalTalla").change(function(e){
+      console.log(e);
+      talla_modal = e.target.value;
+      mostrarImagenes();
+    });
+    
+    function mostrarImagenes(){
+      var bandera = false;
+            var miGaleria = "";
+            var n=1;
+            $.get('/ajax-mostrarGaleria/'+modelo_modal+'/'+tejido_modal+'/'+material_modal+'/'+publico_modal+
+                '/'+talla_modal, function(data){
+                //success
+                
+                $.each(data, function(index, cuentaObj){
+                    bandera = true;
+                    miGaleria = miGaleria+"<div class='col-6 col-md-4 col-lg-3 col-xl-2'><div class='card'>"+
+                    "<a href='/images/sombreros/"+cuentaObj.photo+"' data-lightbox='gallery' data-title='["+n+"] Sombrero:"+cuentaObj.codigo+"' title='"+cuentaObj.codigo+"'>"+
+                    "<img src='/images/sombreros/"+cuentaObj.photo+"' class='img-fluid' alt='Image"+cuentaObj.codigo+"'>"+"</a> "+
+                    "<div class='card-body'><input id='radio"+n+"' onClick='guardarCodigoSombrero("+cuentaObj.id+");' type='radio' value='"+cuentaObj.codigo+"' name='b' class='opcion form-control-custom radio-custom'>"+
+                    "<label for='radio"+n+"'>Image"+n+"</label></div>"+"</div></div>";
+
+                    //$("#codigo").val(cuentaObj.codigo);
+                    n++;
+                });
+                $("#galeria").html(miGaleria);
+                if(!bandera){
+                    Messenger().post({message:"¡ No existe el sombrero !.",type:"info",showCloseButton:!0});
+                    $("#codigo").val("");
+                }
+            });
+    }
+
+    function guardarCodigoSombrero($id){
+      //
+      idSombrero = $id;
+    }
+    $("#aceptarImagen").click(function(){
+      if(idSombrero!=0){
+        //mostrarCodSombrero
+        $.get('/ajax-mostrarCodSombrero/'+idSombrero, function(data){
+                  //
+          $.each(data, function(index, sombrero){
+            $("#codigo").val(sombrero.codigo);
+            buscarDatosPorCodigo();
+          });
+        });
+      }
+    });
 </script>
 @endsection

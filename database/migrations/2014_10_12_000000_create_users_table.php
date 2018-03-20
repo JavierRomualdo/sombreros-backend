@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->integer('idCargo')->unsigned();
             $table->string('name');
             $table->string('email', 100)->unique();
+            $table->string('photo', 50)->default('nouser.jpg');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

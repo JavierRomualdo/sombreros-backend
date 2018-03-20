@@ -58,15 +58,21 @@ class ReporteController extends Controller
           ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
           ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
           ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
-          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get()->take(10);
+          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get();
 
       /*$ordenes = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
         DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'))
         ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
         ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha')->get();*/
+        $imagenes = Sombrero::
+        select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+          'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
+          'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
+          'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
+          'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
 
       return view ('gastronomica/sombreros/reportes/compras', array('modelo'=>$modelos, 'tejido'=>$tejidos,
-      'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'ordenes'=>$ordenes));
+      'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'ordenes'=>$ordenes, 'imagenes'=>$imagenes));
     }
 
     public function indexVentas()
@@ -81,12 +87,19 @@ class ReporteController extends Controller
       $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres",
       DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
       DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
-      ->join('venta_detalle','venta_detalle.idVenta',
-      '=','venta.id')->join("empleado","empleado.id","=","venta.idEmpleado")->groupBy('venta.id',
-      'venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get()->take(10);
+      ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+      ->join("empleado","empleado.id","=","venta.idEmpleado")
+      ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
+
+      $imagenes = Sombrero::
+                select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+                  'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
+                  'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
+                  'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
+                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
 
       return view ('gastronomica/sombreros/reportes/ventas', array('modelo'=>$modelos, 'tejido'=>$tejidos,
-      'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'ventas'=>$ventas));
+      'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'ventas'=>$ventas, 'imagenes'=>$imagenes));
     }
 
     public function indexUtilidadesVentas()
@@ -105,8 +118,15 @@ class ReporteController extends Controller
       ->join("users","users.id","=","venta.idUsuario")
       ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'users.name', 'venta.utilidad')->get()->take(10);
 
+      $imagenes = Sombrero::
+                select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+                  'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
+                  'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
+                  'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
+                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+
       return view ('gastronomica/sombreros/reportes/utilidades', array('modelo'=>$modelos, 'tejido'=>$tejidos,
-      'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'sombreros'=> $ventas));
+      'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'sombreros'=> $ventas, 'imagenes'=>$imagenes));
     }
 
     public function indexUtilidadesSombreros(){
@@ -129,8 +149,15 @@ class ReporteController extends Controller
           'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
           'sombrero.utilidad','sombrero.photo')->get()->take(10);
       
+      $imagenes = Sombrero::
+                select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+                  'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
+                  'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
+                  'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
+                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+
       return view ('gastronomica/sombreros/reportes/utilidadessombreros', array('modelo'=>$modelos, 'tejido'=>$tejidos,
-        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'utilidades'=> $sombreros));
+        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'utilidades'=> $sombreros, 'imagenes'=>$imagenes));
     }
 
     public function indexVentasPorEmpleado(){
@@ -219,8 +246,9 @@ class ReporteController extends Controller
         ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])
         ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
       
+        $codSombrero = "";
       $pdf = PDF::loadView('reportes/ventasporempleadogeneral',['empleado'=>$empleado,'fechaInicio'=>$fecha_inicio,
-      'fechaFin'=>$fecha_fin,'numventas'=>$numventas,'venta'=>$datos,'detalles'=>$ventas]);
+      'fechaFin'=>$fecha_fin,'numventas'=>$numventas,'venta'=>$datos,'detalles'=>$ventas, 'codSombrero'=>$codSombrero]);
       $pdf->setPaper('a4','landscape');//orientacion horizontal
       return $pdf->stream();
     }
@@ -267,23 +295,25 @@ class ReporteController extends Controller
         # code...
         if ($codigo=="0") {
           # code...
-          $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "users.name", 
+          $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
           DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
           DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
           ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
-          ->join("users","users.id","=","venta.idUsuario")
+          //->join("users","users.id","=","venta.idUsuario")
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
           ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])
-          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'users.name')->get();
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
         } else {
-          $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "users.name", 
+          $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
           DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
           DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
           ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
           ->join('sombrero','sombrero.id','=','venta_detalle.idSombrero')
-          ->join("users","users.id","=","venta.idUsuario")
+          //->join("users","users.id","=","venta.idUsuario")
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
           ->where('sombrero.codigo', '=', $codigo)
           ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])
-          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'users.name')->get();
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
         }
       } else if($tipo==3){//utilidades
         if ($codigo=="0") {
@@ -326,15 +356,82 @@ class ReporteController extends Controller
     public function mostrarCodigo($modelo_id,$tejido_id,$material_id,$publico_id,$talla_id)
     {
       # code..
-      $datos = Sombrero::select('codigo')
+
+      $modelo = Modelos::select('modelo')->where('modelos.id','=',$modelo_id)->first();
+      $tejido = Tejidos::select('tejido')->where('tejidos.id','=',$tejido_id)->first();
+      $material = Materiales::select('material')->where('materiales.id','=',$material_id)->first();
+      $publicosdirigido = PublicoDirigido::select('publico')->where('publicodirigido.id','=',$publico_id)->first();
+      $tallas = Tallas::select('talla')->where('tallas.id','=',$talla_id)->first();
+      
+      $codigo = substr($modelo->modelo,0,3).substr($tejido->tejido,0,3).substr($material->material,0,3).substr($publicosdirigido->publico,0,3).substr($tallas->talla,0,3);
+      $codigo = strtolower($codigo);
+      $datos = Sombrero::select('codigo')->where('sombrero.codigo','=',$codigo)->get();
+      
+      /*$datos = Sombrero::select('codigo')
       ->where('sombrero.idTalla','=',$talla_id,'and','sombrero.idMaterial','=',$material_id,
       'and','sombrero.idPublicoDirigido','=',$publico_id,'and','sombrero.idTejido','=',$tejido_id,'and',
-      'sombrero.idModelo','=',$modelo_id)->get();
+      'sombrero.idModelo','=',$modelo_id)->get();*/
       
       /*$datos = Sombrero::select('codigo')
       ->where('sombrero.idPublicoDirigido','=',$publico_id,'and','sombrero.idMaterial','=',$material_id,
       'and','sombrero.idTalla','=',$talla_id,'and','sombrero.idTejido','=',$tejido_id,'and',
       'sombrero.idModelo','=',$modelo_id)->get();*/
+
+      //echo(strtolower($codigo)); strtolower(substr($modelo->modelo,0,3))
+      return response()->json($datos);
+    }
+
+    public function mostrarGaleria($modelo_id,$tejido_id,$material_id,$publico_id,$talla_id){
+      
+      
+      $servicio = '';
+      if($modelo_id==0){
+        $modelo = '';
+        $servicio = $servicio.$modelo.'%';
+      } else {
+        $modelo = Modelos::select('modelo')->where('modelos.id','=',$modelo_id)->first();
+        $servicio = $servicio.strtolower(substr($modelo->modelo,0,3)).'%';
+      }
+      if($tejido_id==0){
+        $tejido = '';
+        $servicio = $servicio.$tejido.'%';
+      } else {
+        $tejido = Tejidos::select('tejido')->where('tejidos.id','=',$tejido_id)->first();
+        $servicio = $servicio.strtolower(substr($tejido->tejido,0,3)).'%';
+      }
+      if($material_id==0){
+        $material = '';
+        $servicio = $servicio.$material.'%';
+      } else {
+        $material = Materiales::select('material')->where('materiales.id','=',$material_id)->first();
+        $servicio = $servicio.strtolower(substr($material->material,0,3)).'%';
+      }
+      if($publico_id==0){
+        $publicosdirigido = '';
+        $servicio = $servicio.$publicosdirigido.'%';
+      } else {
+        $publicosdirigido = PublicoDirigido::select('publico')->where('publicodirigido.id','=',$publico_id)->first();
+        $servicio = $servicio.strtolower(substr($publicosdirigido->publico,0,3)).'%';        
+      }
+      if($talla_id==0){
+        $tallas = '';
+        $servicio = $servicio.$tallas;
+      } else {
+        $tallas = Tallas::select('talla')->where('tallas.id','=',$talla_id)->first();
+        $servicio = $servicio.strtolower(substr($tallas->talla,0,3)); 
+      }
+      //echo($servicio);
+      //xq tu ni me miras 
+      
+      $datos = Sombrero::select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+        'publicodirigido.publico','tallas.talla','sombrero.stock_actual','sombrero.photo')
+        ->join('modelos','modelos.id','=','sombrero.idModelo')
+        ->join('tejidos','tejidos.id','=','sombrero.idTejido')
+        ->join('materiales','materiales.id','=','sombrero.idMaterial')
+        ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
+        ->join('tallas','tallas.id','=','sombrero.idTalla')
+        ->where('sombrero.codigo','like',$servicio)
+        ->get();
 
       return response()->json($datos);
     }
@@ -479,8 +576,9 @@ class ReporteController extends Controller
       $fecha_inicio = "";
       $fecha_fin = "";
       $codigo = "";
+      $codigoSomb = "";
       $pdf = PDF::loadView('reportes/ordencomprageneral',['ordenes'=>$ordenes,'detalles'=>$detalles,
-      'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin,'codigo'=>$codigo]);
+      'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin,'codigo'=>$codigo, 'codSombrero'=>$codigoSomb]);
       $pdf->setPaper('a4','landscape');//orientacion horizontal
       //$font = Font_Metrics::get_font("helvetica", "bold"); 
       //$pdf->page_text(1,1, "{PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
@@ -505,8 +603,9 @@ class ReporteController extends Controller
       $fecha_inicio = "";
       $fecha_fin = "";
       $codigo = "";
+      $codigoSomb = "";
       $pdf = PDF::loadView('reportes/ordenventageneral',['ventas'=>$ventas,'detalles'=>$detalles,
-      'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin,'codigo'=>$codigo]);
+      'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin,'codigo'=>$codigo, 'codSombrero'=>$codigoSomb]);
       $pdf->setPaper('a4','landscape');//orientacion horizontal
       return $pdf->stream();
     }
@@ -641,6 +740,7 @@ class ReporteController extends Controller
     {
       # code...
       $codigo = "";
+      $codigoSomb = "";
       if ($codigo_sombrero=="0") {
         # code...sin uso del codigo de sombrero
         $ordenes = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
@@ -683,6 +783,7 @@ class ReporteController extends Controller
         ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
         ->whereBetween('orden_compra.fecha',[$fecha_inicio,$fecha_fin])->get();
 
+        $codigoSomb = $codigo_sombrero;
         $codigo = "// Articulo: ".$codigo_sombrero." // ";
       }
 
@@ -701,13 +802,14 @@ class ReporteController extends Controller
       //echo($ordenes.'<br/>');
       //echo($detalles);
       $pdf = PDF::loadView('reportes/ordencomprageneral',['ordenes'=>$ordenes,'detalles'=>$detalles,
-        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin, 'codigo'=>$codigo, 'codSombrero'=>$codigo_sombrero]);
+        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin, 'codigo'=>$codigo, 'codSombrero'=>$codigoSomb]);
       $pdf->setPaper('a4','landscape');//orientacion horizontal
       return $pdf->stream();
     }
 
     function reporteVentasPorFechas($fecha_inicio,$fecha_fin, $codigo_sombrero) {
       $codigo = "";
+      $codigoSom = "";
       if ($codigo_sombrero=="0") {
         # code...
         $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
@@ -749,7 +851,7 @@ class ReporteController extends Controller
         ->join("sombrero", "sombrero.id","=","venta_detalle.idSombrero")
         ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])->get();
 
-        
+        $codigoSom = $codigo_sombrero;
 
         $codigo = "// Articulo: ".$codigo_sombrero." // ";
       }
@@ -758,7 +860,7 @@ class ReporteController extends Controller
      
 
       $pdf = PDF::loadView('reportes/ordenventageneral',['ventas'=>$ventas,'detalles'=>$detalles,
-        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin, 'codigo'=>$codigo]);
+        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin, 'codigo'=>$codigo, 'codSombrero'=>$codigoSom]);
       $pdf->setPaper('a4','landscape');//orientacion horizontal
       return $pdf->stream();
     }

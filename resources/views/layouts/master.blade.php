@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{asset('bootstrap4/css/fontastic.css')}}">
     <!-- Google fonts - Roboto -->
     <link rel="stylesheet" href="{{asset('bootstrap4/css/roboto.css')}}">
+    <!--Galerya-->
+    <link rel="stylesheet" href="{{asset('bootstrap4/css/galery/lightbox.min.css')}}">
     <!--http://fonts.googleapis.com/css?family=Roboto:300,400,500,700-->
     <!-- theme stylesheet-->
     <!--<link rel="stylesheet" href="{ {asset('bootstrap4/css/style.default.css')}}" id="theme-stylesheet">-->
@@ -62,8 +64,8 @@
   <nav class="side-navbar fadeIn animated">
     <div class="side-navbar-wrapper fadeIn animated">
       <div class="sidenav-header d-flex align-items-center justify-content-center">
-        <div class="sidenav-header-inner text-center"><img src="{{asset('bootstrap4/img/avatar-1.jpg')}}" alt="person" class="img-fluid rounded-circle">
-          <h2 class="h6"><label for="" id="usuario">{{ Auth::user()->name }}</label></h2><span class="text-uppercase">Usuario</span>
+      <div class="sidenav-header-inner text-center"><a href="{{action('Usuarios\PerfilController@foto',Auth::user()->id)}}" title="editar foto"><img src="/images/usuarios/{{Auth::user()->photo}}" alt="person" class="img-fluid rounded-circle"></a>
+          <h2 class="h6"><a href="{{action('Usuarios\PerfilController@indexPerfil',Auth::user()->id)}}"><label for="" id="usuario">{{ Auth::user()->name }}</label></a></h2><span class="text-uppercase">Usuario</span>
         </div>
         <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>S</strong><strong class="text-primary">G</strong></a></div>
     </div>
@@ -81,13 +83,6 @@
               <li id="li-pub"> <a href="{{url('gastronomica/sombreros/publicodirigido/publicodirigido')}}"><i class="icon-check"></i><span>Publico Dirigido</span></a></li>
             </ul>
           </li>
-          <li><a href="#pages-empleados-list" data-toggle="collapse" aria-expanded="false"><i class="ion-ios-people-outline"></i><span>Trabajadores</span></a>
-            <ul id="pages-empleados-list" class="collapse list-unstyled">
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/empleados/empleado')}}"> <i class="icon-check"></i><span>Trabajador</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/encargos/encargo')}}"> <i class="icon-check"></i><span>Encargos</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/comisionempleado/comision')}}"> <i class="icon-check"></i><span>Comision</span></a></li>
-            </ul>
-        </li>
           <li> <a href="#pages-nav-list" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Proveedores</span></a>
             <ul id="pages-nav-list" class="collapse list-unstyled">
               <li id="li-prov"> <a href="{{url('gastronomica/proveedores/proveedores/proveedor')}}"> <i class="icon-check"></i><span>Proveedor</span></a></li>
@@ -95,12 +90,14 @@
               <li id="li-prov"> <a href="{{url('gastronomica/proveedores/precios/precios')}}"> <i class="icon-check"></i><span>Precios</span></a></li>
             </ul>
           </li>
+          <li><a href="{{url('gastronomica/sombreros/clientes/cliente')}}"><i class="icon-interface-windows"></i><span>Clientes</span></a></li>          
           </ul>
         </div>
 
         <div class="main-menu fadeIn animated">
           <h5 class="sidenav-heading">Second</h5>
           <ul id="side-main-menu" class="side-menu list-unstyled">
+
             <li id="li-prov"> <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}"> <i class="icon-check"></i><span>Orden de Compra</span></a></li>
             <li id="li-prov"> <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}"> <i class="icon-check"></i><span>Guia Ingreso</span></a></li>
             <li> <a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="ion-ios-cart-outline"></i><span>Ventas</span></a></li>
@@ -120,9 +117,18 @@
           
           <li> <a href="#pages-nav-list-consultas" data-toggle="collapse" aria-expanded="false"><i class="ion-ios-paper-outline"></i><span>Consultas</span></a>
             <ul id="pages-nav-list-consultas" class="collapse list-unstyled">
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompra')}}"> <i class="icon-check"></i><span>Orden de Compra</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompraproveedor')}}"> <i class="icon-check"></i><span>Orden C. Proveedor</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompraarticulo')}}"> <i class="icon-check"></i><span>Orden C. Articulo</span></a></li>              
+              <li><a href="#pages-articulos" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Articulos</span></a>
+                <ul id="pages-articulos" class="collapse list-unstyled">
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/articulos/stockactual')}}"> <i class="icon-check"></i><span>Stock Actual</span></a></li>
+                </ul>
+              </li>
+              <li><a href="#pages-ordencompras" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Orden Compra</span></a>
+                <ul id="pages-ordencompras" class="collapse list-unstyled">
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompra/ordencompra')}}"> <i class="icon-check"></i><span>Orden de Compra</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompra/ordencompraproveedor')}}"> <i class="icon-check"></i><span>Por Proveedor</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompra/ordencompraarticulo')}}"> <i class="icon-check"></i><span>Por Articulo</span></a></li>
+                </ul>
+              </li>      
             </ul>
           </li>
           <li> <a href="#pages-nav-list-reportes" data-toggle="collapse" aria-expanded="false"><i class="ion-clipboard"></i><span>Reportes</span></a>
@@ -131,7 +137,7 @@
               <li id="li-prov"> <a href="#pages-ventas" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Ventas</span></a>
                 <ul id="pages-ventas" class="collapse list-unstyled">
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventas')}}"> <i class="icon-check"></i><span>Ventas</span></a></li>
-                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventasporempleado')}}"> <i class="icon-check"></i><span>Ventas por cliente</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventasporempleado')}}"> <i class="icon-check"></i><span>Ventas por empleado</span></a></li>
                 </ul>
               </li>
               <li id="li-prov"> <a href="#pages-utilidades" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Utilidades</span></a>
@@ -140,18 +146,29 @@
                   <a href="{{url('gastronomica/sombreros/reportes/utilidades')}}"> <i class="icon-check"></i><span>Ut. Ventas</span></a>
                 </ul>
               </li>
+              <li id="li-prov"> <a href="#pages-movimientos" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Movimientos</span></a>
+                <ul id="pages-movimientos" class="collapse list-unstyled">
+                    <a href="{{url('gastronomica/sombreros/movimientos/movimientogeneral')}}"> <i class="ion-arrow-move"></i><span>Movimientos</span></a>
+                    <a href="{{url('gastronomica/sombreros/movimientos/movimientoporarticulo')}}"> <i class="ion-arrow-move"></i><span>Movimiento x Articulo</span></a>
+                </ul>
+              </li>
             </ul>
           </li>
-          <li id="li-mov"> <a href="{{url('gastronomica/sombreros/movimientos/movimiento')}}"> <i class="ion-arrow-move"></i><span>Movimientos</span></a></li>
-          <li> <a href="#pages-nav-list-user" data-toggle="collapse" aria-expanded="false"><i class="ion-person"></i><span>Usuarios</span></a>
-            <ul id="pages-nav-list-user" class="collapse list-unstyled">
-              <li> <a href="{{url('gastronomica/usuarios/usuario')}}"> <i class="icon-user"></i><span>Usuario</span></a></li>
-              <li> <a href="{{url('gastronomica/usuarios/usuario')}}"> <i class="icon-user"></i><span>Configuración</span></a></li>
+          <li> <a href="#pages-nav-list-configuracion" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Configuracion</span></a>
+            <ul id="pages-nav-list-configuracion" class="collapse list-unstyled">
+              <li> <a href="{{url('gastronomica/configuracion/usuarios/usuario')}}"> <i class="icon-user"></i><span>Usuarios</span></a></li>
+              <li> <a href="{{url('gastronomica/configuracion/atributos/atributo')}}"> <i class="icon-interface-windows"></i><span>Parametros</span></a></li>
+              <li> <a href="{{url('gastronomica/configuracion/temporadas/temporada')}}"> <i class="icon-interface-windows"></i><span>Temporadas</span></a></li>
+              <li><a href="#pages-empleados-list" data-toggle="collapse" aria-expanded="false"><i class="ion-ios-people-outline"></i><span>Trabajadores</span></a>
+                <ul id="pages-empleados-list" class="collapse list-unstyled">
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/encargos/encargo')}}"> <i class="icon-check"></i><span>Encargos</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/empleados/empleado')}}"> <i class="icon-check"></i><span>Trabajador</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/comisionempleado/comision')}}"> <i class="icon-check"></i><span>Comision</span></a></li>
+                </ul>
+              </li>             
             </ul>
           </li>
         </ul>
-
-
       </div>
 
       <!--<div class="admin-menu">
@@ -213,6 +230,9 @@
     <script src="{{asset('bootstrap4/vendor/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('bootstrap4/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
     <script src="{{asset('bootstrap4/js/charts-home.js')}}"></script>
+    <!--Galerya-->
+    <script src="{{asset('bootstrap4/js/galery/lightbox.min.js')}}"></script>
+    <!---->    
     <script src="{{asset('bootstrap4/js/front.js')}}"></script>
     
 

@@ -12,7 +12,7 @@ class ComisionEmpleado extends Model
     //public $timestamps=false;
 
     protected $fillable = [
-      'id', 'idEmpleado', 'idSombrero', 'porcentaje', 'descripcion'
+      'id', 'idEmpleado', 'idSombrero', 'idTemporada', 'porcentaje' //, 'descripcion'
     ];
 
     public function Empleado()
@@ -25,5 +25,11 @@ class ComisionEmpleado extends Model
     {
       # code...
       return $this->hasmany(Sombrero::class);
+    }
+
+    public function Temporada()
+    {
+      # code...
+      return $this->hasmany(Temporada::class);
     }
 }

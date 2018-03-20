@@ -26,6 +26,7 @@ class PublicoDirigidoCreateRequest extends FormRequest
         return [
             //
             'publico'=>'required|max:50|unique:publicodirigido,publico',
+            'codigo'=>'required|min:3|max:3|unique:publicodirigido,codigo',
             'descripcion'=>'max:100',
         ];
     }

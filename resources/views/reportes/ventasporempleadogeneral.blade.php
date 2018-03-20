@@ -51,9 +51,9 @@
             <th scope="row">{{$index+1}}</th>
             <td>{{$detalle->numero_venta}}</td>
             <td>{{$detalle->fecha}}</td>
-            <td>{{$detalle->precio_total}}</td>
+            <td>S/ {{$detalle->precio_total}}</td>
             <td>{{$detalle->cantidad}}</td>
-            <td>{{number_format($detalle->comision_empleado, 2, '.', '')}}</td>
+            <td>S/ {{number_format($detalle->comision_empleado, 2, '.', '')}}</td>
           </tr>
         @endforeach
     </table>

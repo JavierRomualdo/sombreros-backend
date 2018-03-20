@@ -26,6 +26,7 @@ class TejidoCreateRequest extends FormRequest
         return [
             //
             'tejido'=>'required|max:50|unique:tejidos,tejido',
+            'codigo'=>'required|min:3|max:3|unique:tejidos,codigo',
             'photo'=>'max:50',
             'descripcion'=>'max:100',
         ];

@@ -13,6 +13,8 @@ use App\Models\Modelos;
 use App\Models\Tallas;
 use App\Models\Sombrero;
 use App\Models\Empleado;
+use App\Models\Temporada;
+
 use Session;
 
 class EmpleadoComisionController extends Controller
@@ -25,13 +27,57 @@ class EmpleadoComisionController extends Controller
     public function index()
     {
         //DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total')
-        $comisiones = ComisionEmpleado::select('comisionempleado.id','empleado.nombres','encargo.nombre','sombrero.codigo',
+        
+        $cantEmpleados = Empleado::count();
+        $cantSombreros = Sombrero::count();
+        $empleados = Empleado::select('nombres','id')->get();
+        $sombreros = Sombrero::select('codigo','id','precio_venta')->get();
+
+        /*$comisiones = ComisionEmpleado::select('comisionempleado.id','empleado.nombres','encargo.nombre','sombrero.codigo',
         'sombrero.photo','sombrero.precio_venta','comisionempleado.porcentaje','comisionempleado.descripcion')
         ->join('empleado','empleado.id','=','comisionempleado.idEmpleado')
         ->join('encargo','encargo.id','=','empleado.idEncargo')
-        ->join('sombrero','sombrero.id','=','comisionempleado.idSombrero')->paginate(5);
-        return view ('gastronomica/sombreros/comisionempleado/comision')->with('comisiones', $comisiones);
+        ->join('sombrero','sombrero.id','=','comisionempleado.idSombrero')->paginate(5);*/
 
+        $temporadas = Temporada::pluck('temporada','id')->prepend('Seleccione la temporada...');
+        
+        return view ('gastronomica/sombreros/comisionempleado/comision',
+        array('empleados'=>$empleados,'sombreros'=>$sombreros,
+        'cantidadEmpleado'=>$cantEmpleados,'cantidadSombreros'=>$cantSombreros,'temporada'=>$temporadas));
+
+    }
+
+    public function mostrarComisiones($idTemporada){
+        $datos = ComisionEmpleado::select('comisionempleado.id','comisionempleado.idSombrero','comisionempleado.idEmpleado',
+        'comisionempleado.porcentaje','sombrero.precio_venta')
+        ->join('temporada','temporada.id','=','comisionempleado.idTemporada')
+        ->join('sombrero','sombrero.id','=','comisionempleado.idSombrero')
+        ->where('comisionempleado.idTemporada','=',$idTemporada)->get();
+        return response()->json($datos);
+    }
+
+    public function mostrarComision($idEmpleadoComision){
+        $datos = ComisionEmpleado::select('comisionempleado.porcentaje')
+        ->where('comisionempleado.id','=',$idEmpleadoComision)->get();
+
+        return response()->json($datos);        
+    }
+
+    public function nuevaComision($idSombrero, $idEmpleado, $idTemporada, $porcentaje){
+        ComisionEmpleado::insert(['idEmpleado'=>$idEmpleado,'idSombrero'=>$idSombrero,'idTemporada'=>$idTemporada,
+            'porcentaje'=>$porcentaje]);
+
+        $datos = ComisionEmpleado::all()->last();
+        return response()->json($datos);
+    }
+
+    public function cambiarComision($idEmpleadoComision, $porcentaje){
+        ComisionEmpleado::where('id',$idEmpleadoComision)->update(['porcentaje'=>$porcentaje]);
+        
+        $datos = ComisionEmpleado::select('comisionempleado.idSombrero','comisionempleado.idEmpleado','comisionempleado.porcentaje')
+            ->where('comisionempleado.id','=',$idEmpleadoComision)->get();
+        
+        return response()->json($datos);
     }
 
     /**
@@ -47,8 +93,10 @@ class EmpleadoComisionController extends Controller
         $materiales = Materiales::pluck('material','id')->prepend('Seleccione el Material...');
         $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
         $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
+        $temporadas = Temporada::pluck('temporada','id')->prepend('Seleccione la temporada...');
+
         return view('gastronomica/sombreros/comisionempleado/create', array('modelo'=>$modelos, 'tejido'=>$tejidos, 'material'=>$materiales,
-        'publicodirigido'=>$publicosdirigido,'talla'=>$tallas));
+        'publicodirigido'=>$publicosdirigido,'talla'=>$tallas,'temporada'=>$temporadas));
     }
 
     /**
@@ -62,10 +110,10 @@ class EmpleadoComisionController extends Controller
         //
         $sombrero = Sombrero::where('codigo','=',$request->codigo)->first();
         $empleado = Empleado::where('nombres','=',$request->nombres)->first();
-        ComisionEmpleado::insert(['idEmpleado'=>$empleado->id,'idSombrero'=>$sombrero->id, 
+        ComisionEmpleado::insert(['idEmpleado'=>$empleado->id,'idSombrero'=>$sombrero->id, 'idTemporada'=>$request->idTemporada,
         'porcentaje'=>$request->porcentaje,'descripcion'=>$request->descripcion]);
         Session::flash('save','Se ha creado correctamente');
-        return redirect()->action('Emepleados\EmpleadoComisionController@index');
+        return redirect()->action('Empleados\EmpleadoComisionController@index');
     }
 
     public function mostrarNombresEmpleados()

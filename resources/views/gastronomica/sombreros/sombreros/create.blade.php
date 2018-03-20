@@ -85,6 +85,9 @@
   </section>
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
   <script type="text/javascript">
+    
+    $(document).ready(function(e){
+    });
     var cod = "";
     var modelo_id = $("#idModelo").val();
     var tejido_id = $("#idTejido").val();
@@ -96,70 +99,115 @@
     var material = "";
     var publico = "";
     var talla = "";
+    /*Modelo*/
     $("#idModelo").change(function(e){
       console.log(e);
       modelo_id = e.target.value;
+      
+      if (modelo_id!=0) {
+          $.get('/ajax-mostrarCodigoModelo/'+modelo_id, function(data){
+            //success
+            $.each(data, function(index, modeloObj){
+              modelo = modeloObj.codigo;
+            });
+            mostrarCodigo();
+          });
+        
+        //modelo = $("#idModelo option[value='"+modelo_id+"']").text();
+        //cod = cod + modelo.substring(0,3);
+      } else {
+        modelo = "";
+      }
       mostrarCodigo();
     });
+    /*Tejido*/
     $("#idTejido").change(function(e){
       console.log(e);
       tejido_id = e.target.value;
+      
+      if (tejido_id!=0) {
+          $.get('/ajax-mostrarCodigoTejido/'+tejido_id, function(data){
+            //success
+            $.each(data, function(index, tejidoObj){
+              tejido = tejidoObj.codigo;
+            });
+            mostrarCodigo();
+          });
+        
+        //tejido = $("#idTejido option[value='"+tejido_id+"']").text();
+        //cod = cod + tejido.substring(0,3);
+      } else {
+        tejido = "";
+      }
       mostrarCodigo();
     });
+    /*Material*/
     $("#idMaterial").change(function(e){
       console.log(e);
       material_id = e.target.value;
+      
+      if (material_id!=0) {
+          $.get('/ajax-mostrarCodigoMaterial/'+material_id, function(data){
+            //success
+            $.each(data, function(index, materialObj){
+              material = materialObj.codigo;
+            });
+            mostrarCodigo();
+          });
+        
+        //material = $("#idMaterial option[value='"+material_id+"']").text();
+        //cod = cod + material.substring(0,3);
+      } else {
+        material = "";
+      }
       mostrarCodigo();
     });
+    /*Publico*/
     $("#idPublicoDirigido").change(function(e){
       console.log(e);
       publico_id = e.target.value;
+      
+      if (publico_id!=0) {
+          $.get('/ajax-mostrarCodigoPublico/'+publico_id, function(data){
+            //success
+            $.each(data, function(index, publicoObj){
+              publico = publicoObj.codigo;
+            });
+            mostrarCodigo();
+          });
+        
+        //publico = $("#idPublicoDirigido option[value='"+publico_id+"']").text();
+        //cod = cod + publico.substring(0,3);
+      } else {
+        publico = "";
+      }
       mostrarCodigo();
     });
+    /*Talla*/
     $("#idTalla").change(function(e){
       console.log(e);
       talla_id = e.target.value;
+      
+      if (talla_id!=0) {
+          $.get('/ajax-mostrarCodigoTalla/'+talla_id, function(data){
+            //success
+            $.each(data, function(index, tallaObj){
+              talla = tallaObj.codigo;
+            });
+            mostrarCodigo();
+          });
+        
+        //talla = $("#idTalla option[value='"+talla_id+"']").text();
+        //cod = cod + talla.substring(0,1);
+      } else {
+        talla = "";
+      }
       mostrarCodigo();
     });
 
     function mostrarCodigo() {
-      if (modelo_id!=0) {
-        modelo = $("#idModelo option[value='"+modelo_id+"']").text();
-        cod = cod + modelo.substring(0,3);
-      } else {
-        modelo = "";
-        cod = cod + modelo;
-      }
-      if (tejido_id!=0) {
-        tejido = $("#idTejido option[value='"+tejido_id+"']").text();
-        cod = cod + tejido.substring(0,3);
-      } else {
-        tejido = "";
-        cod = cod +tejido;
-      }
-      if (material_id!=0) {
-        material = $("#idMaterial option[value='"+material_id+"']").text();
-        cod = cod + material.substring(0,3);
-      } else {
-        material = "";
-        cod = cod + material;
-      }
-      if (publico_id!=0) {
-        publico = $("#idPublicoDirigido option[value='"+publico_id+"']").text();
-        cod = cod + publico.substring(0,3);
-      } else {
-        publico = "";
-        cod = cod + publico;
-      }
-      if (talla_id!=0) {
-        talla = $("#idTalla option[value='"+talla_id+"']").text();
-        cod = cod + talla.substring(0,1);
-      } else {
-        talla = "";
-        cod = cod + talla;
-      }
-      $("#codigo").val(cod.toLowerCase());
-      cod="";
+      cod=modelo+tejido+material+publico+talla;
+      $("#codigo").val(cod);
     }
     /*$('#checkeditar').click(function() {
         if ($(this).is(':checked')) {

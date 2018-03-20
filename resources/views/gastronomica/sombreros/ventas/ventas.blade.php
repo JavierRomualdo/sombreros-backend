@@ -37,6 +37,7 @@
                           <th>Fecha</th>
                           <th>Cantidad Items</th>
                           <th>Precio Total</th>
+                          <th>Cliente</th>
                           <th>Realizado</th>
                           <th>Acciones</th>
                         </tr>
@@ -49,6 +50,7 @@
                           <td>{{$venta->fecha}}</td>
                           <td>{{$venta->cantidad}}</td>
                           <td>S/ {{$venta->precio_total}}</td>
+                          <td>{{$venta->cliente}}</td>
                           <td>{{$venta->nombres}}</td>
                           <td>
                             <a href="{{action('Ventas\VentasController@ver',$venta->id)}}" class="btn btn-outline-primary btn-sm ion-eye" title="Ver"></a>

@@ -55,6 +55,11 @@ class TallaController extends Controller
         return redirect()->action('Sombreros\TallaController@index');
     }
 
+    public function mostrarCodigo($id){
+        $datos = Tallas::select("tallas.codigo")->where('tallas.id','=',$id)->get();
+        return response()->json($datos);
+      }
+
     /**
      * Display the specified resource.
      *

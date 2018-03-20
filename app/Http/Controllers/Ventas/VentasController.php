@@ -15,6 +15,7 @@ use App\Models\Sombrero;
 use App\Models\Venta;
 use App\Models\VentaDetalle;
 use App\Models\Empleado;
+use App\Models\Cliente;
 use App\Models\ComisionEmpleado;
 use App\User;
 use Session;
@@ -36,12 +37,20 @@ class VentasController extends Controller
 
         $stock2 = Venta::where('fecha','>=',DB::raw('DATE_SUB(NOW(), INTERVAL 1 DAY)'))->get();
         //echo($stock2."");
-        $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres", 
+        $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres","cliente.nombres as cliente",
         DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
         DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
           ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
           ->join("empleado","empleado.id","=","venta.idEmpleado")
-          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres')->get();
+          ->join("cliente","cliente.id","=","venta.idCliente")          
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres','cliente.nombres')->get();
+        
+          $ventas2 = Venta::select("venta.id", "venta.numero_venta","venta.fecha","empleado.nombres","cliente.nombres as cliente")
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
+            ->join("cliente","cliente.id","=","venta.idCliente")          
+            ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha',"empleado.nombres","cliente.nombres")->get();
+
+        //echo($ventas2);
         return view('gastronomica/sombreros/ventas/ventas')->with('ventas', $ventas);
     }
 
@@ -64,9 +73,20 @@ class VentasController extends Controller
         $empleados = Empleado::select('empleado.id','encargo.nombre as encargo','empleado.nombres',
         'empleado.apellidos','empleado.dni','empleado.direccion','empleado.telefono','empleado.email')
         ->join('encargo','encargo.id','=','empleado.idEncargo')->get();
+
+        $clientes = Cliente::select('cliente.id','cliente.nombres','cliente.dni','cliente.direccion','cliente.telefono')
+        ->get();
+
+        $imagenes = Sombrero::
+                select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
+                  'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
+                  'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
+                  'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
+                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+
         return view('gastronomica/sombreros/ventas/create', array('proveedor'=>$proveedores,
         'modelo'=>$modelos, 'tejido'=>$tejidos, 'material'=>$materiales,'publicodirigido'=>$publicosdirigido,
-        'talla'=>$tallas,'empleados'=>$empleados));
+        'talla'=>$tallas,'empleados'=>$empleados,'clientes'=>$clientes,'imagenes'=>$imagenes));
     }
 
     public function mostrarIdVenta($cod)
@@ -77,7 +97,7 @@ class VentasController extends Controller
     }
 
     public function guardarVenta($tipo,$codigo,$cantidad,$precio_unitario,$porcentaje_descuento,
-      $descuento,$sub_total,$nombreUsuario,$utilidad,$idEmpleado,$descripcion)
+      $descuento,$sub_total,$nombreUsuario,$utilidad,$idEmpleado,$idCliente,$descripcion)
     {
       # code...
 
@@ -96,16 +116,16 @@ class VentasController extends Controller
         if ($cant<10000) {
           # code...
           if ($n>0 && $n<10) {
-            Venta::insert(['idEmpleado'=>$idEmpleado,'numero_venta'=>'OV-000'.$n.'-'.$anio,
+            Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-000'.$n.'-'.$anio,
             'fecha'=>$fecha_anio,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id]);//la variable $ordenes retorna (1 si se guardo y 0 no se guardo)
           } else if($n>=10 && $n<100){
-            Venta::insert(['idEmpleado'=>$idEmpleado,'numero_venta'=>'OV-00'.$n.'-'.$anio,
+            Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-00'.$n.'-'.$anio,
             'fecha'=>$fecha_anio,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id]);
           } else if($n>=100 && $n<1000){
-            Venta::insert(['idEmpleado'=>$idEmpleado,'numero_venta'=>'OV-0'.$n.'-'.$anio,
+            Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-0'.$n.'-'.$anio,
             'fecha'=>$fecha_anio,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id]);
           } else if($n>=1000 && $n<10000){
-            Venta::insert(['idEmpleado'=>$idEmpleado,'numero_venta'=>'OV-'.$n.'-'.$anio,
+            Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-'.$n.'-'.$anio,
             'fecha'=>$fecha_anio,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id]);
           }
           $ordenes = Venta::all()->last();//ultimo registro de la tabla venta
@@ -232,6 +252,42 @@ class VentasController extends Controller
       $stock = Venta::select("venta.id")
       ->whereBetween('fecha',['DATE_SUB(NOW(), INTERVAL 2 MONTH)','NOW()'])
       ->orderBy('id','desc');
+    }
+
+    public function ventaDetalle($idVenta){
+      $datos = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
+        "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
+        "venta_detalle.descuento","venta_detalle.sub_total", "venta_detalle.descripcion")
+        ->join("sombrero", "sombrero.id","=","venta_detalle.idSombrero")
+        ->where("venta_detalle.idVenta","=",$idVenta)->get();
+
+      return response()->json($datos);
+    }
+
+    public function ventasPorCodSombrero($codSombrero){
+      $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "users.name", 
+          DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+          DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
+          ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+          ->join('sombrero','sombrero.id','=','venta_detalle.idSombrero')
+          ->join("users","users.id","=","venta.idUsuario")
+          ->where('sombrero.codigo', '=', $codSombrero)
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'users.name')->get();
+      return response()->json($datos);
+    }
+
+    public function movVentas($id, $fecha_inicio,$fecha_fin){
+      $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "users.name", 
+          DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+          DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
+          ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+          ->join('sombrero','sombrero.id','=','venta_detalle.idSombrero')
+          ->join("users","users.id","=","venta.idUsuario")
+          ->where('sombrero.id', '=', $id)
+          ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'users.name')->get();
+      
+      return response()->json($datos);
     }
     /**
      * Store a newly created resource in storage.

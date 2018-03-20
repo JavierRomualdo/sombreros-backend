@@ -29,7 +29,7 @@ class UsuarioController extends Controller
     {
         //
         $usuarios = User::all();
-        return view ('gastronomica/usuarios/usuario')->with('usuario', $usuarios);
+        return view ('gastronomica/configuracion/usuarios/usuario')->with('usuario', $usuarios);
     }
 
     /**
@@ -41,7 +41,7 @@ class UsuarioController extends Controller
     {
         //
         $cargos = Cargo::pluck('cargo','id')->prepend('Seleccione el Cargo...');
-        return View('gastronomica/usuarios/create')->with('cargos', $cargos);
+        return View('gastronomica/configuracion/usuarios/create')->with('cargos', $cargos);
     }
 
     /**
@@ -81,7 +81,7 @@ class UsuarioController extends Controller
         //
         $usuarios = User::FindOrFail($id);
         $cargos = Cargo::FindOrFail($usuarios->idCargo);
-        return View('gastronomica.usuarios.show',array('usuario'=>$usuarios,'cargo'=>$cargos));
+        return View('gastronomica.configuracion.usuarios.show',array('usuario'=>$usuarios,'cargo'=>$cargos));
     }
 
     /**
@@ -95,7 +95,7 @@ class UsuarioController extends Controller
         //
         $usuarios = User::FindOrFail($id);
         $cargos = Cargo::pluck('cargo','id')->prepend('Seleccione el Cargo...');
-        return View('gastronomica/usuarios/edit', array('cargos'=>$cargos,'usuario'=>$usuarios));
+        return View('gastronomica/configuracion/usuarios/edit', array('cargos'=>$cargos,'usuario'=>$usuarios));
     }
 
     /**
@@ -128,6 +128,28 @@ class UsuarioController extends Controller
        $usuarios->save();
        return redirect()->action('Usuarios\UsuarioController@index');
      }*/
+     public function foto($id)
+     {
+       # code...
+       $usuario = User::find($id);
+       return view ('gastronomica.configuracion.usuarios.foto')->with('usuario',$usuario);
+     }
+
+     public function update_photo(Request $request)
+     {
+       # code...
+       $foto = $request->file('photo');
+       $filename = time().'.'.$foto->getClientOriginalExtension();
+       Image::make($foto)->resize(400,400)->save(public_path('images/usuarios/'.$filename));
+       $usuarios = User::find($request->get('id'));
+       if ($usuarios->photo!="nouser.jpg") {
+         # code...
+         File::delete('images/usuarios/'.$usuarios->photo);
+       }
+       $usuarios->photo = $filename;
+       $usuarios->save();
+       return redirect()->action('Usuarios\UsuarioController@index');
+     }
 
     public function update(Request $request, $id)
     {

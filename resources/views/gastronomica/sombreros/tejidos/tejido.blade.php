@@ -34,6 +34,7 @@
                   <tr>
                     <th>#</th>
                     <th>Calidad Tejido</th>
+                    <th>Codigo</th>
                     <th>Descripcion</th>
                     <th>Imagen</th>
                     <th>Acciones</th>
@@ -44,6 +45,7 @@
                     <tr class="fadeIn animated">
                       <th scope="row">{{$index+1}}</th>
                       <td>{{$tejido->tejido}}</td>
+                      <td>{{$tejido->codigo}}</td>                      
                       <td>{{$tejido->descripcion}}</td>
                       <td>
                         <a href="{{action('Sombreros\TejidoController@foto',$tejido->id)}}">

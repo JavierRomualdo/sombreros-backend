@@ -37,6 +37,7 @@
                   <tr>
                     <th>#</th>
                     <th>Publico Dirigido</th>
+                    <th>Codigo</th>
                     <th>Descripcion</th>
                     <th>Acciones</th>
                   </tr>
@@ -46,6 +47,7 @@
                     <tr class="fadeIn animated">
                       <th scope="row">{{$index+1}}</th>
                       <td>{{$publicodirigido->publico}}</td>
+                      <td>{{$publicodirigido->codigo}}</td>                      
                       <td>{{$publicodirigido->descripcion}}</td>
                       <td>
                         <a href="{{action('Sombreros\PublicoDirigidoController@edit', $publicodirigido->id)}}" class="btn btn-outline-primary btn-sm ion-edit" title="Editar"></a>

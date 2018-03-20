@@ -32,6 +32,11 @@ class TejidoController extends Controller
         return view ('gastronomica/sombreros/tejidos/tejido')->with('tejidos', $tejidos);
     }
 
+    public function mostrarCodigo($id){
+      $datos = Tejidos::select("tejidos.codigo")->where('tejidos.id','=',$id)->get();
+      return response()->json($datos);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

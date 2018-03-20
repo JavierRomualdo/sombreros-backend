@@ -26,6 +26,7 @@ class MaterialCreateRequest extends FormRequest
         return [
             //
             'material'=>'required|max:50|unique:materiales,material',
+            'codigo'=>'required|min:3|max:3|unique:materiales,codigo',
             'photo'=>'max:50',
             'descripcion'=>'max:100',
         ];

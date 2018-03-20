@@ -26,6 +26,7 @@ class TallaCreateRequest extends FormRequest
         return [
             //
             'talla'=>'required|max:50|unique:tallas,talla',
+            'codigo'=>'required|min:1|max:3|unique:tallas,codigo',
             'descripcion'=>'max:100',
         ];
     }
