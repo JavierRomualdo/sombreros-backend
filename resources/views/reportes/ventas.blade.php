@@ -16,13 +16,15 @@
     <table class="table-striped table-hover table-bordered" width="1030px"><!--width="730px"-->
       <tbody>
         <tr>
-          <td><label class="col-sm-2 form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
+          <td><label class="form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
           <td>{!!$venta->fecha!!}</td>
-          <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad de Items:</strong></label></td>
+          <td><label class="form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label></td>
           <td>{!!$venta->cantidad!!}</td>          
-          <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label></td>
-          <td>S/. {!!$venta->precio_total!!}</td>
-          <td><label class="col-sm-2 form-control-label" for="user"><strong>Realizado por:</strong></label></td>
+          <td><label class="form-control-label" for="precio_total"><strong>Precio Total:</strong></label></td>
+          <td>S/ {!!$venta->precio_total!!}</td>
+          <td><label class="form-control-label" for="user"><strong>Cliente:</strong></label></td>
+          <td>{!!$venta->cliente!!}</td>
+          <td><label class="form-control-label" for="user"><strong>Vendedor:</strong></label></td>
           <td>{!!$venta->nombres!!}</td>
         </tr>
       </tbody>

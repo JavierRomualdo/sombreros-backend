@@ -4,7 +4,7 @@
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/reportes/ventasporempleado')}}">Reporte por Cliente</a></li>
+        <li class="breadcrumb-item"><a href="{{url('/gastronomica/sombreros/reportes/ventasporempleado')}}">Reporte por vendedor</a></li>
         <li class="breadcrumb-item active">Ver</li>
       </ul>
     </div>
@@ -22,7 +22,7 @@
               <h2 class="h1 display ion-paperclip"> Consolidado:</h2>
             </div>
             <div class="card-block">
-              <p>[ Realizado: <strong>{!!$venta->nombres!!}</strong> , Código: <strong>{!!$venta->numero_venta!!}</strong> ]</p>
+              <p>[ Vendedor: <strong>{!!$venta->nombres!!}</strong> , Código Venta: <strong>{!!$venta->numero_venta!!}</strong> ]</p>
               <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="fecha"><strong>Fecha:</strong></label>
                 <div class="col-sm-2">
@@ -32,13 +32,13 @@
                 <div class="col-sm-1">
                   <label class="form-control-label" for="precio_total">{!!$venta->cantidad!!}</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total (S/):</strong></label>
+                <label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
                 <div class="col-sm-1">
-                  <label class="form-control-label" for="precio_total">{!!$venta->precio_total!!}</label>
+                  <label class="form-control-label" for="precio_total">S/ {!!$venta->precio_total!!}</label>
                 </div>
                 <label class="col-sm-2 form-control-label" for="user"><strong>Comision Empleado:</strong></label>
                 <div class="col-sm-1">
-                  <label class="form-control-label" for="user">{!!number_format($venta->comision_empleado, 2, '.', '')!!}</label>
+                  <label class="form-control-label" for="user">S/ {!!number_format($venta->utilidad_total * ($venta->comision/100.00), 2, '.', '')!!}</label>
                 </div>
               </div>
             </div>
@@ -65,8 +65,6 @@
                     <th>Descuento (%)</th>
                     <th>Descuento</th>
                     <th>Precio Total</th>
-                    <th>Comision (%)</th>
-                    <th>Comision (S/.)</th>
                     <th>Descripcion</th>
                   </tr>
                 </thead>
@@ -79,12 +77,10 @@
                         <img src="/images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
                       </td>
                       <td>{{$detalle->cantidad}}</td>
-                      <td>{{$detalle->precio_venta}}</td>
+                      <td>S/ {{$detalle->precio_venta}}</td>
                       <td>{{$detalle->porcentaje_descuento}}</td>
-                      <td>{{$detalle->descuento}}</td>
-                      <td>{{$detalle->sub_total}}</td>
-                      <td>{{$detalle->comisionempleado}}</td>
-                      <td>{{($detalle->precio_venta/100.00)*$detalle->comisionempleado}}</td>
+                      <td>S/ {{$detalle->descuento}}</td>
+                      <td>S/ {{$detalle->sub_total}}</td>
                       <td>{{$detalle->descripcion}}</td>
                     </tr>
                   @endforeach

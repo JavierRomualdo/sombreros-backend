@@ -29,7 +29,7 @@
               </div>
               <div class="form-group">
                 <strong>{!!form::label('Codigo:',null,['for'=>'codigo'])!!}</strong>
-                {!!form::text('codigo', null,['id'=>'codigo','class'=>'form-control','readonly','placeholder'=>'Elige Codigo', 'autofocus'])!!}
+                {!!form::text('codigo', null,['id'=>'codigo','class'=>'form-control','readonly','placeholder'=>'Elige Codigo','maxlength'=>'3', 'autofocus'])!!}
                 <span class="help-block">El código son de 3 caracteres del publico dirigido.</span>
                 <div class="i-checks">
                   <input id="checkeditar" type="checkbox" value="" class="form-control-custom">

@@ -27,19 +27,30 @@
             </div>
             <div class="card-block">
               <div class="form-group row">
-                <label class="offset-sm-1 col-sm-2 form-control-label text-center"><strong>Proveedor:</strong></label>
+                <label class="offset-sm-0 col-sm-1 form-control-label text-center"><strong>Proveedor:</strong></label>
                 <div class="col-sm-4">
-                  <input type="text" id="proveedor" class="form-control" readonly=""/>
+                  <div class="input-group">
+                    <input type="text" id="proveedor" class="form-control" readonly=""/>
+                    <button type="button" name="edit" id="edit" class="btn btn-primary fa fa-edit rounded" title="buscar proveedor"></button>
+                  </div>
                 </div>
-                <div class="col-sm-3">
+                <label class="col-sm-1 form-control-label" for="fecha_inicio"><strong>Fecha Inicio (*):</strong></label>
+                <div class="col-sm-2">
+                  {!!Form::date('fecha_inicio', null,['id'=>'fecha_inicio','name'=>'fecha_inicio','class'=>'form-control'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="fecha_fin"><strong>Fecha Fin(*):</strong></label>
+                <div class="col-sm-2">
+                  {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
+                </div>
+                <div class="col-sm-1">
+                  <button type="button" name="buscar" id="buscar" class="btn btn-primary fa fa-search rounded" title="buscar"></button>
+                </div>
+                <!--<div class="col-sm-3">
                   <div class="i-checks">
                     <input id="checkproveedor" type="checkbox" value="" class="form-control-custom">
                     <label for="checkproveedor">Selecione proveedor</label>
                   </div>
-                </div>
-                <div class="offset-sm-1 col-sm-1">
-                  <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -61,9 +72,9 @@
                         <th>Codigo de Orden</th>
                         <th>Fecha</th>
                         <th>Cantidad Items</th>
-                        <th>Precio Total</th>
+                        <th>Costo Total</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>Accion</th>
                       </tr>
                     </thead>
                     <tbody id="lista_ordenes">
@@ -95,12 +106,12 @@
                       <th>Cantidad</th>
                       <th>Ingresado</th>
                       <th>Pendientes</th>
-                      <th>Precio Unitario</th>
-                      <th>Precio Total</th>
-                      <!--<th>Proveedor</th>-->
+                      <th>Costo Articulo</th>
+                      <th>Costo Total</th>
+                      <th>Proveedor</th>
                       <th>Descripcion</th>
                       <th>Estado</th>
-                      <th>Acciones</th>
+                      <th>Accion</th>
                     </tr>
                   </thead>
                   <tbody id="lista_datos">
@@ -250,14 +261,40 @@
       $("#proveedor").val(empresa);
       proveedor_id = idProveedor;
       $('#modalProveedor').modal('hide');
+      
     }
 
+    $("#edit").click(function(e){
+      $('#modalProveedor').modal('show');
+      
+    });
+
     $("#buscar").click(function(e){
+      var mensaje = "";
+        if($("#proveedor").val()==""){
+          mensaje = mensaje + "* El proveedor no debe estar vacia.<br/>";
+        }
+        if ($("#fecha_inicio").val()=="") {
+          mensaje = mensaje + "* La fecha de inicio no debe estar vacia.<br/>";
+        }
+        if ($("#fecha_fin").val()=="") {
+          mensaje = mensaje + "* La fecha final no debe estar vacia.";
+        }
+        if(mensaje==""){
+          //metodo buscar para luego cargar datos de las ordenes de compra del proveedor seleccionado
+          cargarOrdenesCompra();
+        } else {
+          Messenger().post({message: mensaje,type:"info",showCloseButton:!0});
+        }
+    });
+
+    function cargarOrdenesCompra(){
       if($("#proveedor").val()!=""){
         var tabla = "";
         var n = 1;
         //Llena la tabla orden de compra
-        $.get('/ajax-ordenCompraProveedorConsolidado/'+proveedor_id, function(dato){
+        $.get('/ajax-ordenCompraProveedorConsolidado/'+proveedor_id+'/'+$("#fecha_inicio").val()+'/'+
+        $("#fecha_fin").val(), function(dato){
           //success
           $('#myTableHistorial').DataTable().destroy();
 
@@ -266,18 +303,20 @@
               if((parseInt(orden.cantidad)-parseInt(orden.ingresos))==0){
                 tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                 orden.numero_orden+
-                "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>S/ "+orden.precio_total+"</td><td><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
+                "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>S/ "+orden.precio_total+"</td><td class='text-center'><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
                 "<a href='javascript:verDetallesOrdenCompra("+orden.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='mostrar'></a> "+"</td></tr>";
               } else {
                 tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                 orden.numero_orden+
-                "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>S/ "+orden.precio_total+"</td><td><label style='background: red;' id='divredondo' title='completado'></label></td><td>"+
+                "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>S/ "+orden.precio_total+"</td><td class='text-center'><label style='background: red;' id='divredondo' title='completado'></label></td><td>"+
                 "<a href='javascript:verDetallesOrdenCompra("+orden.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='mostrar'></a> "+"</td></tr>";
               }
               n++;
           }); 
           
           $("#lista_ordenes").html(tabla);
+          $('#myTableDetalles').DataTable().destroy();
+          $("#lista_datos").html("");
           tabla = "";
 
           
@@ -294,7 +333,7 @@
       } else {
         Messenger().post({message: "* Debe seleccionar el proveedor",type:"error",showCloseButton:!0});
       }
-    });
+    }
 
     function verDetallesOrdenCompra($idOrdenCompra){
       $.get('/ajax-numeroOrdenCompra/'+$idOrdenCompra, function(data){
@@ -311,23 +350,29 @@
         $('#myTableDetalles').DataTable().destroy();
         //success
         $.each(data, function(index, orden){
-          if((parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))==0){
+          var empresa;
+          if(orden.empresa == $("#proveedor").val()){
+            empresa = "<td><label style='background: yellow;'>"+orden.empresa+"</label></td>";
+          } else {
+            empresa = "<td>"+orden.empresa+"</td>";
+          }
+          if((parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))==0){
             tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
               orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
               "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
-              "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))+"</td><td>S/ "+
-              orden.precio_unitario+"</td><td>S/ "+(parseInt(orden.cantidad)*orden.precio_unitario)+"</td><td>"+orden.descripcion+
-              "</td><td><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
-              "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.precio_unitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
+              "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>S/ "+
+              orden.costounitario+"</td><td>S/ "+(parseInt(orden.cantidad)*orden.costounitario)+"</td>"+empresa+"<td>"+orden.descripcion+
+              "</td><td class='text-center'><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
+              "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
               "</td></tr>";
           } else {
             tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
               orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
               "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
-              "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))+"</td><td>S/ "+
-              orden.precio_unitario+"</td><td>S/ "+(parseInt(orden.cantidad)*orden.precio_unitario)+"</td><td>"+orden.descripcion+
-                "</td><td><label style='background: red;' id='divredondo' title='pendiente'></label></td><td>"+
-              "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.precio_unitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
+              "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>S/ "+
+              orden.costounitario+"</td><td>S/ "+(parseInt(orden.cantidad)*orden.costounitario)+"</td>"+empresa+"<td>"+orden.descripcion+
+                "</td><td class='text-center'><label style='background: red;' id='divredondo' title='pendiente'></label></td><td>"+
+              "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
               "</td></tr>";
           }
             

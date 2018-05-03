@@ -20,4 +20,10 @@ class OrdenCompra extends Model
       # code... pertenece a:
       return $this->belongsto(OrdenCompraDetalle::class);
     }
+    
+    public function OrdenCompraEmpleado()
+    {
+      # code... pertenece a:
+      return $this->belongsto(OrdenCompraEmpleado::class);
+    }
 }

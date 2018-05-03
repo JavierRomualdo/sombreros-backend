@@ -131,7 +131,8 @@
                     <th>Fecha</th>
                     <th>Cantidad Items</th>
                     <th>Precio Total</th>
-                    <th>Realizado</th>
+                    <th>Cliente</th>
+                    <th>Vendedor</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -143,6 +144,7 @@
                     <td>{{$venta->fecha}}</td>
                     <td>{{$venta->cantidad}}</td>
                     <td>S/ {{$venta->precio_total}}</td>
+                    <td>{{$venta->cliente}}</td>
                     <td>{{$venta->nombres}}</td>
                     <td>
                       <a href="{{action('Reportes\ReporteController@verVentas',$venta->id)}}" class="btn btn-outline-primary btn-sm ion-eye" title="Ver"></a>
@@ -322,7 +324,7 @@ $("#buscar").click(function(e){
       var fecha_fin = $("#fecha_fin").val();
       $.each(data, function(index, venta){
         tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+venta.numero_venta+"</th><td>"+
-        venta.fecha+"</td><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.nombres+"</td><td>"+
+        venta.fecha+"</td><td>"+venta.cantidad+"</td><td>"+venta.precio_total+"</td><td>"+venta.cliente+"</td><td>"+venta.nombres+"</td><td>"+
         "<a href='verventas/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
         +"<a href='{{URL::to('gastronomica/sombreros/ventas/reporte/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
         n++;

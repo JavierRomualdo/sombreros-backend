@@ -27,7 +27,7 @@
                 <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="fecha">{!!$guia->fecha!!}</label>
                 </div>
-                <label class="col-sm-2 col-3 form-control-label" for="precio_total"><strong>Cantidad Total:</strong></label>
+                <label class="col-sm-2 col-3 form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label>
                 <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="precio_total">{!!$guia->cantidad_guia!!}</label>
                 </div>
@@ -54,13 +54,13 @@
                       <thead class="thead-inverse">
                         <tr>
                           <th>#</th>
-                          <th>Proveedor</th>
-                          <th>Codigo Orden</th>
                           <th>Articulo</th>
                           <th>Foto</th>
                           <th>Cantidad</th>
                           <th>Costo Articulo</th>
                           <th>Costo Total</th>
+                          <th>Proveedor</th>
+                          <th>Codigo Orden</th>
                           <th>Descripcion</th>
                         </tr>
                       </thead>
@@ -68,8 +68,6 @@
                         @foreach ($detalles as $index=>$detalle)
                           <tr class='fadeIn animated'>
                             <th scope="row">{{$index+1}}</th>
-                            <td>{{$detalle->empresa}}</td>
-                            <td>{{$detalle->numero_orden}}</td>
                             <td>{{$detalle->codigo}}</td>
                             <td>
                               <img src="/images/sombreros/{{$detalle->photo}}"
@@ -78,6 +76,8 @@
                             <td>{{$detalle->cantidad}}</td>
                             <td>S/ {{$detalle->precio}}</td>
                             <td>S/ {{($detalle->cantidad * $detalle->precio)}}</td>
+                            <td>{{$detalle->empresa}}</td>
+                            <td>{{$detalle->numero_orden}}</td>
                             <td>{{$detalle->descripcion}}</td>
                           </tr>
                         @endforeach

@@ -38,7 +38,7 @@
                           <th>Cantidad Items</th>
                           <th>Precio Total</th>
                           <th>Cliente</th>
-                          <th>Realizado</th>
+                          <th>Vendedor</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>

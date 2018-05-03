@@ -12,14 +12,8 @@ class GuiaIngreso extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'numero_guia', 'fecha', 'idProveedor'
+      'id', 'numero_guia', 'fecha'
     ];
-
-    public function Proveedor()
-    {
-      # code...
-      return $this->hasmany(Proveedor::class);
-    }
 
     public function GuiaIngresoDetalle()
     {

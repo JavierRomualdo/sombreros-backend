@@ -15,6 +15,12 @@ use App\Models\GuiaIngreso;
 use App\Models\GuiaIngresoDetalle;
 use App\Models\OrdenCompra;
 use App\Models\OrdenCompraDetalle;
+use App\Models\Atributos;
+use App\Models\Precios;
+use App\Models\Movimiento;
+use App\Models\PedidoReposicion;
+use App\Models\PedidoReposicionDetalle;
+use App\Models\ProveedorPrecio;
 use Session;
 use DB;
 use PDF;
@@ -34,8 +40,8 @@ class GuiaIngresoController extends Controller
         DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
         ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
         ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
-        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
         ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->get();
         
         return view('gastronomica/sombreros/guiaingreso/guiaingreso')->with('guias', $guias);
@@ -59,13 +65,13 @@ class GuiaIngresoController extends Controller
 
         /*Ordenes de Compra*/
         $ordenes = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
-          DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'),
-          DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),'proveedor.empresa')
+          DB::raw('SUM(orden_compra_detalle.costounitario * orden_compra_detalle.cantidad) as precio_total'),
+          DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'))
           ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
-          ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-          ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+          ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+          ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
           ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
-          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get();
+          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha')->get();
         
         return view('gastronomica/sombreros/guiaingreso/create', array('proveedor'=>$proveedores,
         'modelo'=>$modelos, 'tejido'=>$tejidos, 'material'=>$materiales,'publicodirigido'=>$publicosdirigido,
@@ -74,11 +80,11 @@ class GuiaIngresoController extends Controller
 
     public function mostrarOrdenCompraDetalles($idOrdenCompra){
       $datos = OrdenCompraDetalle::select("sombrero.codigo","sombrero.photo","orden_compra_detalle.id",
-      "orden_compra_detalle.idOrdenCompra", "orden_compra_detalle.cantidad_ingreso",
-      "orden_compra_detalle.cantidad","orden_compra_detalle.precio_unitario",
+      "orden_compra_detalle.idOrdenCompra", "orden_compra_detalle.cantidadingreso",
+      "orden_compra_detalle.cantidad","orden_compra_detalle.costounitario",
       "orden_compra_detalle.descripcion","proveedor.empresa")
-      ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+      ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
       ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
       ->where('orden_compra_detalle.idOrdenCompra','=',$idOrdenCompra)->get();
 
@@ -87,18 +93,18 @@ class GuiaIngresoController extends Controller
 
     public function mostrarDatosSombrero($idOrdenCompraDetalle){
       $datos = OrdenCompraDetalle::select("orden_compra.numero_orden","orden_compra_detalle.id","orden_compra_detalle.cantidad", 
-      "orden_compra_detalle.cantidad_ingreso", "sombrero.codigo", 
+      "orden_compra_detalle.cantidadingreso", "sombrero.codigo", 
       "sombrero.photo", "modelos.modelo", 'tejidos.tejido', "materiales.material", "publicodirigido.publico", 
       "tallas.talla", "proveedor.id as id_proveedor", "proveedor.empresa", "proveedor_precio.precio", "sombrero.stock_actual")
+      ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+      ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
+      ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
       ->join('orden_compra', 'orden_compra.id','orden_compra_detalle.idOrdenCompra')
-      ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
       ->join('modelos', 'modelos.id','=','sombrero.idModelo')
       ->join('tejidos', 'tejidos.id','=','sombrero.idTejido')
       ->join('materiales','materiales.id','=','sombrero.idMaterial')
       ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
       ->join('tallas','tallas.id','=','sombrero.idTalla')
-      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
-      ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
       ->where('orden_compra_detalle.id','=',$idOrdenCompraDetalle)->get();
 
       return response()->json($datos);
@@ -111,31 +117,32 @@ class GuiaIngresoController extends Controller
       return response()->json($datos);
     }
 
-    public function guardarGuia($tipo,$codigo,$idProveedor,$cantidad,$descripcion,$idOrdenCompraDetalle)
+    public function guardarGuia($tipo,$codigo,$cantidad,$descripcion,$idOrdenCompraDetalle)
     {
       # code...
+      $now = new \DateTime();
+      $año =$now->format('Y'); //$now->format('d-m-Y H:i:s');
+      $anio = substr($año,2,2);
+      $fecha_anio = ($now->format('Y-m-d'))."";
       if ($tipo==1) {//guardar el primer orden de compra y orden compra detalle
         # code...
         $cant = GuiaIngreso::count();
         $n = ((int)$cant)+1;
-        $now = new \DateTime();
-        $año =$now->format('Y'); //$now->format('d-m-Y H:i:s');
-        $anio = substr($año,2,2);
-        $fecha_anio = ($now->format('Y-m-d'))."";
+        
         if ($cant<10000) {
           # code...
           if ($n>0 && $n<10) {
             GuiaIngreso::insert(['numero_guia'=>'GI-000'.$n.'-'.$anio,
-            'fecha'=>$fecha_anio,'idProveedor'=>$idProveedor]);//la variable $ordenes retorna (1 si se guardo y 0 no se guardo)
+            'fecha'=>$fecha_anio]);//la variable $ordenes retorna (1 si se guardo y 0 no se guardo)
           } else if($n>=10 && $n<100){
             GuiaIngreso::insert(['numero_guia'=>'GI-00'.$n.'-'.$anio,
-            'fecha'=>$fecha_anio,'idProveedor'=>$idProveedor]);
+            'fecha'=>$fecha_anio]);
           } else if($n>=100 && $n<1000){
             GuiaIngreso::insert(['numero_guia'=>'GI-0'.$n.'-'.$anio,
-            'fecha'=>$fecha_anio,'idProveedor'=>$idProveedor]);
+            'fecha'=>$fecha_anio]);
           } else if($n>=1000 && $n<10000){
             GuiaIngreso::insert(['numero_guia'=>'GI-'.$n.'-'.$anio,
-            'fecha'=>$fecha_anio,'idProveedor'=>$idProveedor]);
+            'fecha'=>$fecha_anio]);
           }
           $guias = GuiaIngreso::all()->last();//ultimo registro de la tabla orden _compra
           if ($descripcion=="0") {//No hay descripcion
@@ -164,19 +171,76 @@ class GuiaIngresoController extends Controller
         Session::flash('save','Se ha guardado correctamente');
       }
 
-      //Modificamos el stock actual del sombrero **
       $sombrero = Sombrero::where('codigo','=',$codigo)->first();
-      Sombrero::where('codigo',$codigo)->update(['stock_actual'=>$cantidad+$sombrero->stock_actual]);
+      
 
       //Modificamos la OrdenCompraDetalle
-      $orden_compra_detalle = OrdenCompraDetalle::select('cantidad_ingreso', 'cantidad')->where('id',$idOrdenCompraDetalle)->first();
-      $cantidad_nueva = ($orden_compra_detalle->cantidad_ingreso + $cantidad);
+      $orden_compra_detalle = OrdenCompraDetalle::select('cantidadingreso', 'cantidad', 'costounitario')->where('id',$idOrdenCompraDetalle)->first();
+      $cantidad_nueva = ($orden_compra_detalle->cantidadingreso + $cantidad);
       if ($cantidad_nueva==$orden_compra_detalle->cantidad) {
         # code...
-         OrdenCompraDetalle::where('id',$idOrdenCompraDetalle)->update(['cantidad_ingreso'=>$cantidad_nueva, 'estado_ingreso'=>'Ingresado']);
+         OrdenCompraDetalle::where('id',$idOrdenCompraDetalle)->update(['cantidadingreso'=>$cantidad_nueva, 'estadoingreso'=>'Ingresado']);
       } else if($cantidad_nueva < $orden_compra_detalle->cantidad){
-         OrdenCompraDetalle::where('id',$idOrdenCompraDetalle)->update(['cantidad_ingreso'=>$cantidad_nueva, 'estado_ingreso'=>'Falta Ingresar']);
+         OrdenCompraDetalle::where('id',$idOrdenCompraDetalle)->update(['cantidadingreso'=>$cantidad_nueva, 'estadoingreso'=>'Falta Ingresar']);
       }
+
+      /*Ingresamos movimiento*/
+
+      $parametros = Atributos::first();
+      $stockactual = $sombrero->stock_actual + $cantidad;
+      $valoranterior = $sombrero->costo_promedio * $sombrero->stock_actual;
+      $valor = ($orden_compra_detalle->costounitario * $cantidad) + $valoranterior;
+      $costopromedio = $valor / $stockactual;
+      Movimiento::insert(['idSombrero'=>$sombrero->id,'cantidadingreso'=>$cantidad,'costounitario'=>$orden_compra_detalle->costounitario,
+      'costototal'=>$cantidad * $orden_compra_detalle->costounitario,'stock_actual'=>$stockactual,'valor'=>$valor,'costopromedio'=>$costopromedio,
+      'margenganancia'=>$parametros->margenganancia,'preciosistema'=>($costopromedio / ($parametros->margenganancia/100.00)), 'fecha'=>$fecha_anio]);
+      
+      //Modificamos el stock actual del sombrero **
+      Sombrero::where('codigo',$codigo)->update(['stock_actual'=>$stockactual,'costo_promedio'=>$costopromedio,
+      'precio_venta'=>($costopromedio / ($parametros->margenganancia/100.00)),'precio_lista'=>($costopromedio / ($parametros->margenganancia/100.00))]);
+      //Nota: quisas hay que verificar en los pedidos de reposicion y desactivar el pedido de reposicion de este sombrero
+      
+      /*Fin Movimiento*/
+
+      /**------------- PEDIDO REPOSICION------- */
+      $pedidosreposicion = PedidoReposicion::where('estado','=','A')->get();
+      if($pedidosreposicion != ''){//si hay pedido de reposicion
+
+        $preciostodo = ProveedorPrecio::where('idSombrero','=',$sombrero->id)->get();
+        $pedidoreposicion_id = 0;
+        $cantidadingreso = 0;
+        foreach($pedidosreposicion as $pd){
+          foreach($preciostodo as $p){
+            if($pd->idProveedorPrecio == $p->id) {
+              $pedidoreposicion_id =  $pd->id;
+              $cantidadingreso = $pd->cantidadingresado;
+            }
+          }
+        }
+
+        if($pedidoreposicion_id!=0){//si hay pedido reposicion detalle del sombrero
+          $cantidadingresado = $cantidadingreso + $cantidad;
+          if($cantidadingresado <= $sombrero->stock_minimo){//estado = A
+            PedidoReposicion::where('id',$pedidoreposicion_id)->update(['cantidadingresado'=>$cantidadingresado]);
+          } else {//estado = N
+            PedidoReposicion::where('id',$pedidoreposicion_id)->update(['estado'=>'N','cantidadingresado'=>$cantidadingresado]);
+          }
+        }
+      }
+      /**------------- FIN PE REPOSICION------- */
+      //----tabla precios
+      $precios = Precios::select('id','stock')->where('idSombrero','=',$sombrero->id,'and','precio','=',$orden_compra_detalle->costounitario)->first();
+      if($precios==""){
+        $atributo = Atributos::select('igv','margenganancia')->first();
+        $precio_con_igv = $orden_compra_detalle->costounitario * ($atributo->igv / 100.00);
+        $precio_con_margenganancia = $orden_compra_detalle->costounitario * ($atributo->margenganancia / 100.00);
+        //$precios_con_servicios = $orden_compra_detalle->costounitario * ($atributo->gastosservicios / 100.00);
+        $precio_venta = $orden_compra_detalle->costounitario + $precio_con_igv + $precio_con_margenganancia;// + $precios_con_servicios;
+        Precios::insert(['idSombrero'=>$sombrero->id,'stock'=>$cantidad,'costo'=>$orden_compra_detalle->costounitario, 'precio'=>$precio_venta]);
+      } else {
+        Precios::where('id',$precios->id)->update(['stock'=>($precios->stock + $cantidad)]);
+      }
+      //--------
 
       $guiaDeIngreso = GuiaIngreso::all()->last();
       //estod datos pasan a la TABLA
@@ -185,8 +249,8 @@ class GuiaIngresoController extends Controller
       ->join('guia_ingreso','guia_ingreso.id','=','guia_ingreso_detalle.idGuiaIngreso')
       ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
       ->join('orden_compra','orden_compra.id','=','orden_compra_detalle.idOrdenCompra')
-      ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+      ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
       ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
       ->where('guia_ingreso_detalle.idGuiaIngreso','=',$guiaDeIngreso->id)->get();
 
@@ -206,8 +270,8 @@ class GuiaIngresoController extends Controller
        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
        ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
-       ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-       ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+       ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+       ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
        ->where('guia_ingreso.id','=',$id)
        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->first();
 
@@ -216,8 +280,8 @@ class GuiaIngresoController extends Controller
       ->join('guia_ingreso','guia_ingreso.id','=','guia_ingreso_detalle.idGuiaIngreso')
       ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
       ->join('orden_compra','orden_compra.id','=','orden_compra_detalle.idOrdenCompra')
-      ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+      ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
       ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
       ->where('guia_ingreso_detalle.idGuiaIngreso','=',$id)->get();
 
@@ -238,8 +302,8 @@ class GuiaIngresoController extends Controller
        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
        ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
-       ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-       ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+       ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+       ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
        ->where('guia_ingreso.id','=',$id)
        ->groupBy('guia_ingreso.numero_guia','guia_ingreso.fecha')->first();
        
@@ -248,8 +312,8 @@ class GuiaIngresoController extends Controller
       ->join('guia_ingreso','guia_ingreso.id','=','guia_ingreso_detalle.idGuiaIngreso')
       ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
       ->join('orden_compra','orden_compra.id','=','orden_compra_detalle.idOrdenCompra')
-      ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+      ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
       ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
       ->where('guia_ingreso_detalle.idGuiaIngreso','=',$id)->get();
 

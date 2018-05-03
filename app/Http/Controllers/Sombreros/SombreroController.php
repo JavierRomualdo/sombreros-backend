@@ -16,6 +16,8 @@ use App\Models\ProveedorPrecio;
 use App\Models\Movimientos;
 use App\http\Requests\Sombreros\SombreroCreateRequest;
 use App\http\Requests\Sombreros\SombreroUpdateRequest;
+use App\Models\PedidoReposicion;
+use App\Models\PedidoReposicionDetalle;
 use DB;
 use Image;
 use File;
@@ -70,6 +72,7 @@ class SombreroController extends Controller
         $materiales = Materiales::pluck('material','id')->prepend('Seleccione el Material...');
         $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
         $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
+                
 
         //$atributos = Atributos::FindOrFail(1);
         //$proveedores = Proveedor::pluck('empresa','id')->prepend('Seleccione Proveedor...');
@@ -103,8 +106,10 @@ class SombreroController extends Controller
         $request->stock_maximo=0;
         $request->stock_minimo=0;
         Sombrero::create($request->all());*/
+
         Sombrero::create($request->all());
         Session::flash('save','Se ha creado correctamente');
+
         return redirect()->action('Sombreros\SombreroController@index');
     }
 
@@ -204,10 +209,9 @@ class SombreroController extends Controller
           'idPublicoDirigido'=>'required|not_in:0',
           'idMaterial'=>'required|not_in:0',
           'idTalla'=>'required|not_in:0',
-          'codigo'=>'required|min:13|max:13|unique:sombrero,codigo,'.$id,
+          'codigo'=>'required|min:13|max:14|unique:sombrero,codigo,'.$id,
           'stock_minimo'=>'required',
           'stock_maximo'=>'required',
-          'precio_venta'=>'required',
         ]);
         //
         $sombreros = Sombrero::FindOrFail($id);

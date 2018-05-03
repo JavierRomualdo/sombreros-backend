@@ -18,12 +18,14 @@ class CreateVentadetalleTable extends Migration
             $table->integer('idVenta')->unsigned();
             $table->integer('idSombrero')->unsigned();
             $table->integer('cantidad')->default('0');
+            $table->decimal('costo_promedio', 7, 2)->default('0.0');
             $table->decimal('precio_venta', 7, 2)->default('0.0');
+            $table->decimal('costo', 7, 2)->default('0.0');
             $table->decimal('porcentaje_descuento', 5, 2)->default('0.0');
             $table->decimal('descuento', 7, 2)->default('0.0');
             $table->decimal('sub_total', 7, 2)->default('0.0');
+            $table->decimal('costo_total', 7, 2)->default('0.0');
             $table->decimal('utilidad', 7,2)->default('0.0');
-            $table->decimal('comisionempleado', 5, 2)->default('0.0');
             $table->string('descripcion', 100)->nullable()->default('');
             $table->timestamps();
 

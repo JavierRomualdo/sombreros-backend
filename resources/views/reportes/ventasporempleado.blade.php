@@ -6,7 +6,7 @@
       <center>
         <img class="rounded mx-auto d-block  img-fluid" src="images/sombreros/logo_sombreros.png" width="300" alt="First slide">
         <h3>Orden de Venta</h3>
-        <p>[Realizado: <strong>{!!$venta->nombres!!}</strong>, Codigo: <strong>{!!$venta->numero_venta!!}</strong>]</p><br/>
+        <p>[Vendedor: <strong>{!!$venta->nombres!!}</strong>, Codigo: <strong>{!!$venta->numero_venta!!}</strong>]</p><br/>
       </center>
     </div>
   </div>
@@ -16,14 +16,16 @@
     <table class="table-striped table-hover table-bordered" width="1030px"><!--width="730px"-->
       <tbody>
         <tr>
-          <td><label class="col-sm-2 form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
+          <td><label class="form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
           <td>{!!$venta->fecha!!}</td>
-          <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label></td>
+          <td><label class="form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label></td>
           <td>{!!$venta->cantidad!!}</td>          
-          <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Precio Total:</strong></label></td>
-          <td>S/. {!!$venta->precio_total!!}</td>
-          <td><label class="col-sm-2 form-control-label" for="user"><strong>Comision Empleado:</strong></label></td>
-          <td>S/. {!!number_format($venta->comision_empleado, 2, '.', '')!!}</td>
+          <td><label class="form-control-label" for="precio_total"><strong>Precio Total:</strong></label></td>
+          <td>S/ {!!$venta->precio_total!!}</td>
+          <td><label class="form-control-label" for="user"><strong>Comision:</strong></label></td>
+          <td>S/ {!!number_format($venta->utilidad * ($venta->comision/100.00), 2, '.', '')!!}</td>
+          <td><label class="form-control-label" for="precio_total"><strong>Cliente:</strong></label></td>
+          <td>{!!$venta->cliente!!}</td>
         </tr>
       </tbody>
     </table>
@@ -43,8 +45,6 @@
           <th>Descuento (%)</th>
           <th>Descuento</th>
           <th>Precio Total</th>
-          <th>Comision (%)</th>
-          <th>Comision (S/)</th>
           <th>Descripcion</th>
         </tr>
       </thead>
@@ -57,12 +57,10 @@
               <img src="images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
             </td>
             <td>{{$detalle->cantidad}}</td>
-            <td>S/. {{$detalle->precio_venta}}</td>
+            <td>S/ {{$detalle->precio_venta}}</td>
             <td>{{$detalle->porcentaje_descuento}}</td>
-            <td>S/. {{$detalle->descuento}}</td>
-            <td>S/. {{$detalle->sub_total}}</td>
-            <td>{{$detalle->comisionempleado}}</td>
-            <td>{{($detalle->precio_venta/100.00)*$detalle->comisionempleado}}</td>
+            <td>S/ {{$detalle->descuento}}</td>
+            <td>S/ {{$detalle->sub_total}}</td>
             <td>{{$detalle->descripcion}}</td>
           </tr>
         @endforeach

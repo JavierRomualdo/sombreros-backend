@@ -16,7 +16,7 @@ class CreateTallasTable extends Migration
         Schema::create('tallas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('talla', 50);
-            $table->string('codigo', 3);
+            $table->string('codigo', 2);
             $table->string('descripcion', 100)->nullable();
         });
     }

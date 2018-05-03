@@ -11,8 +11,8 @@ class VentaDetalle extends Model
     protected $primarykey = 'id';
 
     protected $fillable = [
-      'id', 'idVenta', 'idSombrero', 'cantidad','precio_venta', 'porcentaje_descuento', 
-      'descuento', 'sub_total', 'utilidad', 'comisionempleado', 'descripcion'
+      'id', 'idVenta', 'idSombrero', 'cantidad', 'costo_promedio','precio_venta','costo', 'porcentaje_descuento', 
+      'descuento', 'sub_total', 'costo_total', 'utilidad', 'descripcion'
     ];
 
     public function Venta()

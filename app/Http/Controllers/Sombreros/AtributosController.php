@@ -85,9 +85,17 @@ class AtributosController extends Controller
         $validar = $request->validate([
             'igv'=>'required',
             'margenganancia'=>'required',
-            'gastosservicios'=>'required',
+            'preciominimo'=>'required',
+            'preciomaximo'=>'required',
+            'preciomaximo'=>'required',
+            'costorepmaximo'=>'required',
+            'costoserviciorep'=>'required',
+            'descuentoventa'=>'required',
+            'descuentoextra'=>'required',
+            'comision'=>'required',
           ]);
           //
+          //echo($request->estadodescextra." - ".$request->descuentoextra);
           $atributos = Atributos::FindOrFail($id);
           $input = $request->all();
           $atributos->fill($input)->save();

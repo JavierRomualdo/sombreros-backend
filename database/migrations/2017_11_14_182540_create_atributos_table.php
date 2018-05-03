@@ -17,7 +17,14 @@ class CreateAtributosTable extends Migration
             $table->increments('id');
             $table->decimal('igv', 4, 2)->default('0.00');
             $table->decimal('margenganancia', 4, 2)->default('0.00');
-            $table->decimal('gastosservicios', 4, 2)->default('0.00');
+            $table->decimal('preciominimo', 4, 2)->default('0.00');
+            $table->decimal('preciomaximo', 4, 2)->default('0.00');
+            $table->decimal('costorepmaximo', 7, 2)->default('0.00');
+            $table->decimal('costoserviciorep', 4, 2)->default('0.00');
+            $table->decimal('descuentoventa', 4, 2)->default('0.00');
+            $table->decimal('descuentoextra', 4, 2)->default('0.00');
+            //$table->char('estadodescextra', 1)->default('N');
+            $table->decimal('comision', 4, 2)->default('0.00');
             $table->timestamps();
         });
     }

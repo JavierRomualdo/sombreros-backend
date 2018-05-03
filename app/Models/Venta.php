@@ -11,7 +11,8 @@ class Venta extends Model
     protected $primarykey = 'id';
 
     protected $fillable = [
-      'id', 'idEmpleado', 'idCliente', 'numero_venta', 'fecha', 'utilidad', 'idUsuario'
+      'id', 'idEmpleado', 'idCliente', 'numero_venta', 'fecha', 'utilidad', 'idUsuario',
+      'comision', 'estadocancelado'
     ];
 
     public function User()
@@ -36,5 +37,11 @@ class Venta extends Model
     {
       # code... pertenece a:
       return $this->belongsto(VentaDetalle::class);
+    }
+
+    public function CancelacionDetalle()
+    {
+      # code... pertenece a:
+      return $this->belongsto(CancelacionDetalle::class);
     }
 }

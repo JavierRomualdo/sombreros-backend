@@ -25,12 +25,12 @@
               {!!Form::open(['action'=>'Sombreros\TallaController@store','method'=>'POST'])!!}
               <div class="form-group">
                 <strong>{!!form::label('Talla:',null,['for'=>'talla'])!!}</strong>
-                {!!form::text('talla', null,['id'=>'talla','class'=>'form-control','placeholder'=>'Ingrese Talla', 'autofocus'])!!}
+                {!!form::text('talla', null,['id'=>'talla','class'=>'form-control','placeholder'=>'Ingrese Talla','maxlength'=>'2', 'autofocus'])!!}
               </div>
               <div class="form-group">
                 <strong>{!!form::label('Codigo:',null,['for'=>'codigo'])!!}</strong>
-                {!!form::text('codigo', null,['id'=>'codigo','class'=>'form-control','readonly','placeholder'=>'Elige Codigo', 'autofocus'])!!}
-                <span class="help-block">El código son de 1 a 3 caracteres de la talla.</span>
+                {!!form::text('codigo', null,['id'=>'codigo','class'=>'form-control','readonly','placeholder'=>'Elige Codigo','maxlength'=>'2', 'autofocus'])!!}
+                <span class="help-block">El código son de 1 a 2 caracteres de la talla.</span>
                 <div class="i-checks">
                   <input id="checkeditar" type="checkbox" value="" class="form-control-custom">
                   <label for="checkeditar">Editar</label>

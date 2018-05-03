@@ -54,8 +54,8 @@
               <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                  <span class="help-block-none">El código son de 13 caracteres.</span>
+                  {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','maxlength'=>'14','autofocus'])!!}
+                  <span class="help-block-none">Es de 13 ó 14 caracteres.</span>
                 </div>
                 <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                 <div class="col-sm-3">
@@ -295,10 +295,10 @@ $("#buscar").click(function(e){
   var mensaje = "";
   if ($("#check_panel_sombrero").is(':checked')) {
     if ($("#codigo").val()=="") {
-      mensaje = mensaje + "* El codigo no debe estar vacío.<br/>";
+      mensaje = mensaje + "* El codigo no debe estar vacío.</br>";
     } else {
-      if ($("#codigo").val().length!=13) {
-        mensaje = mensaje + "* El codigo no tiene los 13 caracteres.<br/>";
+      if ($("#codigo").val().length<13 || $("#codigo").val().length>14) {
+        mensaje = mensaje + "* El codigo no tiene los 13 ó 14 caracteres.<br/>";
       }
     }
   }
@@ -438,7 +438,7 @@ $("#codigo").keyup(function(e){
 });
 
 function buscarDatosPorCodigo() {
-  if ($("#codigo").val().length==13) {
+  if ($("#codigo").val().length==13 || $("#codigo").val().length==14) {
     codSombrero = $("#codigo").val();
     $.get('/ajax-OCSomb/'+codSombrero, function(data){
       $.each(data, function(index, sombrero){

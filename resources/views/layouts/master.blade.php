@@ -87,7 +87,7 @@
             <ul id="pages-nav-list" class="collapse list-unstyled">
               <li id="li-prov"> <a href="{{url('gastronomica/proveedores/proveedores/proveedor')}}"> <i class="icon-check"></i><span>Proveedor</span></a></li>
               <li id="li-prov"> <a href="{{url('gastronomica/proveedores/proveedores/datos')}}"> <i class="icon-check"></i><span>Datos</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/proveedores/precios/precios')}}"> <i class="icon-check"></i><span>Precios</span></a></li>
+              <li id="li-prov"> <a href="{{url('gastronomica/proveedores/costos/costos')}}"> <i class="icon-check"></i><span>Costos</span></a></li>
             </ul>
           </li>
           <li><a href="{{url('gastronomica/sombreros/clientes/cliente')}}"><i class="icon-interface-windows"></i><span>Clientes</span></a></li>          
@@ -97,10 +97,17 @@
         <div class="main-menu fadeIn animated">
           <h5 class="sidenav-heading">Second</h5>
           <ul id="side-main-menu" class="side-menu list-unstyled">
-
+            <li id="li-prov"> <a href="{{url('gastronomica/sombreros/pedidosreposicion/pedidoreposicion')}}"> <i class="icon-check"></i><span>Pedido Reposicion</span></a></li>            
             <li id="li-prov"> <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}"> <i class="icon-check"></i><span>Orden de Compra</span></a></li>
             <li id="li-prov"> <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}"> <i class="icon-check"></i><span>Guia Ingreso</span></a></li>
-            <li> <a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="ion-ios-cart-outline"></i><span>Ventas</span></a></li>
+            <li> <a href="#pages-nav-ventas" data-toggle="collapse" aria-expanded="false"> <i class="ion-ios-cart-outline"></i><span>Ventas</span></a>
+              <ul id="pages-nav-ventas" class="collapse list-unstyled">
+                <li><a href="{{url('gastronomica/sombreros/ventas/precios')}}"> <i class="ion-ios-cart-outline"></i><span>Precios</span></a></li>
+                <li><a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="ion-ios-cart-outline"></i><span>Nueva Venta</span></a></li>
+                <li><a href="{{url('gastronomica/sombreros/ventas/cancelaciones/cancelacion')}}"> <i class="ion-ios-cart-outline"></i><span>Cancelacion</span></a></li>
+                <li><a href="{{url('gastronomica/sombreros/ventas/utilidades/utilidadcomision')}}"> <i class="ion-ios-cart-outline"></i><span>Utilidad-Comision</span></a></li>
+              </ul>
+            </li>
             <!--<li> <a href="#pages-nav-list-compras" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Compras</span></a>
             <ul id="pages-nav-list-compras" class="collapse list-unstyled">
               
@@ -128,22 +135,29 @@
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompra/ordencompraproveedor')}}"> <i class="icon-check"></i><span>Por Proveedor</span></a></li>
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ordencompra/ordencompraarticulo')}}"> <i class="icon-check"></i><span>Por Articulo</span></a></li>
                 </ul>
-              </li>      
+              </li>
+              <li><a href="#pages-ventas" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Ventas</span></a>
+                <ul id="pages-ventas" class="collapse list-unstyled">
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ventas/ventascliente')}}"> <i class="icon-check"></i><span>Por cliente</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ventas/ventasvendedor')}}"> <i class="icon-check"></i><span>Por vendedor</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ventas/ventascancelacion')}}"> <i class="icon-check"></i><span>Por cancelacion</span></a></li>
+                </ul>
+              </li>   
             </ul>
           </li>
           <li> <a href="#pages-nav-list-reportes" data-toggle="collapse" aria-expanded="false"><i class="ion-clipboard"></i><span>Reportes</span></a>
             <ul id="pages-nav-list-reportes" class="collapse list-unstyled">
               <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/compras')}}"> <i class="icon-check"></i><span>Orden Compra</span></a></li>
-              <li id="li-prov"> <a href="#pages-ventas" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Ventas</span></a>
-                <ul id="pages-ventas" class="collapse list-unstyled">
+              <li id="li-prov"> <a href="#pages-rventas" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Ventas</span></a>
+                <ul id="pages-rventas" class="collapse list-unstyled">
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventas')}}"> <i class="icon-check"></i><span>Ventas</span></a></li>
-                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventasporempleado')}}"> <i class="icon-check"></i><span>Ventas por empleado</span></a></li>
+                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/reportes/ventasporempleado')}}"> <i class="icon-check"></i><span>Por vendedor</span></a></li>
                 </ul>
               </li>
               <li id="li-prov"> <a href="#pages-utilidades" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Utilidades</span></a>
                 <ul id="pages-utilidades" class="collapse list-unstyled">
-                    <a href="{{url('gastronomica/sombreros/reportes/utilidadessombreros')}}"> <i class="icon-check"></i><span>Ut. Sombreros</span></a>
-                  <a href="{{url('gastronomica/sombreros/reportes/utilidades')}}"> <i class="icon-check"></i><span>Ut. Ventas</span></a>
+                    <a href="{{url('gastronomica/sombreros/reportes/utilidadessombreros')}}"> <i class="icon-check"></i><span>Por Articulo</span></a>
+                  <a href="{{url('gastronomica/sombreros/reportes/utilidades')}}"> <i class="icon-check"></i><span>Por Ventas</span></a>
                 </ul>
               </li>
               <li id="li-prov"> <a href="#pages-movimientos" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Movimientos</span></a>

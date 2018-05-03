@@ -27,6 +27,12 @@ class Empleado extends Model
       return $this->belongsto(ComisionEmpleado::class);
     }
 
+    public function OrdenCompraEmpleado()
+    {
+      # code... pertenece a:
+      return $this->belongsto(OrdenCompraEmpleado::class);
+    }
+
     public function Encargo()
     {
       # code...

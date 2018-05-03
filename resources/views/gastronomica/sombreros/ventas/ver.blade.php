@@ -21,7 +21,7 @@
               <h2 class="h5 display ion-paperclip fadeIn animated"> Consolidado:</h2>
             </div>
             <div class="card-block">
-              <p>Codigo: <strong>{!!$venta->numero_venta!!}</strong></p>
+              <p>[ Vendedor: <strong>{!!$venta->nombres!!}</strong> , Código Venta: <strong>{!!$venta->numero_venta!!}</strong> ]</p>
               <div class="form-group row">
                 <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
                 <div class="col-sm-2 col-3">
@@ -31,13 +31,13 @@
                 <div class="col-sm-1 col-3">
                   <label class="form-control-label" for="precio_total">{!!$venta->cantidad!!}</label>
                 </div>
-                <label class="col-sm-1 col-3 form-control-label" for="precio_total"><strong>Total:</strong></label>
-                <div class="col-sm-2 col-3">
+                <label class="col-sm-2 col-3 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
+                <div class="col-sm-1 col-3">
                   <label class="form-control-label" for="precio_total">S/.{!!$venta->precio_total!!}</label>
                 </div>
-                <label class="col-sm-1 col-3 form-control-label" for="user"><strong>Realizado:</strong></label>
+                <label class="col-sm-1 col-3 form-control-label" for="user"><strong>Cliente:</strong></label>
                 <div class="col-sm-2 col-3">
-                  <label class="form-control-label" for="user">{!!$venta->nombres!!}</label>
+                  <label class="form-control-label" for="user">{!!$venta->cliente!!}</label>
                 </div>
               </div>
             </div>

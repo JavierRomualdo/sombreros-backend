@@ -17,14 +17,14 @@
       <tbody>
         <tr>
           <td><label class="form-control-label"><strong>N° Ventas:</strong></label></td>
-          <td>{!!$numventas->num_ventas!!}</td>
+          <td>{!!$venta->cantidad_venta!!}</td>
           <td><label class="form-control-label"><strong>Cantidad Items:</strong></label></td>
-          <td>{!!$venta->cantidad_venta!!}</td>          
+          <td>{!!$venta->cantidad!!}</td>          
           <td><label class="form-control-label"><strong>Total Ventas:</strong></label></td>
-          <td>S/. {!!$venta->total!!}</td>
+          <td>S/ {!!$venta->total!!}</td>
           <td><label class="form-control-label"><strong>Comision Empleado:</strong></label></td>
-          <td>S/. {!!number_format($venta->comision_total, 2, '.', '')!!}</td>
-          <td><label class="form-control-label"><strong>Realizado:</strong></label></td>
+          <td>S/ {!!number_format($venta->comision_total, 2, '.', '')!!}</td>
+          <td><label class="form-control-label"><strong>Vendedor:</strong></label></td>
           <td>{!!$empleado->nombres!!}</td>
         </tr>
       </tbody>
@@ -40,9 +40,10 @@
             <th>#</th>
             <th>Codigo de Venta</th>
             <th>Fecha</th>
-            <th>Precio Total</th>
             <th>Cantidad Items</th>
-            <th>Comision Empleado</th>
+            <th>Precio Total</th>
+            <th>Comision</th>
+            <th>Cliente</th>
         </tr>
       </thead>
       <tbody>
@@ -51,9 +52,10 @@
             <th scope="row">{{$index+1}}</th>
             <td>{{$detalle->numero_venta}}</td>
             <td>{{$detalle->fecha}}</td>
-            <td>S/ {{$detalle->precio_total}}</td>
             <td>{{$detalle->cantidad}}</td>
-            <td>S/ {{number_format($detalle->comision_empleado, 2, '.', '')}}</td>
+            <td>S/ {{$detalle->precio_total}}</td>
+            <td>S/ {{number_format($detalle->utilidad * ($detalle->comision/100.00), 2, '.', '')}}</td>
+            <td>{{$detalle->cliente}}</td>
           </tr>
         @endforeach
     </table>

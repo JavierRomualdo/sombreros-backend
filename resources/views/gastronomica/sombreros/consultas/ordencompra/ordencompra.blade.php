@@ -36,8 +36,8 @@
                   <input type="text" id="numero_fecha" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="2"/>
                 </div>
                 <div class="col-sm-1  text-center">
-                    <label title='' id="estado_orden"></label>
-                  </div>
+                  <label title='' id="estado_orden"></label>
+                </div>
                 <div class="offset-sm-2 col-sm-1 col-2">
                   <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
                 </div>
@@ -56,20 +56,20 @@
             <div class="card-block">
               <p>Codigo: <strong id="numero_orden">##-####-##</strong></p>
               <div class="form-group row">
-                <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
+                <label class="col-sm-2 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
                 <div class="col-sm-2 col-3">
                   <label class="form-control-label" id="fecha">##</label>
                 </div>
-                <label class="col-sm-2 col-3 form-control-label" for="fecha"><strong>Proveedor:</strong></label>
+                <!--<label class="col-sm-2 col-3 form-control-label" for="fecha"><strong>Proveedor:</strong></label>
                 <div class="col-sm-2 col-3">
                   <label class="form-control-label" id="proveedor">##</label>
-                </div>
+                </div>-->
                 <label class="col-sm-2 col-3 form-control-label" for="fecha"><strong>Cantidad Items:</strong></label>
-                <div class="col-sm-1 col-3">
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" id="cantidad">##</label>
                 </div>
-                <label class="col-sm-1 col-3 form-control-label"><strong>Total:</strong></label>
-                <div class="col-sm-1 col-3">
+                <label class="col-sm-2 col-3 form-control-label"><strong>Costo Total:</strong></label>
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" id="total">##</label>
                 </div>
               </div>
@@ -96,9 +96,9 @@
                       <th>Cantidad</th>
                       <th>Ingresado</th>
                       <th>Pendientes</th>
-                      <th>Precio Unitario</th>
-                      <th>Precio Total</th>
-                      <!--<th>Proveedor</th>-->
+                      <th>Costo Articulo</th>
+                      <th>Costo Total</th>
+                      <th>Proveedor</th>
                       <th>Descripcion</th>
                       <th>Estado</th>
                       <th>Acciones</th>
@@ -241,23 +241,23 @@
                 var bandera = false;
                 //success
                 $.each(data, function(index, orden){
-                  if((parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))==0){
+                  if((parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))==0){
                     tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                       orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                       "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28' data-toggle='modal'>"+
-                      "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))+"</td><td>"+
-                      orden.precio_unitario+"</td><td>"+(parseInt(orden.cantidad)*orden.precio_unitario)+"</td><td>"+orden.descripcion+
+                      "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>S/ "+
+                      orden.costounitario+"</td><td>S/ "+(parseInt(orden.cantidad)*orden.costounitario)+"</td><td>"+orden.empresa+"</td><td>"+orden.descripcion+
                       "</td><td><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
-                      "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.precio_unitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
+                      "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
                       "</td></tr>";
                   } else {
                     tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                       orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                       "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28' data-toggle='modal'>"+
-                      "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))+"</td><td>"+
-                      orden.precio_unitario+"</td><td>"+(parseInt(orden.cantidad)*orden.precio_unitario)+"</td><td>"+orden.descripcion+
+                      "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>"+
+                      orden.costounitario+"</td><td>"+(parseInt(orden.cantidad)*orden.costounitario)+"</td><td>"+orden.empresa+"</td><td>"+orden.descripcion+
                         "</td><td><label style='background: red;' id='divredondo' title='pendiente'></label></td><td>"+
-                      "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.precio_unitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
+                      "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
                       "</td></tr>";
                       bandera = true;
                   }

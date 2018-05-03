@@ -13,8 +13,8 @@ class Sombrero extends Model
 
     protected $fillable = [
       'id', 'idModelo', 'idTejido', 'idPublicoDirigido', 'idMaterial', 'idTalla', 'codigo',
-      'precio_venta', 'utilidad', 'stock_actual', 'pedido_reposicion', 'stock_minimo',
-      'stock_maximo', 'photo'
+      'precio_venta', 'precio_lista','costo_promedio', 'utilidad', 'stock_actual', 'pedido_reposicion', 
+      'costorepminimo', 'costorepmaximo', 'stock_minimo', 'stock_maximo', 'photo'
     ];
 
     public function ProveedorPrecio()
@@ -34,12 +34,6 @@ class Sombrero extends Model
       # code...
       return $this->belongsto(GuiaIngresoDetalle::class);
     }*/
-
-    public function OrdenCompraDetalle()
-    {
-      # code...
-      return $this->belongsto(OrdenCompraDetalle::class);
-    }
 
     public function VentaDetalle()
     {
@@ -83,9 +77,9 @@ class Sombrero extends Model
       return $this->belongsto(Precios::class);
     }
 
-    /*public function Movimientos()
+    public function Movimiento()
     {
       # code...
-      return $this->belongsto(Movimientos::class);
-    }*/
+      return $this->belongsto(Movimiento::class);
+    }
 }

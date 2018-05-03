@@ -1,22 +1,83 @@
 @extends('layouts.master')
 @section('content')
-  <div class="breadcrumb-holder">
+  <!--<div class="breadcrumb-holder">
     <div class="container-fluid">
       <ul class="breadcrumb">
         <li class="breadcrumb-item active">Home</li>
       </ul>
     </div>
-  </div>
+  </div>-->
   <!-- Counts Section -->
-  <br/>
-  <section>
+  <section class="dashboard-counts section-padding">
     <div class="container-fluid">
+        <div class="row">
+            <!-- Count item widget-->
+            <div class="col-xl-2 col-md-4 col-6">
+              <div class="wrapper count-title d-flex">
+                <div class="icon"><i class="icon-user"></i></div>
+                <div class="name"><strong class="text-uppercase">Nuevos Clientes</strong><span>Los últimos 7 días</span>
+                  <div class="count-number">25</div>
+                </div>
+              </div>
+            </div>
+            <!-- Count item widget-->
+            <div class="col-xl-2 col-md-4 col-6">
+              <div class="wrapper count-title d-flex">
+                <div class="icon"><i class="icon-padnote"></i></div>
+                <div class="name"><strong class="text-uppercase">
+                    <a href="{{url('gastronomica/sombreros/pedidosreposicion/pedidoreposicion')}}">Pedido Reposicion</a>
+                </strong><span>Hoy dia</span>
+                  <div class="count-number">{{$pedidosreposicion->cantidad}}</div>
+                </div>
+              </div>
+            </div>
+            <!-- Count item widget-->
+            <div class="col-xl-2 col-md-4 col-6">
+              <div class="wrapper count-title d-flex">
+                <div class="icon"><i class="icon-check"></i></div>
+                <div class="name"><strong class="text-uppercase">Guias Ingreso</strong><span>Last 2 months</span>
+                  <div class="count-number">342</div>
+                </div>
+              </div>
+            </div>
+            <!-- Count item widget-->
+            <div class="col-xl-2 col-md-4 col-6">
+              <div class="wrapper count-title d-flex">
+                <div class="icon"><i class="icon-bill"></i></div>
+                <div class="name"><strong class="text-uppercase">Nuevas Ventas</strong><span>Last 2 days</span>
+                  <div class="count-number">123</div>
+                </div>
+              </div>
+            </div>
+            <!-- Count item widget-->
+            <div class="col-xl-2 col-md-4 col-6">
+              <div class="wrapper count-title d-flex">
+                <div class="icon"><i class="icon-list"></i></div>
+                <div class="name"><strong class="text-uppercase">Open Cases</strong><span>Last 3 months</span>
+                  <div class="count-number">92</div>
+                </div>
+              </div>
+            </div>
+            <!-- Count item widget-->
+            <div class="col-xl-2 col-md-4 col-6">
+              <div class="wrapper count-title d-flex">
+                <div class="icon"><i class="icon-list-1"></i></div>
+                <div class="name"><strong class="text-uppercase">New Cases</strong><span>Last 7 days</span>
+                  <div class="count-number">70</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr/>
+    </div>
+    <div class="container-fluid">
+      
       <div class="row">
         <div class="col-md-12 text-center">
-          <img src="images/sombreros/logo_sombreros.PNG" width="450px">
+          <img src="images/sombreros/logo_sombreros.PNG" width="250px">
         </div>
       </div><hr/>
-      <div class="row">
+      <!--<div class="row">
         <div class="col-md-5">
             <div class="wrap">
                 <div class="widget bg-primary fadeIn animated">
@@ -45,17 +106,18 @@
               </div>
         </div>
         <div class="col-md-7">
-          <img src="images/eventos/verano.PNG" alt="local" class="rounded fadeIn animated">
+          <img src="/images/temporadas/1521178513.PNG" alt="local" width="300" class="rounded fadeIn animated">
         </div>
-      </div>
+      </div>-->
       <hr/>
       <h3 class="ion-pricetags"> Principal:</h3>
       <hr/>
         <div class="card-columns">
             <div class="card miBorder fadeIn animated">
               <div class="card-img-top text-center">
-                <img class=" fadeIn animated" src="images/eventos/verano.PNG" alt="Card image cap" width="215px">
-              </div>
+                <!--<img class=" fadeIn animated" src="/images/temporadas/1521178513.PNG" alt="Card image cap" width="215px">
+                -->
+                </div>
               <div class="card-body container">
                 <h5 class="card-title ion-android-open"> Sombreros</h5>
                 <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -67,8 +129,9 @@
             </div>
             <div class="card miBorder fadeIn animated">
               <div class="card-img-top text-center">
-                <img class=" fadeIn animated" src="/images/temporadas" alt="Card image cap" width="215px">
-              </div>
+                <!--<img class=" fadeIn animated" src="/images/temporadas/1521178513.PNG" alt="Card image cap" width="215px">
+                -->
+                </div>
               <div class="card-body container">
                 <h5 class="card-title ion-android-open"> Ventas</h5>
                 <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -80,8 +143,9 @@
             </div>
             <div class="card miBorder fadeIn animated">
               <div class="card-img-top text-center">
-                <img class=" fadeIn animated" src="images/eventos/verano.PNG" alt="Card image cap" width="215px">
-              </div>
+                <!--<img class=" fadeIn animated" src="/images/temporadas/1521178513.PNG" alt="Card image cap" width="215px">
+                -->
+                </div>
               <div class="card-body container">
                 <h5 class="card-title ion-android-open"> Orden Compra</h5>
                 <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -93,8 +157,9 @@
             </div>
             <div class="card miBorder fadeIn animated">
               <div class="card-img-top text-center">
-                <img class=" fadeIn animated" src="images/eventos/verano.PNG" alt="Card image cap" width="215px">
-              </div>
+                <!--<img class=" fadeIn animated" src="/images/temporadas/1521178513.PNG" alt="Card image cap" width="215px">
+                -->
+                </div>
                 <div class="card-body container">
                   <h5 class="card-title ion-android-open"> Proveedores</h5>
                   <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -106,8 +171,9 @@
               </div>
               <div class="card miBorder fadeIn animated">
                   <div class="card-img-top text-center">
-                    <img class=" fadeIn animated" src="images/eventos/verano.PNG" alt="Card image cap" width="215px">
-                  </div>
+                    <!--<img class=" fadeIn animated" src="/images/temporadas/1521178513.PNG" alt="Card image cap" width="215px">
+                    -->
+                    </div>
                   <div class="card-body container">
                     <h5 class="card-title ion-android-open"> Guia Ingreso</h5>
                     <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -119,8 +185,9 @@
                 </div>
               <div class="card miBorder fadeIn animated">
                   <div class="card-img-top text-center">
-                    <img class=" fadeIn animated" src="images/eventos/verano.PNG" alt="Card image cap" width="215px">
-                  </div>
+                    <!--<img class=" fadeIn animated" src="/images/temporadas/1521178513.PNG" alt="Card image cap" width="215px">
+                    -->
+                    </div>
                   <div class="card-body container">
                     <h5 class="card-title ion-android-open"> Movimientos</h5>
                     <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>

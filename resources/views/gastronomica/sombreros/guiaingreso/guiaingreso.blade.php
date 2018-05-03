@@ -23,7 +23,7 @@
         <div class="col-lg-12 col-sm-12 col-md-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-                <h2 class="h1 display ion-paperclip fadeIn animated title"> Historial:</h2>
+                <h2 class="h5 display ion-paperclip fadeIn animated title"> Historial:</h2>
             </div>
             <div class="card-block miTabla">
               
@@ -36,7 +36,7 @@
                     <th>Codigo de Guia</th>
                     <th>Fecha</th>
                     <th>Cantidad Items</th>
-                    <th>Precio Total</th>
+                    <th>Costo Total</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>

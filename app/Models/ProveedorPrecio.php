@@ -26,4 +26,10 @@ class ProveedorPrecio extends Model
       # code...
       return $this->hasmany(Sombrero::class);
     }
+
+    public function PedidoReposicion()
+    {
+      # code... pertenece a:
+      return $this->belongsto(PedidoReposicion::class);
+    }
 }

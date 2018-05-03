@@ -12,7 +12,8 @@ class OrdenCompraDetalle extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'idOrdenCompra', 'idSombrero', 'cantidad', 'cantidad_ingreso', 'estado_ingreso', 'precio_unitario', 'descripcion'
+      'id', 'idOrdenCompra', 'idProveedorPrecio', 'idPedidoReposicionDetalle', 'cantidad', 'cantidadingreso', 
+      'estadoingreso', 'costounitario', 'descripcion'
     ];
 
     public function OrdenCompra()
@@ -21,12 +22,17 @@ class OrdenCompraDetalle extends Model
       return $this->hasmany(OrdenCompra::class);
     }
 
-    public function Sombrero()
+    public function ProveedorPrecio()
     {
       # code...
-      return $this->hasmany(Sombrero::class);
+      return $this->hasmany(ProveedorPrecio::class);
     }
 
+    public function PedidoReposicionDetalle()
+    {
+      # code...
+      return $this->hasmany(PedidoReposicionDetalle::class);
+    }
 
     public function GuiaIngresoDetalle()
     {

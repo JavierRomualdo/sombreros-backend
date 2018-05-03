@@ -16,6 +16,7 @@ use App\Models\OrdenCompraDetalle;
 use App\Models\Venta;
 use App\Models\VentaDetalle;
 use App\Models\Empleado;
+use App\Models\Cliente;
 use Session;
 use DB;
 use PDF;
@@ -70,15 +71,15 @@ class ConsultaController extends Controller
     public function indexOrdenCompraConsolidado($numeroOrden){
         $orden = OrdenCompra::select('id')->where('orden_compra.numero_orden','=',$numeroOrden)->first();
 
+
         $datos = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
-        DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'),
-        DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),'proveedor.empresa')
+        DB::raw('SUM(orden_compra_detalle.costounitario * orden_compra_detalle.cantidad) as precio_total'),
+        DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'))
         ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
-        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
-        ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
+        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
         ->where('orden_compra.id','=',$orden->id)
-        ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get();
+        ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha')->get();
 
         /*$detalles = OrdenCompraDetalle::select("sombrero.codigo","sombrero.photo","orden_compra_detalle.idOrdenCompra",
         "orden_compra_detalle.cantidad","orden_compra_detalle.cantidad_ingreso","orden_compra_detalle.precio_unitario",
@@ -95,10 +96,10 @@ class ConsultaController extends Controller
         $orden = OrdenCompra::select('id')->where('orden_compra.numero_orden','=',$numeroOrden)->first();
 
         $datos = OrdenCompraDetalle::select("orden_compra_detalle.id","sombrero.codigo","sombrero.photo","orden_compra_detalle.idOrdenCompra",
-        "orden_compra_detalle.cantidad","orden_compra_detalle.cantidad_ingreso","orden_compra_detalle.precio_unitario",
+        "orden_compra_detalle.cantidad","orden_compra_detalle.cantidadingreso","orden_compra_detalle.costounitario",
         "orden_compra_detalle.descripcion","proveedor.empresa")
-        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
         ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
         ->where('orden_compra_detalle.idOrdenCompra','=',$orden->id)->get();
 
@@ -132,20 +133,21 @@ class ConsultaController extends Controller
         return view ('gastronomica/sombreros/consultas/ordencompra/ordencompraproveedor')->with("proveedores", $proveedor);
     }
 
-    public function ordenCompraProveedorConsolidado($idProveedor){
+    public function ordenCompraProveedorConsolidado($idProveedor,$fecha_inicio,$fecha_fin){
         $datos = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
-          DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'),
-          DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),
-          DB::raw('SUM(orden_compra_detalle.cantidad_ingreso) as ingresos'),'proveedor.empresa')
-          ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
-          ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-          ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
-          ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
-          ->where('proveedor.id','=',$idProveedor)
-          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get();
+        DB::raw('SUM(orden_compra_detalle.costounitario * orden_compra_detalle.cantidad) as precio_total'),
+        DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'))
+        ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
+        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
+        ->whereBetween('orden_compra.fecha',[$fecha_inicio,$fecha_fin])
+        ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha')
+        ->where('proveedor_precio.idProveedor','=',$idProveedor)->get();
+
         
         return response()->json($datos);
     }
+    
 
     public function numeroOrdenCompra($idOrdenCompra){
         $datos = OrdenCompra::select("orden_compra.numero_orden")->where("orden_compra.id","=",$idOrdenCompra)->get();
@@ -154,13 +156,94 @@ class ConsultaController extends Controller
 
     public function ordenCompraDetallesProveedor($idOrdenCompra){
         $datos = OrdenCompraDetalle::select("orden_compra_detalle.id","sombrero.codigo","sombrero.photo","orden_compra_detalle.idOrdenCompra",
-        "orden_compra_detalle.cantidad","orden_compra_detalle.cantidad_ingreso","orden_compra_detalle.precio_unitario",
+        "orden_compra_detalle.cantidad","orden_compra_detalle.cantidadingreso","orden_compra_detalle.costounitario",
         "orden_compra_detalle.descripcion","proveedor.empresa")
-        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
         ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
         ->where('orden_compra_detalle.idOrdenCompra','=',$idOrdenCompra)->get();
 
+        return response()->json($datos);
+    }
+
+    /**Ventas por cliente */
+    public function indexVentasCliente(){
+        $clientes = Cliente::select('id','nombres','dni','direccion','telefono')->get();
+        return view ('gastronomica/sombreros/consultas/ventas/ventascliente')->with("clientes", $clientes);        
+    }
+
+    public function ventasClienteConsolidado($idCliente,$fecha_inicio,$fecha_fin){
+        $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres","cliente.nombres as cliente",
+        DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+        DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
+          ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
+          ->join("cliente","cliente.id","=","venta.idCliente")
+          ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres','cliente.nombres')
+          ->where('cliente.id','=',$idCliente)->get();
+        return response()->json($datos);
+    }
+
+    public function numeroVenta($idVenta){
+        $datos = Venta::select("numero_venta")->where("id","=",$idVenta)->get();
+        return response()->json($datos);
+    }
+
+    public function ventaDetallesCliente($idVenta){
+        $datos = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
+        "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
+        "venta_detalle.descuento","venta_detalle.sub_total", "venta_detalle.descripcion")
+        ->join("sombrero", "sombrero.id","=","venta_detalle.idSombrero")
+        ->where("venta_detalle.idVenta","=",$idVenta)->get();
+
+        return response()->json($datos);
+    }
+
+    /**Ventas por vendedor*/
+
+    public function indexVentasVendedor()
+    {
+        # code...
+        $vendedores = Empleado::select('id','nombres','apellidos','dni','direccion','telefono')->get();
+        return view('gastronomica/sombreros/consultas/ventas/ventasvendedor')->with("vendedores", $vendedores);
+    }
+
+    public function ventasVendedorConsolidado($idVendedor,$fecha_inicio,$fecha_fin){
+        $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha","venta.utilidad","venta.comision",
+        "empleado.nombres","cliente.nombres as cliente",
+        DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+        DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
+          ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
+          ->join("cliente","cliente.id","=","venta.idCliente")
+          ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha',"venta.utilidad","venta.comision",
+          'empleado.nombres','cliente.nombres')
+          ->where('empleado.id','=',$idVendedor)->get();
+        return response()->json($datos);
+    }
+
+    /**Ventas por cancelacion */
+    public function indexVentasCancelacion()
+    {
+        # code...
+        return view('gastronomica/sombreros/consultas/ventas/ventascancelacion');
+    }
+
+    public function ventasCancelacionFechas($cancelacion,$fecha_inicio,$fecha_fin)
+    {
+        # code...
+        $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres","cliente.nombres as cliente",
+        DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+        DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
+          ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
+          ->join("cliente","cliente.id","=","venta.idCliente")
+          ->whereBetween('venta.fecha',[$fecha_inicio,$fecha_fin])
+          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres','cliente.nombres')
+          ->where('venta.estadocancelado','=',$cancelacion)->get();
+        
         return response()->json($datos);
     }
 
@@ -182,27 +265,28 @@ class ConsultaController extends Controller
         return view ('gastronomica/sombreros/consultas/ordencompra/ordencompraarticulo', array('modelo'=>$modelos, 'tejido'=>$tejidos,
         'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'imagenes'=>$imagenes));
     }
-    public function ordenCompraArticuloConsolidado($codigoSombrero){
+    public function ordenCompraArticuloConsolidado($codigoSombrero,$fecha_inicio,$fecha_fin){
         $datos = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
-          DB::raw('SUM(orden_compra_detalle.precio_unitario * orden_compra_detalle.cantidad) as precio_total'),
+          DB::raw('SUM(orden_compra_detalle.costounitario * orden_compra_detalle.cantidad) as precio_total'),
           DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),
-          DB::raw('SUM(orden_compra_detalle.cantidad_ingreso) as ingresos'),'proveedor.empresa')
+          DB::raw('SUM(orden_compra_detalle.cantidadingreso) as ingresos'),'proveedor.empresa')
           ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
-          ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-          ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+          ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+          ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
           ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
-          ->where('sombrero.codigo','=',$codigoSombrero)
-          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')->get();
+          ->whereBetween('orden_compra.fecha',[$fecha_inicio,$fecha_fin])
+          ->groupBy('orden_compra.id','orden_compra.numero_orden', 'orden_compra.fecha','proveedor.empresa')
+          ->where('sombrero.codigo','=',$codigoSombrero)->get();
         
         return response()->json($datos);
     }
 
     public function ordenCompraDetallesArticulo($codigoSombrero){
         $datos = OrdenCompraDetalle::select("orden_compra_detalle.id","sombrero.codigo","sombrero.photo","orden_compra_detalle.idOrdenCompra",
-        "orden_compra_detalle.cantidad","orden_compra_detalle.cantidad_ingreso","orden_compra_detalle.precio_unitario",
+        "orden_compra_detalle.cantidad","orden_compra_detalle.cantidadingreso","orden_compra_detalle.costounitario",
         "orden_compra_detalle.descripcion","proveedor.empresa")
-        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
         ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
         ->where('sombrero.codigo','=',$codigoSombrero)->get();
 

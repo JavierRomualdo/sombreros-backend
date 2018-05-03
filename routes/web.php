@@ -19,7 +19,8 @@ Route::get('/', function () {
     }
     if(DB::table('atributos')->count()==0){
       # code...
-      DB::table('atributos')->insert(['igv'=>'0.0', 'margenganancia'=>'0.0', 'gastosservicios'=>'0.0']);      
+      DB::table('atributos')->insert(['igv'=>'0.0', 'margenganancia'=>'0.0', 'margenganancia'=>'0.0', 'preciominimo'=>'0.0', 
+      'preciomaximo'=>'0.0', 'costoserviciorep'=>'0.0', 'descuentoventa'=>'0.0', 'descuentoextra'=>'0.0', 'comision'=>'0.0']);      
     }
     return view('auth.login');//welcome
 });
@@ -36,7 +37,18 @@ Route::get('gastronomica/proveedores/proveedores/datoseditar','Proveedores\Prove
 Route::get('gastronomica/proveedores/proveedores/ver/{prov_id}','Proveedores\ProveedorController@ver');
 Route::get('listall', 'Proveedores\ProveedorController@listall');
 
-Route::resource('gastronomica/proveedores/precios/precios', 'Proveedores\PreciosController');
+/**Costos Proveedor - Sombreros */
+Route::get('/ajax-mostrarCostos/','Proveedores\PreciosController@mostrarCostos');
+Route::get('/ajax-nuevoCosto/{idSombrero}/{idProveedor}/{costo}','Proveedores\PreciosController@nuevoCosto');
+Route::get('/ajax-editarCosto/{idSombrero}/{idProveedor}/{costo}','Proveedores\PreciosController@editarCosto');
+
+Route::resource('gastronomica/proveedores/costos/costos', 'Proveedores\PreciosController');
+
+/**Pedido reposicion */
+Route::resource('gastronomica/sombreros/pedidosreposicion/pedidoreposicion', 'Pedidos\PedidoReposicionController');
+Route::get('gastronomica/sombreros/pedidosreposicion/ver/{ped_id}','Pedidos\PedidoReposicionController@ver');
+Route::get('/ajax-mostrarPedidoReposicionDetalle/', 'Pedidos\PedidoReposicionController@mostrarPedidoReposicionDetalle');
+Route::get('/ajax-mostrarDatosSombreroOC/{ped_id}', 'Pedidos\PedidoReposicionController@mostrarDatosSombreroOC');
 //Route::get('listallget', 'Proveedores\ProveedorController@store');
 Route::resource('gastronomica/sombreros/sombreros/sombrero', 'Sombreros\SombreroController');
 Route::get('gastronomica/sombreros/sombreros/ver/{somb_id}','Sombreros\SombreroController@ver');
@@ -117,7 +129,7 @@ Route::resource('gastronomica/sombreros/ordencompra/ordencompra', 'Compras\Orden
 Route::get('/ajax-verdatos/{modelo_id}/{tejido_id}/{material_id}/{publico_id}/{talla_id}','Compras\OrdenCompraController@mostrarPorModelo');
 Route::get('/ajax-OCSomb/{codSombrero}','Compras\OrdenCompraController@mostrarSombrero');
 Route::get('/ajax-mostrarCOC/{cod}','Compras\OrdenCompraController@mostrarIdOrden');
-Route::get('/ajax-guardarorden/{tipo}/{codigo}/{idProveedor}/{cantidad}/{precio_unitario}/{descripcion}','Compras\OrdenCompraController@guardarOrden');
+Route::get('/ajax-guardarorden/{tipo}/{codigo}/{idProveedor}/{cantidad}/{precio_unitario}/{idPedidoReposicionDetalle}/{descripcion}','Compras\OrdenCompraController@guardarOrden');
 Route::get('gastronomica/sombreros/ordencompra/ver/{orden_id}','Compras\OrdenCompraController@ver');
 Route::get('gastronomica/sombreros/ordencompra/reporte/{orden_id}', 'Compras\OrdenCompraController@reporte');
 Route::get('/ajax-mostrarTodoCompras/', 'Reportes\ReporteController@mostrarTodoCompras');
@@ -125,7 +137,7 @@ Route::get('/ajax-mostrarCodigoSombreroPorProveedor/{codigo}', 'Compras\OrdenCom
 /******************GUIA INGRESO **************/
 Route::resource('gastronomica/sombreros/guiaingreso/guiaingreso', 'Compras\GuiaIngresoController');
 Route::get('/ajax-mostrarCGI/{cod}','Compras\GuiaIngresoController@mostrarNumeroGuia');
-Route::get('/ajax-guardarguia/{tipo}/{codigo}/{idProveedor}/{cantidad}/{descripcion}/{idOrdenCompraDetalle}','Compras\GuiaIngresoController@guardarGuia');
+Route::get('/ajax-guardarguia/{tipo}/{codigo}/{cantidad}/{descripcion}/{idOrdenCompraDetalle}','Compras\GuiaIngresoController@guardarGuia');
 Route::get('gastronomica/sombreros/guiaingreso/ver/{guia_id}','Compras\GuiaIngresoController@ver');
 Route::get("/ajax-guiasIngreso/{codSombrero}/{fecha_inicio}/{fecha_fin}","Compras\GuiaIngresoController@guiasIngreso");
 Route::get("/ajax-guiasIngresoPorArticulo/{fecha_inicio}/{fecha_fin}","Compras\GuiaIngresoController@guiasIngresoPorArticulo");
@@ -150,9 +162,19 @@ Route::get('gastronomica/sombreros/ventas/reporte/{venta_id}','Ventas\VentasCont
 Route::get('/ajax-mostrarCOV/{cod}','Ventas\VentasController@mostrarIdVenta');
 Route::get("/ajax-ventasPorCodSombrero/{codSombrero}","Ventas\VentasController@ventasPorCodSombrero");
 Route::get("/ajax-movVentas/{codSombrero}/{fecha_inicio}/{fecha_fin}","Ventas\VentasController@movVentas");
-Route::get('/ajax-guardarventa/{tipo}/{codigo}/{cantidad}/{precio_unitario}/{porcentaje_descuento}/{descuento}/{sub_total}/{usuario}/{utilidad}/{idEmpleado}/{idCliente}/{descripcion}','Ventas\VentasController@guardarVenta');
+Route::get('/ajax-guardarventa/{tipo}/{codigo}/{cantidad}/{precio_unitario}/{porcentaje_descuento}/{descuento}/{sub_total}/{usuario}/{idEmpleado}/{idCliente}/{descripcion}','Ventas\VentasController@guardarVenta');
 Route::get('/ajax-mostrarTodoVentas/', 'Reportes\ReporteController@mostrarTodoVentas');
-
+/**PRECIOS */
+Route::resource('gastronomica/sombreros/ventas/precios', 'Ventas\PreciosController');
+Route::get('/ajax-editarPrecioLista/{idSombrero}/{precio}','Ventas\PreciosController@editarPrecioLista');
+/**CANCELACION */
+Route::resource('gastronomica/sombreros/ventas/cancelaciones/cancelacion', 'Ventas\CancelacionController');
+Route::get('/ajax-nuevaCancelacion/{reciboprovicional}/{banco}/{numerocuenta}/{fecha}/{idVenta}','Ventas\CancelacionController@nuevaCancelacion');
+Route::get('/ajax-cancelarVenta/{idCancelacion}/{idVenta}','Ventas\CancelacionController@cancelarVenta');
+Route::get('gastronomica/sombreros/ventas/cancelaciones/ver/{cancelacion_id}','Ventas\CancelacionController@ver');
+/**UTILIDAD-COMISION */
+Route::resource('gastronomica/sombreros/ventas/utilidades/utilidadcomision', 'Ventas\UtilidadComisionController');
+Route::get('gastronomica/sombreros/ventas/utilidades/ver/{venta_id}','Ventas\UtilidadComisionController@ver');
 /******************REPORTES*********************/
 Route::get('gastronomica/sombreros/reportes/compras', 'Reportes\ReporteController@indexCompras');
 Route::get('/ajax-vercodigo/{modelo_id}/{tejido_id}/{material_id}/{publico_id}/{talla_id}','Reportes\ReporteController@mostrarCodigo');
@@ -205,14 +227,27 @@ Route::get("/ajax-guiasIngresoPorOrdenCompraDetalleCabecera/{idOrdenCompraDetall
 
 //orden de compra por proveedor
 Route::get('gastronomica/sombreros/consultas/ordencompra/ordencompraproveedor','Consultas\ConsultaController@indexOrdenCompraProveedor');
-Route::get('/ajax-ordenCompraProveedorConsolidado/{idProveedor}','Consultas\ConsultaController@ordenCompraProveedorConsolidado');
+Route::get('/ajax-ordenCompraProveedorConsolidado/{idProveedor}/{fecha_inicio}/{fecha_fin}','Consultas\ConsultaController@ordenCompraProveedorConsolidado');
 Route::get('/ajax-ordenCompraDetallesProveedor/{idOrdenCompra}', 'Consultas\ConsultaController@ordenCompraDetallesProveedor');
 Route::get('/ajax-numeroOrdenCompra/{idOrdenCompra}', 'Consultas\ConsultaController@numeroOrdenCompra');
 
 //orden de compra por articulo
 Route::get('/gastronomica/sombreros/consultas/ordencompra/ordencompraarticulo','Consultas\ConsultaController@indexOrdenCompraArticulo');
-Route::get('/ajax-ordenCompraArticuloConsolidado/{codSombrero}','Consultas\ConsultaController@ordenCompraArticuloConsolidado');
+Route::get('/ajax-ordenCompraArticuloConsolidado/{codSombrero}/{fecha_inicio}/{fecha_fin}','Consultas\ConsultaController@ordenCompraArticuloConsolidado');
 
+//consulta por cliente
+Route::get('gastronomica/sombreros/consultas/ventas/ventascliente','Consultas\ConsultaController@indexVentasCliente');
+Route::get('/ajax-ventasClienteConsolidado/{idCliente}/{fecha_inicio}/{fecha_fin}','Consultas\ConsultaController@ventasClienteConsolidado');
+Route::get('/ajax-numeroVenta/{idVenta}', 'Consultas\ConsultaController@numeroVenta');
+Route::get('/ajax-ventaDetallesCliente/{idVenta}', 'Consultas\ConsultaController@ventaDetallesCliente');
+Route::get('/ajax-guardarCliente/{nombres}/{dni}/{direccion}/{telefono}', 'Clientes\ClienteController@guardarCliente');
+Route::get('/ajax-mostrarCliente/{idCliente}', 'Clientes\ClienteController@mostrarCliente');
+//consulta por vendedor
+Route::get('gastronomica/sombreros/consultas/ventas/ventasvendedor','Consultas\ConsultaController@indexVentasVendedor');
+Route::get('/ajax-ventasVendedorConsolidado/{idVendedor}/{fecha_inicio}/{fecha_fin}','Consultas\ConsultaController@ventasVendedorConsolidado');
+//consulta por cancelacion
+Route::get('gastronomica/sombreros/consultas/ventas/ventascancelacion','Consultas\ConsultaController@indexVentasCancelacion');
+Route::get('/ajax-ventasCancelacionFechas/{cancelacion}/{fecha_inicio}/{fecha_fin}','Consultas\ConsultaController@ventasCancelacionFechas');
 /******************USUARIOS*********************/
 Route::resource('gastronomica/configuracion/usuarios/usuario', 'Usuarios\UsuarioController');
 Route::get('gastronomica/configuracion/usuarios/foto/{user_id}', 'Usuarios\UsuarioController@foto');

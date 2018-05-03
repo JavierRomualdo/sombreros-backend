@@ -21,6 +21,8 @@ class CreateVentaTable extends Migration
             $table->date('fecha')->nullable();
             $table->decimal('utilidad', 7,2)->default('0.0');
             $table->integer('idUsuario')->unsigned();
+            $table->decimal('comision', 4, 2)->default('0.0');
+            $table->char('estadocancelado', 1)->default('N');
             $table->timestamps();
 
             $table->foreign('idUsuario')->references('id')->on('users');

@@ -26,7 +26,7 @@
                 <h2 class="h6 display ion-paperclip fadeIn animated"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
-              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
+              <!--<p>Ingrese los datos del nuevo modelo de sombrero.</p>-->
               <div class="form-group row">
                 <label class="form-control-label col-sm-2"><strong>Tipo Busqueda:</strong></label>
                 <div class="i-checks col-sm-1"><!--mx-sm-2-->
@@ -41,18 +41,26 @@
                   <input id="radioFoto" type="radio" value="option3" name="a" class="opcion form-control-custom radio-custom">
                   <label for="radioFoto">Foto</label>
                 </div>
-                <div class="offset-sm-6 col-sm-1">
-                  <button type="button" name="buscar" id="buscar" class="btn btn-primary btn-sm ion-android-search rounded" title="buscar"></button>
+                <label class="col-sm-1 form-control-label" for="fecha_inicio"><strong>Fecha Inicio (*):</strong></label>
+                <div class="col-sm-2">
+                  {!!Form::date('fecha_inicio', null,['id'=>'fecha_inicio','name'=>'fecha_inicio','class'=>'form-control'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="fecha_fin"><strong>Fecha Fin(*):</strong></label>
+                <div class="col-sm-2">
+                  {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
+                </div>
+                <div class="offset-sm-0' col-sm-1">
+                  <button type="button" name="buscar" id="buscar" class="btn btn-primary fa fa-search rounded" title="buscar"></button>
                 </div>
               </div>
-              <div class="col-sm-12">
+              <!--<div class="col-sm-12">
                 <hr/>
-              </div>
+              </div>-->
               <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" autofocus id="codigo"/>
-                    <span class="help-block-none">El código son de 13 caracteres.</span>
+                    <input type="text" class="form-control" autofocus maxlength='14' id="codigo"/>
+                    <span class="help-block-none">Es de 13 ó 14 caracteres.</span>
                 </div>
                 <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                 <div class="col-sm-3">
@@ -97,11 +105,10 @@
                         <th>#</th>
                         <th>Codigo de Orden</th>
                         <th>Fecha</th>
-                        <th>Proveedor</th>
                         <th>Cantidad Items</th>
-                        <th>Precio Total</th>
+                        <th>Costo Total</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>Accion</th>
                       </tr>
                     </thead>
                     <tbody id="lista_ordenes">
@@ -132,12 +139,12 @@
                       <th>Cantidad</th>
                       <th>Ingresado</th>
                       <th>Pendientes</th>
-                      <th>Precio Unitario</th>
-                      <th>Precio Total</th>
-                      <!--<th>Proveedor</th>-->
+                      <th>Costo Unitario</th>
+                      <th>Costo Total</th>
+                      <th>Proveedor</th>
                       <th>Descripcion</th>
                       <th>Estado</th>
-                      <th>Acciones</th>
+                      <th>Accion</th>
                     </tr>
                   </thead>
                   <tbody id="lista_datos">
@@ -377,7 +384,7 @@ $("#codigo").keyup(function(e){
 });
 
 function buscarDatosPorCodigo() {
-  if ($("#codigo").val().length==13) {
+  if ($("#codigo").val().length==13 || $("#codigo").val().length==14) {
     codSombrero = $("#codigo").val();
     $.get('/ajax-OCSomb/'+codSombrero, function(data){
       $.each(data, function(index, sombrero){
@@ -413,31 +420,51 @@ function buscarDatosPorCodigo() {
 }
     //boton buscar
     $("#buscar").click(function(e){
-        if($("#codigo").val()!=""){
+        var mensaje = "";
+        if ($("#codigo").val()=="") {
+          mensaje = mensaje + "* El codigo no debe estar vacío.</br>";
+        } else {
+          if ($("#codigo").val().length<13 || $("#codigo").val().length>14) {
+            mensaje = mensaje + "* El codigo no tiene los 13 ó 14 caracteres.<br/>";
+          }
+        }
+        if ($("#fecha_inicio").val()=="") {
+          mensaje = mensaje + "* La fecha de inicio no debe estar vacia.<br/>";
+        }
+        if ($("#fecha_fin").val()=="") {
+          mensaje = mensaje + "* La fecha final no debe estar vacia.";
+        }
+        if(mensaje==""){
           $('#myTableHistorial').DataTable().destroy();
           var tabla = "";
           var n = 1;
           //Llena la tabla orden de compra
-          $.get('/ajax-ordenCompraArticuloConsolidado/'+$("#codigo").val(), function(data){
+          $.get('/ajax-ordenCompraArticuloConsolidado/'+$("#codigo").val()+'/'+$("#fecha_inicio").val()+'/'+
+          $("#fecha_fin").val(), function(data){
             //success
             $.each(data, function(index, orden){
                 console.log(orden);
                 if((parseInt(orden.cantidad)-parseInt(orden.ingresos))==0){
                   tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                   orden.numero_orden+
-                  "</td><td>"+orden.fecha+"</td><td>"+orden.empresa+"</td><td>"+orden.cantidad+"</td><td>"+orden.precio_total+"</td><td><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
+                  "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>"+orden.precio_total+
+                  "</td><td class='text-center'><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
                   "<a href='javascript:verDetallesOrdenCompra("+orden.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='ver'></a> "+"</td></tr>";
                 } else {
                   tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                   orden.numero_orden+
-                  "</td><td>"+orden.fecha+"</td><td>"+orden.empresa+"</td><td>"+orden.cantidad+"</td><td>"+orden.precio_total+"</td><td><label style='background: red;' id='divredondo' title='completado'></label></td><td>"+
+                  "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>"+orden.precio_total+
+                  "</td><td class='text-center'><label style='background: red;' id='divredondo' title='completado'></label></td><td>"+
                   "<a href='javascript:verDetallesOrdenCompra("+orden.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='ver'></a> "+"</td></tr>";
                 }
                 
                 n++;
             });
+
             
             $("#lista_ordenes").html(tabla);
+            $('#myTableDetalles').DataTable().destroy();
+            $("#lista_datos").html("");
             tabla = "";
 
             $('#myTableHistorial').DataTable({
@@ -451,7 +478,7 @@ function buscarDatosPorCodigo() {
             });
           });
         } else {
-          Messenger().post({message: "* El codigo se encuentra vacio",type:"error",showCloseButton:!0});
+          Messenger().post({message: mensaje,type:"error",showCloseButton:!0});
         }
     });
 
@@ -477,23 +504,23 @@ function buscarDatosPorCodigo() {
             } else {
                 articulo = "<label>"+orden.codigo+"</label>";
             }
-            if((parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))==0){
+            if((parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))==0){
               tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                 articulo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                 "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
-                "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))+"</td><td>"+
-                orden.precio_unitario+"</td><td>"+(parseInt(orden.cantidad)*orden.precio_unitario)+"</td><td>"+orden.descripcion+
-                "</td><td><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
-                "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.precio_unitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver'></a> "+
+                "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>"+
+                orden.costounitario+"</td><td>"+(parseInt(orden.cantidad)*orden.costounitario)+"</td><td>"+orden.empresa+"</td><td>"+orden.descripcion+
+                "</td><td class='text-center'><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
+                "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver'></a> "+
                 "</td></tr>";
             } else {
               tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
                 articulo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                 "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
-                "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidad_ingreso))+"</td><td>"+
-                orden.precio_unitario+"</td><td>"+(parseInt(orden.cantidad)*orden.precio_unitario)+"</td><td>"+orden.descripcion+
-                  "</td><td><label style='background: red;' id='divredondo' title='pendiente'></label></td><td>"+
-                "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.precio_unitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver'></a> "+
+                "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>"+
+                orden.costounitario+"</td><td>"+(parseInt(orden.cantidad)*orden.costounitario)+"</td><td>"+orden.empresa+"</td><td>"+orden.descripcion+
+                  "</td><td class='text-center'><label style='background: red;' id='divredondo' title='pendiente'></label></td><td>"+
+                "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver'></a> "+
                 "</td></tr>";
             }
               

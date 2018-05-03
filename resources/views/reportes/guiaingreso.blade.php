@@ -13,12 +13,12 @@
 
   <div class="row">
     <h4>Consolidado:</h4>
-    <table class="table-striped table-hover" width="1030px"><!--table-bordered, width="730px"-->
+    <table class="table-striped table-hover table-bordered" width="1030px"><!--table-bordered, width="730px"-->
       <tbody>
         <tr>
           <td><label class="col-sm-2 form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
           <td>{!!$guia->fecha!!}</td>
-          <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad Total:</strong></label></td>
+          <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label></td>
           <td>{!!$guia->cantidad_guia!!}</td>
           <td><label class="col-sm-2 form-control-label" for="empresa"><strong>Precio Total:</strong></label></td>
           <td>S/. {!!$guia->precio_total!!}</td>
@@ -34,13 +34,13 @@
       <thead class="thead-inverse">
         <tr>
           <th>#</th>
-          <th>Proveedor</th>
-          <th>Codigo Orden</th>
           <th>Articulo</th>
           <th>Foto</th>
           <th>Cantidad</th>
-          <th>Precio Compra</th>
+          <th>Costo Articulo</th>
           <th>Precio Total</th>
+          <th>Proveedor</th>
+          <!--<th>Codigo Orden</th>-->
           <th>Descripcion</th>
         </tr>
       </thead>
@@ -48,8 +48,6 @@
         @foreach ($detalles as $index=>$detalle)
           <tr>
             <th scope="row">{{$index+1}}</th>
-            <td>{{$detalle->empresa}}</td>
-            <td>{{$detalle->numero_orden}}</td>
             <td>{{$detalle->codigo}}</td>
             <td>
               <img src="images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
@@ -57,6 +55,8 @@
             <td>{{$detalle->cantidad}}</td>
             <td>S/. {{$detalle->precio}}</td>
             <td>S/. {{$detalle->cantidad * $detalle->precio}}</td>
+            <td>{{$detalle->empresa}}</td>
+            <!--<td>{ {$detalle->numero_orden}}</td>-->
             <td>{{$detalle->descripcion}}</td>
           </tr>
         @endforeach

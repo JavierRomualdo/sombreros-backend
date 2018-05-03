@@ -12,7 +12,7 @@ class Proveedor extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'nombres', 'apellidos' 'empresa', 'ruc', 'direccion', 'telefono',
+      'id', 'nombres', 'apellidos', 'empresa', 'ruc', 'direccion', 'telefono',
       'correo', 'fecha_ingreso'
     ];
 

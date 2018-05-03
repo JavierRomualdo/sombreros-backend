@@ -24,20 +24,16 @@
             <div class="card-block">
               <p>Codigo: <strong>{!!$orden->numero_orden!!}</strong></p>
               <div class="form-group row">
-                <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
+                <label class="col-sm-2 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
                 <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="fecha">{!!$orden->fecha!!}</label>
                 </div>
-                <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Proveedor:</strong></label>
-                <div class="col-sm-2 col-3">
-                  <label class="form-control-label" for="fecha">{!!$orden->empresa!!}</label>
-                </div>
                 <label class="col-sm-2 col-3 form-control-label" for="fecha"><strong>Cantidad Items:</strong></label>
-                <div class="col-sm-1 col-3">
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="fecha">{!!$orden->cantidad!!}</label>
                 </div>
-                <label class="col-sm-2 col-3 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
-                <div class="col-sm-1 col-3">
+                <label class="col-sm-2 col-3 form-control-label" for="precio_total"><strong>Costo Total:</strong></label>
+                <div class="col-sm-2 col-3">
                   <label class="form-control-label" for="precio_total">S/{!!$orden->precio_total!!}</label>
                 </div>
               </div>
@@ -62,9 +58,9 @@
                   <th>Articulo</th><!--Codigo Sombrero-->
                   <th>Foto</th>
                   <th>Cantidad</th>
-                  <th>Precio Unitario</th>
-                  <th>Precio Total</th>
-                  <!--<th>Proveedor</th>-->
+                  <th>Costo Articulo </th>
+                  <th>Costo Total</th>
+                  <th>Proveedor</th>
                   <th>Descripcion</th>
                   </tr>
                 </thead>
@@ -79,9 +75,9 @@
                         data-toggle="modal" class="img-fluid pull-xs-left rounded" alt="..." width="28"><!--data-target="#myModal"-->
                       </td>
                       <td>{{$detalle->cantidad}}</td>
-                      <td>S/ {{$detalle->precio_unitario}}</td>
-                      <td>S/ {{$detalle->cantidad * $detalle->precio_unitario}}</td>
-                      <!--<td>{ {$detalle->empresa}}</td>-->
+                      <td>S/ {{$detalle->costounitario}}</td>
+                      <td>S/ {{$detalle->cantidad * $detalle->costounitario}}</td>
+                      <td>{{$detalle->empresa}}</td>
                       <td>{{$detalle->descripcion}}</td>
                     </tr>
                   @endforeach

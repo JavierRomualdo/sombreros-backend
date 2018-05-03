@@ -66,10 +66,10 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="precio_venta"><strong>Precio Venta:</strong></label>
+                <!--<label class="col-sm-2 form-control-label" for="precio_venta"><strong>Precio Venta:</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('precio_venta', null,['id'=>'precio_venta','class'=>'form-control','placeholder'=>'Precio Venta','maxlength'=>'7'])!!}
-                </div>
+                </div>-->
                 <div class="col-sm-6">
                   <a href="{{url('/gastronomica/sombreros/sombreros/sombrero')}}" class="btn btn-outline-primary fadeIn animated btn-sm ion-android-cancel"> Cancelar</a>
                   {!!form::submit('Guardar',['name'=>'grabar','id'=>'grabar','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>',

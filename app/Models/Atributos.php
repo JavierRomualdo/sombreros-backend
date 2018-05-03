@@ -11,7 +11,8 @@ class Atributos extends Model
     protected $primarykey = 'id';
 
     protected $fillable = [
-      'id', 'igv','margenganancia', 'gastosservicios'
+      'id', 'igv','margenganancia', 'preciominimo', 'preciomaximo', 'costorepmaximo', 'costoserviciorep', 
+      'descuentoventa', 'descuentoextra', 'comision'
     ];
 
     /*public function Sombrero()

@@ -45,6 +45,29 @@ class ClienteController extends Controller
         return redirect()->action('Clientes\ClienteController@index');
     }
 
+    public function mostrarCliente($idCliente){
+        $datos = Cliente::select("nombres","dni","direccion","telefono")->where("id","=",$idCliente)->get();
+
+        return response()->json($datos);
+        
+    }
+
+    public function guardarCliente($nombres,$dni,$direccion,$telefono){
+        if($direccion=="0" && $telefono =="0"){
+            Cliente::insert(['nombres'=>$nombres,'dni'=>$dni]);
+        } else if($direccion=="0" && $telefono!="0"){
+            Cliente::insert(['nombres'=>$nombres,'dni'=>$dni, 'telefono'=>$telefono]);            
+        } else if($direccion!="0" && $telefono=="0"){
+            Cliente::insert(['nombres'=>$nombres,'dni'=>$dni,'direccion'=>$direccion]);            
+        } else {
+            Cliente::insert(['nombres'=>$nombres,'dni'=>$dni,'direccion'=>$direccion, 'telefono'=>$telefono]);            
+        }
+        //Cliente::insert(['nombres'=>$nombres,'dni'=>$dni,'direccion'=>$direccion, 'telefono'=>$telefono]);
+        $datos = Cliente::select('id','nombres','dni','direccion','telefono')->get();
+
+        return response()->json($datos);
+    }
+
     /**
      * Display the specified resource.
      *

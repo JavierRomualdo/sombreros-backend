@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\EstadosProveedor;
-use App\Models\Cargo;
-use App\Models\Temporada;
+use App\Models\PedidoReposicion;
+use DB;
 
 class HomeController extends Controller
 {
@@ -35,9 +35,11 @@ class HomeController extends Controller
             'estado_dni_segundo'=>'N', 'estado_telefono_segundo'=>'N', 'estado_email_segundo'=>'N',
             'estado_empresa'=>'N', 'estado_ruc'=>'N', 'estado_direccion'=>'N', 'estado_numero_cuenta'=>'N']);
         }
+        $pedidosreposicion = PedidoReposicion::select(DB::raw('COUNT(id) as cantidad'))
+        ->where('estado','=','A')->first();
 
-        $now = new \DateTime();
-        $fecha =$now->format('Y-m-d');
+        //$now = new \DateTime();
+        //$fecha =$now->format('Y-m-d');
 
        /*$temporada = Temporada::select("temporada.photo")
        ->whereBetween($fecha,['temporada.fecha_inicio','temporada.fecha_fin'])->first();*/
@@ -48,6 +50,6 @@ class HomeController extends Controller
             ['cargo'=>'Administrador', 'descripcion'=>'Encargado para configurar el sistema de acuerdo a sus politicas.']);
         }*/
         //echo($temporada);
-        return view('home');//->with('temporada',$temporada)
+        return view('home', array('pedidosreposicion'=>$pedidosreposicion));//->with('temporada',$temporada)
     }
 }

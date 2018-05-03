@@ -8,7 +8,7 @@
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item active">Reporte por Cliente</li>
+        <li class="breadcrumb-item active">Reporte por vendedor</li>
       </ul>
     </div>
   </div></br>
@@ -19,30 +19,31 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h6 display ion-paperclip fadeIn animated"> Panel Fechas:</h2>
+              <h2 class="h6 display ion-paperclip fadeIn animated"> Vendedor:</h2>
             </div>
             <div class="card-block">
               <p>Ingrese las fechas para la busqueda de ventas.</p>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="empleado"><strong>Empleado (*):</strong></label>
-                <div class="col-sm-6">
+                <label class="col-sm-1 form-control-label" for="empleado"><strong>Vendedor (*):</strong></label>
+                <div class="col-sm-4">
+                  <div class="input-group">
                     {!!form::text('empleado', null,['id'=>'empleado','name'=>'empleado','class'=>'form-control',
                     'placeholder'=>'Aqui el empleado','readonly'=>'true'])!!}
+                    <button type="button" name="edit" id="edit" class="btn btn-primary fa fa-edit rounded" title="buscar vendedor"></button>
+                  </div>
                 </div>
-                <div class="col-sm-4">
+                <!--<div class="col-sm-4">
                     <div class="i-checks">
                       <input id="checkempleado" type="checkbox" value="" class="form-control-custom">
                       <label for="checkempleado">Selecione empleado</label>
                     </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="fecha_inicio"><strong>Fecha Inicio (*):</strong></label>
-                <div class="col-sm-3">
+                </div>-->
+                <label class="col-sm-1 form-control-label" for="fecha_inicio"><strong>Fecha Inicio (*):</strong></label>
+                <div class="col-sm-2">
                   {!!Form::date('fecha_inicio', null,['id'=>'fecha_inicio','name'=>'fecha_inicio','class'=>'form-control'])!!}
                 </div>
-                <label class="col-sm-2 form-control-label" for="fecha_fin"><strong>Fecha Final (*):</strong></label>
-                <div class="col-sm-3">
+                <label class="col-sm-1 form-control-label" for="fecha_fin"><strong>Fecha Final (*):</strong></label>
+                <div class="col-sm-2">
                   {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
                 </div>
                 <div class="col-sm-1">
@@ -70,7 +71,7 @@
                 <div class="col-sm-1">
                   <label class="form-control-label fadeIn animated" for="cantidad_venta" id="cantidad_venta">##</label>
                 </div>
-                <label class="col-sm-2 form-control-label" for="total"><strong>Total Ventas (S/):</strong></label>
+                <label class="col-sm-2 form-control-label" for="total"><strong>Total Ventas:</strong></label>
                 <div class="col-sm-1">
                   <label class="form-control-label fadeIn animated" for="total" id="total">##</label>
                 </div>
@@ -99,9 +100,10 @@
                       <th>#</th>
                       <th>Codigo de Venta</th>
                       <th>Fecha</th>
-                      <th>Precio Total</th>
                       <th>Cantidad Items</th>
-                      <th>Comision Empleado</th>
+                      <th>Precio Total</th>
+                      <th>Comision</th>
+                      <th>Cliente</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -230,30 +232,32 @@ $("#buscar").click(function(e){
     var n = 1;
     //Panel consolidado
     //N° de ventas
-    $.get('/ajax-numeroVentasPorEmpleadoConsolidado/'+empleado_id+'/'+$("#fecha_inicio").val()+'/'+
+    /*$.get('/ajax-numeroVentasPorEmpleadoConsolidado/'+empleado_id+'/'+$("#fecha_inicio").val()+'/'+
     $("#fecha_fin").val(), function(data){
         //success
         $.each(data, function(index, consolidado){
-          $("#numero_ventas").html(consolidado.cantidad_venta);
+          
         });
-    });
+    });*/
     //Los demas datos del panel consolidado
     $.get('/ajax-reporteVentaPorEmpleadoConsolidado/'+empleado_id+'/'+$("#fecha_inicio").val()+'/'+
     $("#fecha_fin").val(), function(data){
         //success
         $.each(data, function(index, consolidado){
-            $("#cantidad_venta").html(consolidado.cantidad_venta);
+            $("#numero_ventas").html(consolidado.cantidad_venta);
+            $("#cantidad_venta").html(consolidado.cantidad);
             if(consolidado.total!=null){
-              $("#total").html(consolidado.total);
+              $("#total").html("S/ "+consolidado.total);
             } else {
-              $("#total").html("0");
+              $("#total").html("S/ 0.00");
             }
             if(consolidado.comision_total!=null){
               $("#comision_total").html("S/ "+parseFloat(consolidado.comision_total).toFixed(2));
             } else {
-              $("#comision_total").html("S/ 0");
+              $("#comision_total").html("S/ 0.00");
             }
         });
+
     });
     //Llena la tabla ventas
     $.get('/ajax-reporteVentaPorEmpleado/'+empleado_id+'/'+$("#fecha_inicio").val()+'/'+
@@ -264,16 +268,22 @@ $("#buscar").click(function(e){
         var fecha_fin = $("#fecha_fin").val();
         $.each(data, function(index, venta){
             tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+venta.numero_venta+"</th><td>"+
-            venta.fecha+"</td><td>S/ "+venta.precio_total+"</td><td>"+venta.cantidad+"</td><td>S/ "+parseFloat(venta.comision_empleado).toFixed(2)+"</td><td>"+
-            "<a href='verventasporempleado/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
+            venta.fecha+"</td><td>"+venta.cantidad+"</td><td>S/ "+venta.precio_total+"</td><td>S/ "+parseFloat(venta.utilidad_total * (venta.comision/100.00)).toFixed(2)+"</td><td>"+
+            venta.cliente+"</td><td><a href='verventasporempleado/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
             +"<a href='{{URL::to('gastronomica/sombreros/reportes/reporteporempleado/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
             n++;
         });
         $("#reporte").attr('href',"{{URL::to('reporteventasporempleado/')}}/"+empleado_id+"/"+fecha_inicio+"/"+fecha_fin);
-        $("#reporte").removeClass("disabled");
-        $("#lista_datos").html(tabla);
+        if(n==0){
+          $("#reporte").prop('disabled', 'disabled');
+          $("#lista_datos").html("");
+        } else {
+          $("#reporte").removeClass("disabled");
+          $("#lista_datos").html(tabla);
+        }
+        
         tabla = "";
-
+        n=1;
         $('#myTableVentas').DataTable({
             "language": {
               "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
@@ -296,6 +306,9 @@ $("#buscar").click(function(e){
     //seleccionar el empleado
     $("#checkempleado").change(function(e){
 
+      $('#modalEmpleados').modal('show');
+    });
+    $("#edit").click(function(e){
       $('#modalEmpleados').modal('show');
     });
     function mostrarEmpleado(idEmpleado, nombres, encargo){

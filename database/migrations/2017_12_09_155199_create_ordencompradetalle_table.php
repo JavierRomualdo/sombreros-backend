@@ -16,15 +16,17 @@ class CreateOrdencompradetalleTable extends Migration
         Schema::create('orden_compra_detalle', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('idOrdenCompra')->unsigned();
-            $table->integer('idSombrero')->unsigned();
+            $table->integer('idProveedorPrecio')->unsigned();
+            $table->integer('idPedidoReposicion')->nullable()->unsigned();
             $table->integer('cantidad')->default('0');
-            $table->integer('cantidad_ingreso')->default('0');
-            $table->string('estado_ingreso')->default('No Ingresado');//Estados: "Ingresado", "Falta Ingresar", "No Ingresado
-            $table->decimal('precio_unitario', 7, 2)->default('0.0');
-            $table->string('descripcion', 100)->nullable()->default('');//->nullable()
-
+            $table->integer('cantidadingreso')->default('0');
+            $table->string('estadoingreso')->default('No Ingresado');//Estados: "Ingresado", "Falta Ingresar", "No Ingresado
+            $table->decimal('costounitario', 7, 2)->default('0.0');
+            $table->string('descripcion', 100)->nullable()->default('');
+            
             $table->foreign('idOrdenCompra')->references('id')->on('orden_compra');
-            $table->foreign('idSombrero')->references('id')->on('sombrero');
+            $table->foreign('idProveedorPrecio')->references('id')->on('proveedor_precio');
+            $table->foreign('idPedidoReposicion')->references('id')->on('pedidoreposicion');
         });
     }
 

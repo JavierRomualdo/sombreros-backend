@@ -14,8 +14,8 @@
     </div>
   </div></br>
   <div class="container-fluid">
-    <center><h1 class="h5 fadeIn animated" id="titulo_codigo">Código: OV-001-17</h1></center>
-    @include('partials.messages')
+    <center><h1 class="h5 fadeIn animated"><strong id="titulo_codigo">Código: OV-001-17</strong></h1></center>
+    <!--@include('partials.messages')-->
   </div>
 
   <section class="forms">
@@ -41,7 +41,7 @@
               <h2 class="h5 display ion-paperclip"> Panel Sombrero:</h2>
             </div>
             <div class="card-block">
-              <p>Ingrese los datos del nuevo modelo de sombrero.</p>
+              <!--<p>Ingrese los datos del nuevo modelo de sombrero.</p>-->
               <div class="">
                 <div class="form-group row">
                   <!--<label class="col-sm-1 form-control-label" for="idTipoMovimiento"><strong>Proveedor:</strong></label>
@@ -62,14 +62,14 @@
                     <label for="radioFoto">Foto</label>
                   </div>
                 </div>
-                <div class="col-sm-12">
+                <!--<div class="col-sm-12">
                   <hr/>
-                </div>
+                </div>-->
                 <div class="form-group row">
                   <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                   <div class="col-sm-3">
-                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                    <span class="help-block-none">El código son de 13 caracteres.</span>
+                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','maxlength'=>'14','autofocus'])!!}
+                    <span class="help-block-none">Es de 13 ó 14 caracteres.</span>
                   </div>
                   <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                   <div class="col-sm-3">
@@ -116,29 +116,21 @@
                   {!!form::text('stock_actual', null,['id'=>'stock_actual','name'=>'stock_actual','class'=>'form-control',
                     'placeholder'=>'Aqui el stock actual', 'readonly'=>'true'])!!}
                 </div>
-                <label class="col-sm-1 form-control-label" for="precio_compra"><strong>Precio Compra:</strong></label>
+                <!--<label class="col-sm-1 form-control-label" for="precio_compra"><strong>Precio Compra:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('precio_compra', null,['id'=>'precio_compra','name'=>'precio_venta','class'=>'form-control',
-                    'placeholder'=>'Aqui el precio compra', 'readonly'=>'true'])!!}
-                </div>
+                  { !!form::text('precio_compra', null,['id'=>'precio_compra','name'=>'precio_venta','class'=>'form-control',
+                    'placeholder'=>'Aqui el precio compra', 'readonly'=>'true'])!! }
+                </div>-->
                 <label class="col-sm-1 form-control-label" for="precio_venta"><strong>Precio Venta:</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('precio_venta', null,['id'=>'precio_venta','name'=>'precio_venta','class'=>'form-control',
                     'placeholder'=>'Aqui el precio venta', 'readonly'=>'true'])!!}
                 </div>
-              </div>
-              <div class="form-group row">
-                
-                <label class="col-sm-1 form-control-label" for="precio_sin_descuento"><strong>Pr. Sin Descuento:</strong></label>
+                <!--<label class="col-sm-1 form-control-label" for="precio_sin_descuento"><strong>Pr. Sin Descuento:</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('precio_sin_descuento', null,['id'=>'precio_sin_descuento','name'=>'precio_sin_descuento','class'=>'form-control',
                     'placeholder'=>'Aqui el precio total sin descuento','readonly'=>'true'])!!}
-                </div>
-                <label class="col-sm-1 form-control-label" for="utilidad"><strong>Utilidad:</strong></label>
-                <div class="col-sm-3">
-                  {!!form::text('utilidad', null,['id'=>'utilidad','name'=>'utilidad','class'=>'form-control',
-                    'placeholder'=>'Aqui la utilidad','readonly'=>'true'])!!}
-                </div>
+                </div>-->
                 <label class="col-sm-1 form-control-label" for="precio_total"><strong>Precio Total:</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('precio_total', null,['id'=>'precio_total','name'=>'cantidad','class'=>'form-control',
@@ -146,47 +138,70 @@
                 </div>
               </div>
               <div class="form-group row">
+                <!--<label class="col-sm-1 form-control-label" for="utilidad"><strong>Utilidad:</strong></label>
+                <div class="col-sm-3">
+                  { !!form::text('utilidad', null,['id'=>'utilidad','name'=>'utilidad','class'=>'form-control',
+                    'placeholder'=>'Aqui la utilidad','readonly'=>'true'])!! }
+                </div>-->
                 <label class="col-sm-1 form-control-label" for="cantidad"><strong>Cantidad(*):</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Ingrese Cantidad',
-                    'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!!}
+                  {!!Form::number('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Digite la Cantidad',
+                    'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57','min'=>1])!!}
+                  <!--{ !!form::text('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Ingrese Cantidad',
+                    'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57'])!! }-->
                 </div>
-                <label class="col-sm-1 form-control-label" for="porcentaje_descuento"><strong>Descuento %:</strong></label>
+                <label class="col-sm-1 form-control-label" for="porcentaje_descuento"><strong>Descuento (%):</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('porcentaje_descuento', 0,['id'=>'porcentaje_descuento','name'=>'porcentaje_descuento','class'=>'form-control',
                     'placeholder'=>'Aqui el porcentaje descuento'])!!}
+                  
+                  <div class="i-checks">
+                    <label class="help-block-none" id="mensajedescuentop">Máximo: {{$parametros->descuentoventa}} % |</label>
+                    <input id="checkdescuentoextra" type="checkbox" value="" class="form-control-custom">
+                    <label for="checkdescuentoextra">Descuento extra?</label>
+                  </div>
                 </div>
-                <label class="col-sm-1 form-control-label" for="descuento"><strong>Descuento:</strong></label>
+                <label class="col-sm-1 form-control-label" for="descuento"><strong>Descuento (S/):</strong></label>
                 <div class="col-sm-3">
                   {!!form::text('descuento', 0,['id'=>'descuento','name'=>'descuento','class'=>'form-control',
                     'placeholder'=>'Aqui el descuento'])!!}
+                  <span class="help-block-none" id="mensajedescuento"></span>
                 </div>
               </div>
-              
               <div class="form-group row">
-                <label class="col-sm-1 form-control-label" for="empleado"><strong>Empleado:</strong></label>
+                <label class="col-sm-1 form-control-label" for="empleado"><strong>Vendedor:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('empleado', null,['id'=>'empleado','name'=>'empleado','class'=>'form-control',
-                    'placeholder'=>'Aqui el empleado','readonly'=>'true'])!!}
+                  <div class="input-group">
+                    <label id="empleado" class="form-control text-center"></label>
+                    <button type="button" class="btn btn-primary" title="buscar vendedor" id="btnempleado">
+                    <i class="fa fa-search"></i></button>
+                  </div>
+                  <!--{ !!form::text('empleado', null,['id'=>'empleado','name'=>'empleado','class'=>'form-control',
+                    'placeholder'=>'Aqui el empleado','readonly'=>'true'])!! }
                     <div class="i-checks">
                         <input id="checkempleado" type="checkbox" value="" class="form-control-custom">
                         <label for="checkempleado">Selecione empleado</label>
-                      </div>
+                      </div>-->
                   <!--<span class="help-block-none">Nota: Clickea para seleccionar empleado.</span>-->
                 </div>
-                <label class="col-sm-1 form-control-label" for="encargo"><strong>Encargo:</strong></label>
+                <!--<label class="col-sm-1 form-control-label" for="encargo"><strong>Encargo:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('encargo', null,['id'=>'encargo','name'=>'encargo','class'=>'form-control',
-                    'placeholder'=>'Aqui el encargo','readonly'=>'true'])!!}
-                </div>
+                  { !!form::text('encargo', null,['id'=>'encargo','name'=>'encargo','class'=>'form-control',
+                    'placeholder'=>'Aqui el encargo','readonly'=>'true'])!! }
+                </div>-->
                 <label class="col-sm-1 form-control-label" for="cliente"><strong>Cliente:</strong></label>
                 <div class="col-sm-3">
-                  {!!form::text('cliente', null,['id'=>'cliente','name'=>'cliente','class'=>'form-control',
-                    'placeholder'=>'Aqui el cliente','readonly'=>'true'])!!}
+                  <div class="input-group">
+                    <label id="cliente" class="form-control text-center"></label>
+                    <button type="button" class="btn btn-primary" title="buscar cliente" id="btncliente">
+                    <i class="fa fa-search"></i></button>
+                  </div>
+                  <!--{ !!form::text('cliente', null,['id'=>'cliente','name'=>'cliente','class'=>'form-control',
+                    'placeholder'=>'Aqui el cliente','readonly'=>'true'])!! }
                     <div class="i-checks">
                         <input id="checkcliente" type="checkbox" value="" class="form-control-custom">
                         <label for="checkcliente">Selecione cliente</label>
-                      </div>
+                      </div>-->
                   <!--<span class="help-block-none">Nota: Clickea para seleccionar empleado.</span>-->
                 </div>
                 <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
@@ -309,59 +324,86 @@
             </button>
           </div>
           <div class="modal-body">
-              <p>Ingrese nuevo cliente</p>
-              <div class="row">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="i-checks">
+                    <input id="check_panel_clientes" type="checkbox" value="" class="form-control-custom">
+                    <label for="check_panel_clientes">Nuevo cliente ?</label>
+                </div>
+              </div>
+            </div><br/>
+              <div class="row" id="panelCliente" style="visibility: visibility; display: none;">
                 <div class="col-md-12">
-                  <div class="form-group row">
-                    <label class="col-sm-2 form-control-label" for="nombres"><strong>Nombres (*):</strong></label>
-                    <div class="col-sm-4">
-                      {!!form::text('nombres', null,['id'=>'nombres','class'=>'form-control','placeholder'=>'Ingrese nombres completos', 'autofocus'])!!}
+                  <div class="card miBorder fadeIn animated">
+                    <div class="card-header d-flex align-items-center">
+                        <h2 class="h1 display ion-paperclip fadeIn animated title"> Nuevo Cliente:</h2>
                     </div>
-                    <label class="col-sm-2 form-control-label" for="dni"><strong>Dni (*):</strong></label>
-                    <div class="col-sm-4">
-                      {!!form::text('dni', null,['id'=>'dni','class'=>'form-control','placeholder'=>'Ingrese Dni'])!!}
-                    </div>
-                    <label class="col-sm-2 form-control-label" for="direccion"><strong>Direccion:</strong></label>
-                    <div class="col-sm-4">
-                      {!!form::text('direccion', null,['id'=>'direccion','class'=>'form-control','placeholder'=>'Ingrese Direccion'])!!}
-                    </div>
-                    <label class="col-sm-2 form-control-label" for="telefono"><strong>Telefono:</strong></label>
-                    <div class="col-sm-4">
-                      {!!form::text('telefono', null,['id'=>'telefono','class'=>'form-control','placeholder'=>'Ingrese Telefono'])!!}
+                    <div class="card-block">
+                      <!--<p>Ingrese nuevo cliente</p>-->
+                      <div class="form-group row">
+                        <label class="col-sm-2 form-control-label" for="nombres"><strong>Nombres (*):</strong></label>
+                        <div class="col-sm-10">
+                          {!!form::text('nombres', null,['id'=>'nombres','class'=>'form-control','placeholder'=>'Ingrese nombres completos', 'autofocus'])!!}
+                        </div>
+                        <label class="col-sm-2 form-control-label" for="dni"><strong>Dni (*):</strong></label>
+                        <div class="col-sm-4">
+                          {!!form::text('dni', null,['id'=>'dni','class'=>'form-control','placeholder'=>'Ingrese Dni'])!!}
+                        </div>
+                        <label class="col-sm-2 form-control-label" for="direccion"><strong>Direccion:</strong></label>
+                        <div class="col-sm-4">
+                          {!!form::text('direccion', null,['id'=>'direccion','class'=>'form-control','placeholder'=>'Ingrese Direccion'])!!}
+                        </div>
+                        <label class="col-sm-2 form-control-label" for="telefono"><strong>Telefono:</strong></label>
+                        <div class="col-sm-4">
+                          {!!form::text('telefono', null,['id'=>'telefono','class'=>'form-control','placeholder'=>'Ingrese Telefono'])!!}
+                        </div>
+                        <div class="col-sm-4">
+                          <button id="btnGuardarCliente" class="btn btn-outline-primary btn-sm">Guardar</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
-                    <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableClientes"><!--table-responsive-->
-                    <thead class="thead-inverse">
-                      <tr>
-                        <th>#</th>
-                        <th>Nombres</th>
-                        <th>Dni</th>
-                        <th>Direccion</th>
-                        <th>Telefono</th>
-                        <th>Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($clientes as $index=>$cliente)
-                        <tr class="fadeIn animated">
-                          <th scope="row">{{$index+1}}</th>
-                          <td>{{$cliente->nombres}}</td>
-                          <td>{{$cliente->dni}}</td>
-                          <td>{{$cliente->direccion}}</td>
-                          <td>{{$cliente->telefono}}</td>
-                          <td>
-                            <a href="javascript:mostrarCliente({{$cliente->id}},'{{$cliente->nombres}}');" class="btn btn-outline-primary btn-sm ion-android-done"></a>
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
+                  <div class="card miBorder fadeIn animated">
+                    <div class="card-header d-flex align-items-center">
+                        <h2 class="h1 display ion-paperclip fadeIn animated title"> Clientes:</h2>
+                    </div>
+                    <div class="card-block">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableClientes"><!--table-responsive-->
+                        <thead class="thead-inverse">
+                          <tr>
+                            <th>#</th>
+                            <th>Nombres</th>
+                            <th>Dni</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                            <th>Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody id="lista_clientes">
+                          @foreach ($clientes as $index=>$cliente)
+                            <tr class="fadeIn animated">
+                              <th scope="row">{{$index+1}}</th>
+                              <td>{{$cliente->nombres}}</td>
+                              <td>{{$cliente->dni}}</td>
+                              <td>{{$cliente->direccion}}</td>
+                              <td>{{$cliente->telefono}}</td>
+                              <td>
+                                <a href="javascript:mostrarCliente({{$cliente->id}},'{{$cliente->nombres}}');" class="btn btn-outline-primary btn-sm ion-android-done"></a>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                      </div>
+                    </div>
                   </div>
+                    
                 </div>
               </div>
               
@@ -526,6 +568,10 @@
     var tipo = 1;
     var codSombrero = "";
     var cliente_id = 0;
+    //var utilidad = 0;
+    var precio_compra = 0.00;
+    var descuentoventa = {{$parametros->descuentoventa}};
+    var descuentoextra = {{$parametros->descuentoextra}};
     $("#idModelo").change(function(e){
       console.log(e);
       modelo_id = e.target.value;
@@ -563,6 +609,10 @@
       console.log(e);
       calcularPrecioTotal();
     });
+    $("#cantidad").click(function(e){
+      console.log(e);
+      calcularPrecioTotal();
+    });
     $("#porcentaje_descuento").keyup(function(e){
       console.log(e);
       calcular_descuento();
@@ -593,14 +643,17 @@
               $.each(data, function(index, cuentaObj){
                 bandera = true;
                 $("#codigo").val(cuentaObj.codigo);
-                $("#precio_compra").val(cuentaObj.precio);
-                $("#precio_venta").val(cuentaObj.precio_venta);
+                precio_compra = cuentaObj.precio;
+                //$("#precio_compra").val(cuentaObj.precio);
+                $("#precio_venta").val(cuentaObj.precio_lista);
                 $("#stock_actual").val(cuentaObj.stock_actual);
+                $("#cantidad").attr('max',parseInt(cuentaObj.stock_actual));
               });
               if(!bandera){
                 Messenger().post({message:"¡ No existe el sombrero !.",type:"info",showCloseButton:!0});
                 $("#codigo").val("");
-                $("#precio_compra").val("");
+                precio_compra = 0.00;
+                //$("#precio_compra").val("");
                 $("#precio_venta").val("");
                 $("#stock_actual").val("");
               }
@@ -624,37 +677,106 @@
       }
     }*/
 
-    function calcular_descuento() {
-      if ($("#precio_venta").val()!="" && $("#porcentaje_descuento").val()!="" && $("#cantidad").val()!="") {
-        var descuento = parseFloat($("#precio_venta").val())*parseFloat($("#cantidad").val())*(parseInt($("#porcentaje_descuento").val())/100.00);
-        $("#descuento").val(descuento+"");
+    $("#checkdescuentoextra").change(function(){
+      var descuentototal = 0.00;
+      if($("#checkdescuentoextra").is(":checked")){
+        descuentototal = descuentoventa + descuentoextra;
+        $("#mensajedescuentop").html("Máximo: "+descuentototal+" % |");
+        if($("#precio_total").val()!=""){
+          $("#mensajedescuento").html("Máximo: S/ "+(parseFloat($("#precio_venta").val())*(descuentototal/100.00)*parseInt($("#cantidad").val())).toFixed(2));
+        }
+        
       } else {
-        $("#descuento").val("");
+        descuentototal = descuentoventa;
+        $("#mensajedescuentop").html("Máximo: "+descuentototal+" % |");
+        var descuento = (parseFloat($("#precio_venta").val())*(descuentototal/100.00)*parseInt($("#cantidad").val())).toFixed(2);
+        if($("#precio_total").val()!=""){
+          $("#mensajedescuento").html("Máximo: S/ "+descuento);
+        }
+        //validar descuento porcentaje
+        if($("#porcentaje_descuento").val()!=""){
+          if(descuentototal <= parseFloat($("#porcentaje_descuento").val())){
+            $("#porcentaje_descuento").val("");
+          }
+        }
+        //validar descuento S/
+        if($("#descuento").val()!=""){
+          if(parseFloat($("#descuento").val()) >= parseFloat(descuento)){
+            //alert("entro");
+            $("#descuento").val("");
+          }
+        }
+      }
+    });
+
+    function calcular_descuento() {
+      var descuentototal = 0.00;
+      if($("#checkdescuentoextra").is(":checked")){
+        descuentototal = descuentoventa + descuentoextra;
+      } else {
+        descuentototal = descuentoventa;
+      }
+      if ($("#precio_venta").val()!="" && $("#porcentaje_descuento").val()!="" && $("#cantidad").val()!="") {
+        if(parseFloat($("#porcentaje_descuento").val())<=descuentototal){
+          var descuento = parseFloat($("#precio_venta").val())*parseFloat($("#cantidad").val())*(parseInt($("#porcentaje_descuento").val())/100.00);
+          $("#descuento").val(descuento.toFixed(2)+"");
+        } else {
+          Messenger().post({message:"¡ Se ha excedido al "+descuentototal+" % de descuento !",type:"info",showCloseButton:!0});
+          $("#porcentaje_descuento").val("0.00");
+          $("#descuento").val("0");
+        }
+        
+      } else {
+        $("#descuento").val("0");
       }
     }
 
     function calcular_porcentaje_descuento() {
-      if ($("#precio_venta").val()!="" && $("#descuento").val()!="" && $("#cantidad").val()!="") {
-        var porcentaje = parseFloat($("#descuento").val())/(parseFloat($("#precio_venta").val())*parseFloat($("#cantidad").val()));
-        $("#porcentaje_descuento").val((porcentaje*100)+"");
+      var descuentototal = 0.00;
+      if($("#checkdescuentoextra").is(":checked")){
+        descuentototal = descuentoventa + descuentoextra;
       } else {
-        $("#porcentaje_descuento").val("");
+        descuentototal = descuentoventa;
+      }
+      if ($("#precio_venta").val()!="" && $("#descuento").val()!="" && $("#cantidad").val()!="") {
+        var descuento = parseFloat($("#descuento").val())/(parseFloat($("#precio_venta").val())*parseFloat($("#cantidad").val()));
+        if((descuento*100).toFixed(2) <= descuentototal){
+          $("#porcentaje_descuento").val((descuento*100).toFixed(2)+"");
+        } else {
+          $("#porcentaje_descuento").val("0.00");
+          $("#descuento").val("0");
+        }
+        
+      } else {
+        $("#porcentaje_descuento").val("0.00");
       }
     }
 
     function calcularPrecioTotal() {
-      if ($("#precio_venta").val()!="" && $("#cantidad").val()!="" && $("#descuento").val()!="" && ($("#porcentaje_descuento").val()!="" || $("#descuento").val()!="")) {
-        //calculo del precio total (precio con descuento)
-        $("#precio_total").val((parseFloat($("#precio_venta").val())*parseInt($("#cantidad").val()))-parseFloat($("#descuento").val()));
-        //calculo del precio con descuento (precio sin descuento)
-        $("#precio_sin_descuento").val(parseFloat($("#precio_venta").val())*parseInt($("#cantidad").val()));
-        //calculo de la Utilidad
-        $("#utilidad").val(parseFloat($("#precio_total").val())-(parseFloat($("#precio_compra").val())*parseInt($("#cantidad").val())));
-        //$("#precio_total").val(parseInt($("#precio_venta").val())-(parseInt($("#precio_venta").val()*(parseInt($("#porcentaje_descuento").val())/100.00)))+"");
+      var descuentototal = 0.00;
+      if($("#checkdescuentoextra").is(":checked")){
+        descuentototal = descuentoventa + descuentoextra;
       } else {
-        $("#precio_sin_descuento").val("");
-        $("#utilidad").val("");
-        $("#precio_total").val("");
+        descuentototal = descuentoventa;
+      }
+      if($("#descuento").val()!="" && $("#porcentaje_descuento").val()!=""){
+        if($("#precio_venta").val()!="" && $("#cantidad").val()!=""){
+          $("#mensajedescuento").html("Máximo: S/ "+(parseFloat($("#precio_venta").val())*(descuentototal/100.00)*parseInt($("#cantidad").val())).toFixed(2));
+          var precio_total = (parseFloat($("#precio_venta").val())*parseInt($("#cantidad").val()))-parseFloat($("#descuento").val());
+          $("#precio_total").val(precio_total.toFixed(2));
+          //utilidad = parseFloat($("#precio_total").val())-(precio_compra * parseInt($("#cantidad").val()));
+          //utilidad = utilidad.toFixed(2);
+        } else {
+          $("#precio_total").val("");
+          //utilidad = 0;
+        }
+      } else {
+        //calculo precio total sin descuento
+        var precio_total = (parseFloat($("#precio_venta").val())*parseInt($("#cantidad").val()));
+        $("#precio_total").val(precio_total.toFixed(2));
+        $("#mensajedescuento").html("Máximo: S/ "+(parseFloat($("#precio_venta").val())*(descuentototal/100.00)*parseInt($("#cantidad").val())).toFixed(2));
+        //utilidad = parseFloat($("#precio_total").val())-(precio_compra * parseInt($("#cantidad").val()));
+        //utilidad = utilidad.toFixed(2);
       }
     }
 
@@ -672,16 +794,19 @@
       talla_id = 0;
       codSombrero = "";
 
-      $("#precio_compra").val("");
+      precio_compra = 0;
+      //$("#precio_compra").val("");
       $("#precio_venta").val("");
       $("#stock_actual").val("");
       $("#cantidad").val("");
       $("#porcentaje_descuento").val("0");
       $("#descuento").val("0");
       $("#precio_total").val("");
-      $("#precio_sin_descuento").val("");
-      $("#utilidad").val("");
+      //$("#precio_sin_descuento").val("");
+      //utilidad = 0;
+      //$("#utilidad").val("");
       $("#descripcion").val("");
+      $("#cantidad").removeAttr('max');
     }
 
     //Cambiar los estados del radio button
@@ -711,8 +836,6 @@
       }
     });
 
-
-
     function mostrarCodigoVenta() {
       $.get('/ajax-mostrarCOV/1', function(data){
         //success
@@ -739,7 +862,7 @@
       });
     }
     function buscarDatosPorCodigo() {
-      if ($("#codigo").val().length==13) {
+      if ($("#codigo").val().length==13 || $("#codigo").val().length==14) {
         codSombrero = $("#codigo").val();
         $.get('/ajax-OCSomb/'+codSombrero, function(data){
           $.each(data, function(index, sombrero){
@@ -762,10 +885,12 @@
                   $('#idMaterial option[value="'+material_id+'"]').attr('selected','selected');
                   $('#idPublicoDirigido option[value="'+publico_id+'"]').attr('selected','selected');
                   $('#idTalla option[value="'+talla_id+'"]').attr('selected','selected');
-                  $("#precio_venta").val(sombrero.precio_venta);
-                  $("#precio_compra").val(sombrero.precio);
+                  $("#precio_venta").val(sombrero.precio_lista);
+                  precio_compra = sombrero.precio_lista;
+                  //$("#precio_compra").val(sombrero.precio);
                   $("#stock_actual").val(sombrero.stock_actual);
                   $("#precio").val("");
+                  $("#cantidad").attr('max',parseInt(sombrero.stock_actual));
             }
           });
         });
@@ -782,8 +907,8 @@
       if ($("#codigo").val()=="") {
         mensaje = mensaje + "* El codigo no debe estar vacío.</br>";
       } else {
-        if ($("#codigo").val().length!=13) {
-          mensaje = mensaje + "* El codigo no tiene los 13 caracteres.</br>";
+        if ($("#codigo").val().length<13 || $("#codigo").val().length>14) {
+          mensaje = mensaje + "* El codigo no tiene los 13 ó 14 caracteres.<br/>";
         }
       }
       if (parseInt($("#cantidad").val())>parseInt($("#stock_actual").val())) {
@@ -793,10 +918,10 @@
       if ($("#cantidad").val()=="") {
         mensaje = mensaje + "* Debe ingresar la cantidad.</br>";
       }
-      if ($("#empleado").val()==""){
-        mensaje = mensaje + "* Debe seleccionar el empleado.<br/>";
+      if ($("#empleado").html()==""){
+        mensaje = mensaje + "* Debe seleccionar el vendedor.<br/>";
       }
-      if($("#cliente").val()==""){
+      if($("#cliente").html()==""){
         mensaje = mensaje + "* Debe seleccionar el cliente.";
       }
       if (mensaje=="") {
@@ -818,12 +943,12 @@
           }
           
           if(tipo==2){
-            alert("primero la venta detalle 2");
+            //alert("primero la venta detalle 2");
             
             //solo se guardar todas las ordenes de compras detalle
             $.get('/ajax-guardarventa/2/'+$("#codigo").val()+'/'
             +$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
-            descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
+            descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+
             empleado_id+'/'+cliente_id+'/'+ descripcion, function(data){
               //success
               $.each(data, function(index, venta){
@@ -843,7 +968,9 @@
               $("#lista_datos").html(tabla);
               tabla = "";
               $("#myModal2").modal("show");
-              $("#checkempleado").attr('disabled','');
+              $("#btnempleado").attr('disabled','');
+              //$("#checkempleado").attr('disabled','');
+              $("#btncliente").attr('disabled','');  
               $("#checkcliente").attr('disabled','');              
             });
           } else {
@@ -851,7 +978,7 @@
             //se guardan el primer en orden compra y orden de compra detalle;
             $.get('/ajax-guardarventa/1/'+$("#codigo").val()+'/'
             +$("#cantidad").val()+'/'+$("#precio_venta").val()+'/'+porcentaje_descuento+'/'+
-            descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+$("#utilidad").val()+'/'+
+            descuento+'/'+$("#precio_total").val()+'/'+$("#usuario").html()+'/'+
             empleado_id+'/'+cliente_id+'/'+descripcion, function(data){
               //success
               $.each(data, function(index, venta){
@@ -870,8 +997,10 @@
               $("#lista_datos").html(tabla);
               tabla = "";
               $("#myModal2").modal("show");
-              $("#checkempleado").attr('disabled','');
-              $("#checkcliente").attr('disabled','');
+              $("#btnempleado").attr('disabled','');
+              //$("#checkempleado").attr('disabled','');
+              $("#btncliente").attr('disabled','');  
+              //$("#checkcliente").attr('disabled','');
             });
           }
 
@@ -898,26 +1027,58 @@
     });*/
 
     //seleccionar el empleado
-    $("#checkempleado").change(function(e){
+    $("#btnempleado").click(function(e){
 
       $('#modalEmpleados').modal('show');
     });
     //seleccionn el cliente
-    $("#checkcliente").change(function(e){
+    $("#btncliente").click(function(e){
       $('#modalClientes').modal('show');
     });
     function mostrarEmpleado(idEmpleado, nombres, encargo){
       empleado_id = idEmpleado;
-      $("#empleado").val(nombres);
-      $("#encargo").val(encargo);
+      $("#empleado").html(nombres);
+      //$("#encargo").val(encargo);
       $('#modalEmpleados').modal('hide');
     }
 
     function mostrarCliente(idCliente, nombres){
       cliente_id = idCliente;
-      $("#cliente").val(nombres);
+      $("#cliente").html(nombres);
       $('#modalClientes').modal('hide');
     }
+
+    function mostrarClienteGuardar(idCliente){
+      $.get('/ajax-mostrarCliente/'+idCliente, function(data){
+          $.each(data, function(index, datos){
+            $("#cliente").html(datos.nombres);
+          });
+          cliente_id = idCliente;
+          $('#modalClientes').modal('hide');
+      });
+    }
+
+    //panel clientes
+    $("#check_panel_clientes").click(function(){
+      if($(this).is(':checked')){
+        $("#panelCliente").animate({
+          opacity: 1,
+          left: "+=50",
+          height: "toggle",
+          visibility: "visible"
+        }, 800, function() {
+          // Animation complete.
+        });
+      } else {
+        $("#panelCliente").animate({
+          opacity: 0.25,
+          left: "+=50",
+          height: "toggle"
+        }, 800, function() {
+          // Animation complete.
+        });
+      }
+    });
 
     /*------------------Galeria de imagenes-------------*/
     var idSombrero = 0;
@@ -995,5 +1156,51 @@
         });
       }
     });
+
+    /**guardar cliente */
+    $("#btnGuardarCliente").click(function(){
+      var mensaje = "";
+      if ($("#nombres").val()=="") {
+        mensaje = mensaje + "* El nombre no debe estar vacío.</br>";
+      }
+      if($("#dni").val()==""){
+        mensaje = mensaje + "* El dni no debe estar vacío.</br>";        
+      }
+      if(mensaje==""){
+        var direccion_cliente = "0";
+        var telefono_cliente = "0";
+        if($("#direccion").val()!=""){
+          direccion_cliente = $("#direccion").val();
+        }
+        if($("#telefono").val()!=""){
+          telefono_cliente = $("#telefono").val();   
+        }
+        
+        var tabla = "";
+        var n = 1;
+        var bandera = false;
+        $.get('/ajax-guardarCliente/'+$("#nombres").val()+"/"+$("#dni").val()+
+          "/"+direccion_cliente+"/"+telefono_cliente, function(data){
+          $.each(data, function(index, cliente){
+            tabla = tabla+"<tr class='fadeIn animated'><td>"+n+"</td><td>"+cliente.nombres+"</td><td>"+cliente.dni+"</td><td>"+cliente.direccion+"</td><td>"+
+                  cliente.telefono+"</td><td>"+"<a href='javascript:mostrarClienteGuardar("+cliente.id+")' class='btn btn-outline-primary btn-sm ion-android-done' title='mostrar'></a> "+"</td></tr>";
+            n++;
+
+            bandera = true;
+          });
+          $("#lista_clientes").html(tabla);
+          if(bandera){
+            Messenger().post({message:"¡ Cliente guardado !.",type:"info",showCloseButton:!0});          
+          }
+          tabla = "";
+          n = 0;
+        });
+      } else {
+        Messenger().post({message:mensaje,type:"error",showCloseButton:!0});                               
+      }
+      
+    });
+
+    /**guardarCliente */
   </script>
 @endsection

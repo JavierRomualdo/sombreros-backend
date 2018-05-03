@@ -67,7 +67,7 @@
                 </div>
                 <label class="col-sm-2 col-3 form-control-label"><strong>Costo Articulo:</strong></label>
                 <div class="col-sm-2 col-3">
-                   <label id='precio_unitario'>#</label>
+                   <label id='costounitario'>#</label>
                 </div>
                 <label class="col-sm-2 col-3 form-control-label"><strong>Stock Actual:</strong></label>
                 <div class="col-sm-2 col-3">
@@ -274,8 +274,6 @@
     var idOrdenCompra_Detalle = 0;
     var cantidad = 0;
     var tipo = 1;
-    var idProveedor = 0;
-    
     
     $("#cantidad").keyup(function(e){
       console.log(e);
@@ -291,7 +289,7 @@
       $("#publico").html("#");
       $("#talla").html("#");
       $("#proveedor").html("#");
-      $("#precio_unitario").html("#");
+      $("#costounitario").html("#");
       $("#stock_actual").html("#");
       $("#cantidad").val("");
       $("#cantidad").removeAttr('max');
@@ -345,8 +343,8 @@
         }
         
         if(tipo==1){
-          $.get('/ajax-guardarguia/1/'+articulo+'/'+idProveedor+
-          '/'+$("#cantidad").val()+'/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
+          $.get('/ajax-guardarguia/1/'+articulo+'/'+$("#cantidad").val()+
+          '/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
             //success
             $.each(data, function(index, guia){
               tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+
@@ -363,8 +361,8 @@
             limpiar();
           });
         } else {//tipo = 2
-          $.get('/ajax-guardarguia/2/'+articulo+'/'+idProveedor+
-          '/'+$("#cantidad").val()+'/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
+          $.get('/ajax-guardarguia/2/'+articulo+'/'+$("#cantidad").val()+
+          '/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
             //success
             $.each(data, function(index, guia){
               tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+
@@ -400,7 +398,7 @@
         //success
         $.each(data, function(index, orden){
           var mensajeBoton = "";
-          if(orden.cantidad > orden.cantidad_ingreso){// ya esta orden de compra se ha ingresado en la guia
+          if(orden.cantidad > orden.cantidadingreso){// ya esta orden de compra se ha ingresado en la guia
             mensajeBoton = "<button class='btn btn-outline-primary btn-sm ion-android-done' onclick='elegirOrdenCompra("+orden.id+")'></button>";
           } else {//es que aun no se ingresa todo 
             mensajeBoton = "<button disabled title='Se ha ingresado' class='btn btn-outline-primary btn-sm ion-android-done' onclick='elegirOrdenCompra("+orden.id+")'></button>";
@@ -409,8 +407,8 @@
           tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+orden.codigo+
           "</td><td><img src='/images/sombreros/"+orden.photo+
           "' class='img-fluid pull-xs-left rounded' alt='...' width='28'></td>"+
-          "<td>"+orden.cantidad+"</td><td>"+orden.cantidad_ingreso+"</td><td>S/ "+orden.precio_unitario+
-          "</td><td>S/ "+(orden.cantidad * orden.precio_unitario)+
+          "<td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>S/ "+orden.costounitario+
+          "</td><td>S/ "+(orden.cantidad * orden.costounitario)+
           "</td><td>"+orden.descripcion+"</td><td>"+mensajeBoton+"</td></tr>";
           n++;
         });
@@ -432,13 +430,12 @@
           $("#publico").html(orden.publico);
           $("#talla").html(orden.talla);
           $("#proveedor").html(orden.empresa);
-          $("#precio_unitario").html(orden.precio);
+          $("#costounitario").html(orden.precio);
           $("#stock_actual").html(orden.stock_actual);
-          $("#cantidad").val(parseInt(orden.cantidad) - parseInt(orden.cantidad_ingreso));
-          $("#cantidad").attr('max',parseInt(orden.cantidad) - parseInt(orden.cantidad_ingreso));
+          $("#cantidad").val(parseInt(orden.cantidad) - parseInt(orden.cantidadingreso));
+          $("#cantidad").attr('max',parseInt(orden.cantidad) - parseInt(orden.cantidadingreso));
           idOrdenCompra_Detalle = orden.id;
-          idProveedor = orden.id_proveedor;
-          cantidad = (parseInt(orden.cantidad) - parseInt(orden.cantidad_ingreso));
+          cantidad = (parseInt(orden.cantidad) - parseInt(orden.cantidadingreso));
           articulo = orden.codigo;
         });
       });

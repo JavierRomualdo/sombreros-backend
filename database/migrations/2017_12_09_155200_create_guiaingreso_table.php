@@ -17,9 +17,6 @@ class CreateGuiaingresoTable extends Migration
             $table->increments('id');
             $table->string('numero_guia', 10)->unique();
             $table->date('fecha')->nullable();
-            $table->integer('idProveedor')->unsigned();
-
-            $table->foreign('idProveedor')->references('id')->on('proveedor');
         });
     }
 
