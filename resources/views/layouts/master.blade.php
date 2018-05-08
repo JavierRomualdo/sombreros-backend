@@ -162,6 +162,7 @@
               </li>
               <li id="li-prov"> <a href="#pages-movimientos" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Movimientos</span></a>
                 <ul id="pages-movimientos" class="collapse list-unstyled">
+                    <a href="{{url('gastronomica/sombreros/movimientos/movimientos')}}"> <i class="ion-arrow-move"></i><span>Movimientos</span></a>                  
                     <a href="{{url('gastronomica/sombreros/movimientos/movimientogeneral')}}"> <i class="ion-arrow-move"></i><span>Movimientos</span></a>
                     <a href="{{url('gastronomica/sombreros/movimientos/movimientoporarticulo')}}"> <i class="ion-arrow-move"></i><span>Movimiento x Articulo</span></a>
                 </ul>

@@ -91,6 +91,8 @@ Route::get('/ajax-mostrarCodigoTalla/{id}','Sombreros\TallaController@mostrarCod
 Route::resource('gastronomica/sombreros/publicodirigido/publicodirigido', 'Sombreros\PublicoDirigidoController');
 Route::get('/ajax-mostrarCodigoPublico/{id}','Sombreros\PublicoDirigidoController@mostrarCodigo');
 
+/*Movimientos*/
+Route::resource('gastronomica/sombreros/movimientos/movimientos', 'Movimiento\MovimientoController');
 /**Movimiento en general*/
 Route::resource('gastronomica/sombreros/movimientos/movimientogeneral', 'Sombreros\MovimientoController');
 /**Movimiento por articulo */

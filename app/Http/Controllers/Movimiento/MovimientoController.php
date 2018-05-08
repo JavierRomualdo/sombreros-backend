@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Movimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Models\Movimiento;
 class MovimientoController extends Controller
 {
     /**
@@ -15,6 +15,10 @@ class MovimientoController extends Controller
     public function index()
     {
         //
+        $movimientos = Movimiento::select('codigo','cantidadingreso','costounitario',
+        'costototal','cantidadsalida','preciounitario','preciototal','movimiento.stock_actual','valor')
+        ->join('sombrero','sombrero.id','=','movimiento.idSombrero')->get();
+        return view("gastronomica/sombreros/movimientos/movimientos")->with('movimientos',$movimientos);
     }
 
     /**
