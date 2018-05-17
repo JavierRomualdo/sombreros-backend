@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Movimientos')
 @section('content')
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
 <div class="breadcrumb-holder fadeIn animated">
@@ -33,8 +33,10 @@
                   {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
                 </div>
                 <div class="col-sm-2">
-                  <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
-                  <!--<button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-outline-primary ion-clipboard" title="mostrar todo"></button>-->
+                  <button type="button" name="buscar" id="buscar" class="btn btn-primary fa fa-search rounded" title="buscar"></button>
+                  <a href="{{action('Reportes\ReporteController@reporteMovimientos')}}"
+              id="reporte" class="btn btn-primary fa fa-file" title="reporte" target="_blank"> Reporte</a>
+                  <!--<button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-primary ion-clipboard" title="mostrar todo"></button>-->
                 </div>
               </div>
             </div>
@@ -55,6 +57,7 @@
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
+                    <th>Fecha</th>
                     <th>Articulo</th>
                     <th>Cantidad Ingreso</th>
                     <th>Costo Unitario</th>
@@ -66,10 +69,11 @@
                     <th>Valor</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="lista_datos">
                     @foreach($movimientos as $index=>$movimiento)
                     <tr>
                         <th>{{$index+1}}</th>
+                        <td>{{$movimiento->fecha}}</td>
                         <td>{{$movimiento->codigo}}</td>
                         @if($movimiento->cantidadsalida == '')
                             <td>{{$movimiento->cantidadingreso}}</td>
@@ -100,7 +104,13 @@
       <!---->
     </div>
     </section>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+
+    <!--Notificacion-->
+  <script src="{{asset('bootstrap4/js/notification/messenger.min.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/messenger-theme-flat.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
     <script>
         $(document).ready(function(){
       $('#myTable').DataTable({
@@ -109,6 +119,54 @@
           responsive: true
         }
       });
+    });
+    $("#buscar").click(function(e){
+      var mensaje = "";
+      if ($("#fecha_inicio").val()=="") {
+        mensaje = mensaje + "* La fecha de inicio no debe estar vacia.<br/>";
+      }
+      if ($("#fecha_fin").val()=="") {
+        mensaje = mensaje + "* La fecha final no debe estar vacia.";
+      }
+
+      if (mensaje=="") {//osea no hay mensajes de errores
+        var tabla = "";
+        var n = 1;
+        $.get('/ajax-reporteMovimientoPorFecha/'+$("#fecha_inicio").val()+'/'+
+        $("#fecha_fin").val(), function(data){
+          $('#myTable').DataTable().destroy();
+          //success
+          var fecha_inicio = $("#fecha_inicio").val();
+          var fecha_fin = $("#fecha_fin").val();
+          $.each(data, function(index, mov){
+            tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><td>"+mov.fecha+"</td><td>"+
+                mov.codigo+"</td>";
+            if(mov.cantidadsalida==null){
+              tabla = tabla + "<td>"+mov.cantidadingreso+"</td><td>S/ "+mov.costounitario+"</td><td>S/ "+
+                mov.costototal+"</td><td></td><td></td><td></td>";
+            } else{
+              tabla = tabla +"<td></td><td></td><td></td><td>"+mov.cantidadsalida+"</td><td>S/ "+mov.preciounitario+"</td><td>S/ "+
+                  mov.preciototal+"</td>";
+            }
+            tabla = tabla +"<td>"+
+                mov.stock_actual+"</td><td>"+mov.valor+"</td></tr>";
+            n++;
+            $("#reporte").attr('href',"{{URL::to('reporteMovimientosPorFecha/')}}/"+fecha_inicio+"/"+fecha_fin);
+            });
+          $("#lista_datos").html(tabla);
+          tabla = "";
+
+          $('#myTable').DataTable({
+            "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    },
+                    responsive: true,
+                    stateSave: true
+                });
+        });
+      } else {
+        Messenger().post({message: mensaje,type:"error",showCloseButton:!0});
+      }
     });
   </script>
 @endsection

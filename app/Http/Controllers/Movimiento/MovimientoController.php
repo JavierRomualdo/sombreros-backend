@@ -16,10 +16,19 @@ class MovimientoController extends Controller
     {
         //
         $movimientos = Movimiento::select('codigo','cantidadingreso','costounitario',
-        'costototal','cantidadsalida','preciounitario','preciototal','movimiento.stock_actual','valor')
+        'costototal','cantidadsalida','preciounitario','preciototal','movimiento.stock_actual','valor','fecha')
         ->join('sombrero','sombrero.id','=','movimiento.idSombrero')->get();
         return view("gastronomica/sombreros/movimientos/movimientos")->with('movimientos',$movimientos);
     }
+
+    public function reporteMovimientoPorFecha($fecha_inicio, $fecha_fin){
+        $datos = Movimiento::select('codigo','cantidadingreso','costounitario',
+          'costototal','cantidadsalida','preciounitario','preciototal','movimiento.stock_actual','valor','fecha')
+          ->join('sombrero','sombrero.id','=','movimiento.idSombrero')
+          ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])->get();
+  
+        return response()->json($datos);
+      }
 
     /**
      * Show the form for creating a new resource.

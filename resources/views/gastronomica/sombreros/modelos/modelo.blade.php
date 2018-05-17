@@ -2,7 +2,7 @@
 @section('title','Modelos')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
   <div class="breadcrumb-holder fadeIn animated">
@@ -15,10 +15,10 @@
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h5 fadeIn text-center ion-clipboard animated"> Lista Modelos</h1>
+        <h1 class="h2 fadeIn text-center ion-clipboard animated"> Lista Modelos</h1>
       </header>
       @include('partials.messages')
-      <a href="{{url('/gastronomica/sombreros/modelos/modelo/create')}}" class="btn btn-outline-primary btn-sm margenInf ion-plus-round" title="nuevo modelo"> Nuevo</a> &nbsp;
+      <a href="{{url('/gastronomica/sombreros/modelos/modelo/create')}}" class="btn btn-primary btn-sm margenInf ion-plus-round" title="nuevo modelo"> Nuevo</a> &nbsp;
       <div class="row">
         <div class="col-lg-12">
 

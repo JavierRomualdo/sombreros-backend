@@ -26,7 +26,7 @@
           <th>Material</th>
           <th>Publico</th>
           <th>Talla</th>
-          <th>Precio Compra</th>
+          <!--<th>Precio Compra</th>-->
           <th>Precio Venta</th>
           <th>Utilidad</th>
         </tr>
@@ -44,14 +44,14 @@
             <td>{{$utilidad->material}}</td>
             <td>{{$utilidad->publico}}</td>
             <td>{{$utilidad->talla}}</td>
-            <td>S/. {{$utilidad->precio}}</td>
+            <!--<td>S/. { {$utilidad->precio}}</td>-->
             <td>S/. {{$utilidad->precio_venta}}</td>
             <td>S/. {{$utilidad->utilidad}}</td>
             <?php $total += $utilidad->utilidad?>
           </tr>
         @endforeach
         <tr class="fadeIn animated">
-          <th class="text-center" colspan="10">Total</th>
+          <th class="text-center" colspan="9">Total</th>
           <th><?php echo("S/. ".$total); ?></th>
         </tr>
     </table>

@@ -182,6 +182,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Watson\Active\ActiveServiceProvider::class,
     ],
 
     /*
@@ -236,6 +237,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Active' => Watson\Active\Facades\Active::class,
 
     ],
 

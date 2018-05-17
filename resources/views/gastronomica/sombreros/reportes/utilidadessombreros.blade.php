@@ -2,7 +2,7 @@
 @section('title','Sombreros')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
     <div class="breadcrumb-holder fadeIn animated">
@@ -48,8 +48,8 @@
                         <label for="radioFoto">Foto</label>
                     </div>
                     <div class="offset-md-5 col-md-2">
-                        <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
-                        <button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-outline-primary ion-clipboard" title="mostrar todo"></button>
+                        <button type="button" name="buscar" id="buscar" class="btn btn-primary ion-android-search rounded" title="buscar"></button>
+                        <button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-primary ion-clipboard" title="mostrar todo"></button>
                     </div>
                 </div>
                 
@@ -59,8 +59,8 @@
                 <div class="form-group row">
                     <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                     <div class="col-sm-3">
-                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                    <span class="help-block-none">El código son de 13 caracteres.</span>
+                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','maxlength'=>'14','autofocus'])!!}
+                    <span class="help-block-none">Es de 13 ó 14 caracteres.</span>
                     </div>
                     <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                     <div class="col-sm-3">
@@ -100,45 +100,47 @@
                 </div>
                 <div class="card-block miTabla">
                 <a href="{{action('Reportes\ReporteController@reporteGeneralUtilidadesSombreros')}}"
-                id="reporte" class="btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
-                <a href="javascript:abrirGrafica()" class="btn btn-outline-primary btn-sm margenInf">Grafica</a><br/>
-                <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
-                    <thead class="thead-inverse">
-                    <tr>
-                        <th>#</th>
-                        <th>Articulo</th>
-                        <th>Imagen</th>
-                        <th>Modelo</th>
-                        <th>Tejido</th>
-                        <th>Material</th>
-                        <th>Publico</th>
-                        <th>Talla</th>
-                        <th>Precio Compra</th>
-                        <th>Precio Venta</th>
-                        <th>Utilidad</th>
-                    </tr>
-                    </thead>
-                    <tbody id="lista_datos">
-                        @foreach ($utilidades as $index=>$utilidad)
-                        <tr class="fadeIn animated">
-                            <th scope="row">{{$index+1}}</th>
-                            <th>{{$utilidad->codigo}}</th>
-                            <td>
-                                <img src="/images/sombreros/{{$utilidad->photo}}" class="img-fluid pull-xs-left rounded link_foto" alt="..." width="28">
-                            </td>
-                            <td>{{$utilidad->modelo}}</td>
-                            <td>{{$utilidad->tejido}}</td>
-                            <td>{{$utilidad->material}}</td>
-                            <td>{{$utilidad->publico}}</td>
-                            <td>{{$utilidad->talla}}</td>
-                            <td>S/ {{$utilidad->precio}}</td>
-                            <td>S/ {{$utilidad->precio_venta}}</td>
-                            <td>S/ {{$utilidad->utilidad}}</td>
-                        </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
+                id="reporte" class="btn btn-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
+                <a href="javascript:abrirGrafica()" class="btn btn-primary btn-sm margenInf">Grafica</a><br/>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
+                      <thead class="thead-inverse">
+                      <tr>
+                          <th>#</th>
+                          <th>Articulo</th>
+                          <th>Imagen</th>
+                          <th>Modelo</th>
+                          <th>Tejido</th>
+                          <th>Material</th>
+                          <th>Publico</th>
+                          <th>Talla</th>
+                          <!--<th>Precio Compra</th>-->
+                          <th>Precio Venta</th>
+                          <th>Utilidad</th>
+                      </tr>
+                      </thead>
+                      <tbody id="lista_datos">
+                          @foreach ($utilidades as $index=>$utilidad)
+                          <tr class="fadeIn animated">
+                              <th scope="row">{{$index+1}}</th>
+                              <th>{{$utilidad->codigo}}</th>
+                              <td>
+                                  <img src="/images/sombreros/{{$utilidad->photo}}" class="img-fluid pull-xs-left rounded link_foto" alt="..." width="28">
+                              </td>
+                              <td>{{$utilidad->modelo}}</td>
+                              <td>{{$utilidad->tejido}}</td>
+                              <td>{{$utilidad->material}}</td>
+                              <td>{{$utilidad->publico}}</td>
+                              <td>{{$utilidad->talla}}</td>
+                              <!--<td>S/ {{$utilidad->precio}}</td>-->
+                              <td>S/ {{$utilidad->precio_venta}}</td>
+                              <td>S/ {{$utilidad->utilidad}}</td>
+                          </tr>
+                          @endforeach
+  
+                      </tbody>
+                  </table>
+                </div>
                 </div>
             </div>
             </div>
@@ -499,7 +501,7 @@
                   tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+sombrero.codigo+"</th><td>"+
                 "<img src='/images/sombreros/"+sombrero.photo+"' class='img-fluid pull-xs-left rounded link_foto' alt='..' width='28'/></td><td>"+
                 sombrero.modelo+"</td><td>"+sombrero.tejido+"</td><td>"+sombrero.material+"</td><td>"+
-                sombrero.publico+"</td><td>"+sombrero.talla+"</td><td>"+sombrero.precio+"</td><td>"+sombrero.precio_venta+"</td><td>"+
+                sombrero.publico+"</td><td>"+sombrero.talla+"</td><td>"+sombrero.precio_venta+"</td><td>"+
                 sombrero.utilidad+"</td></tr>";
                 n++;
                 $("#reporte").attr('href',"{{URL::to('reporteUtilidadSombrerosPorCodigo/')}}/"+codigoSombrero);
@@ -542,7 +544,7 @@
                   tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+sombrero.codigo+"</th><td>"+
                 "<img src='/images/sombreros/"+sombrero.photo+"' class='img-fluid pull-xs-left rounded link_foto' alt='..' width='28'/></td><td>"+
                 sombrero.modelo+"</td><td>"+sombrero.tejido+"</td><td>"+sombrero.material+"</td><td>"+
-                sombrero.publico+"</td><td>"+sombrero.talla+"</td><td>"+sombrero.precio+"</td><td>"+sombrero.precio_venta+"</td><td>"+
+                sombrero.publico+"</td><td>"+sombrero.talla+"</td><td>"+sombrero.precio_venta+"</td><td>"+
                 sombrero.utilidad+"</td></tr>";
                 n++;
                 $("#reporte").attr('href',"{{URL::to('gastronomica/sombreros/reporte_utilidad_sombreros')}}/");

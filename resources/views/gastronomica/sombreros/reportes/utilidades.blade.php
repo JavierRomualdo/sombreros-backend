@@ -2,7 +2,7 @@
 @section('title','Sombreros')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
 <div class="breadcrumb-holder fadeIn animated">
@@ -55,8 +55,8 @@
               <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                 <div class="col-sm-3">
-                  {!!Form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','autofocus'])!!}
-                  <span class="help-block-none">El código son de 13 caracteres.</span>
+                  {!!Form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','maxlength'=>'14','autofocus'])!!}
+                  <span class="help-block-none">Es de 13 ó 14 caracteres.</span>
                 </div>
                 <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
                 <div class="col-sm-3">
@@ -107,8 +107,8 @@
                           {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
                         </div>
                         <div class="col-sm-2">
-                          <button type="button" name="buscar" id="buscar"class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
-                          <button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-outline-primary ion-clipboard" title="mostrar todo"></button>
+                          <button type="button" name="buscar" id="buscar"class="btn btn-primary ion-android-search rounded" title="buscar"></button>
+                          <button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-primary ion-clipboard" title="mostrar todo"></button>
                         </div>
                       </div>
                     </div>
@@ -123,7 +123,7 @@
                       <h2 class="h6 display ion-paperclip fadeIn animated"> Tabla Utilidades Ventas:</h2>
                     </div>
                     <div class="card-block miTabla">
-                        <a href="{{action('Reportes\ReporteController@reporteGeneralUtilidadesVentas')}}" id="reporte" class="btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
+                        <a href="{{action('Reportes\ReporteController@reporteGeneralUtilidadesVentas')}}" id="reporte" class="btn btn-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
                       <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
         

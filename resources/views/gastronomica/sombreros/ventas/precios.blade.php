@@ -2,7 +2,7 @@
 @section('title','Ventas')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 <style type="text/css"> #divredondo, #estado_orden { height:20px; width:20px; border-radius:10px; } </style>
   <div class="breadcrumb-holder fadeIn animated">
@@ -15,7 +15,7 @@
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h5 fadeIn animated text-center ion-clipboard"> Precios</h1>
+        <h1 class="h2 fadeIn animated text-center ion-clipboard"> Precios</h1>
       </header>
       <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12">

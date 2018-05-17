@@ -2,23 +2,23 @@
 @section('title','Ventas')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
-        <li class="breadcrumb-item active">Cancelacion</li>
+        <li class="breadcrumb-item active">Cancelacion Ventas</li>
       </ul>
     </div>
   </div>
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h5 fadeIn animated text-center ion-clipboard"> Cancelacion Ventas</h1>
+        <h1 class="h2 fadeIn animated text-center ion-clipboard"> Cancelacion Ventas</h1>
       </header>
       @include('partials.messages')
-      <a href="{{url('/gastronomica/sombreros/ventas/cancelaciones/cancelacion/create')}}" class="btn btn-outline-primary margenInf fadeIn animated btn-sm" title="nueva venta"><i class="ion-plus-round"></i> Nuevo</a> &nbsp;
+      <a href="{{url('/gastronomica/sombreros/ventas/cancelaciones/cancelacion/create')}}" class="btn btn-primary margenInf fadeIn animated btn-sm" title="nueva venta"><i class="ion-plus-round"></i> Nuevo</a> &nbsp;
       <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12">
           <div class="card miBorder fadeIn animated">

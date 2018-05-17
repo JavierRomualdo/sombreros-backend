@@ -2,7 +2,7 @@
 @section('title','Proveedores')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
   <div class="breadcrumb-holder fadeIn animated">
@@ -104,8 +104,8 @@
                   {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
                 </div>
                 <div class="col-sm-2">
-                  <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
-                  <button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-outline-primary ion-clipboard" title="mostrar todo"></button>
+                  <button type="button" name="buscar" id="buscar" class="btn btn-primary ion-android-search rounded" title="buscar"></button>
+                  <button type="button" name="mostrarTodo" id="mostrarTodo" class="btn btn-primary ion-clipboard" title="mostrar todo"></button>
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@
             <div class="card-block miTabla">
               <!--<a href="{{action('Reportes\ReporteController@reporteGeneralCompras')}}"
               id="reporte_general" class="btn btn-primary margenInf" target="_blank">Reporte General</a>-->
-              <a href="{{action('Reportes\ReporteController@reporteGeneralCompras')}}" id="reporte" class="btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
+              <a href="{{action('Reportes\ReporteController@reporteGeneralCompras')}}" id="reporte" class="btn btn-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a>
               <div class="table-responsive">
                 <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
                 <thead class="thead-inverse">

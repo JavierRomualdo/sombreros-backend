@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title','Pedido Reposicion')
 @section('content')
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 <style type="text/css"> #divredondo, #estado_orden { height:20px; width:20px; border-radius:10px; } </style>
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
@@ -58,7 +59,7 @@
             </div>
             <div class="card-block">
               <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered">
+                <table class="table table-striped table-hover table-bordered" id="myTable">
                 <thead class="thead-inverse">
                   <tr>
                     <th>#</th>
@@ -110,4 +111,16 @@
       </div>
     </div>
   </section>
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+  <script>
+    $(document).ready(function(){
+      $('#myTable').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        }
+      });
+    });
+  </script>
   @endsection

@@ -2,7 +2,7 @@
 @section('title','Proveedores')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
   <div class="breadcrumb-holder fadeIn animated">
@@ -47,7 +47,7 @@
                   {!!Form::date('fecha_fin', \Carbon\Carbon::now(),['id'=>'fecha_fin','name'=>'fecha_fin','class'=>'form-control'])!!}
                 </div>
                 <div class="col-sm-1">
-                  <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
+                  <button type="button" name="buscar" id="buscar" class="btn btn-primary ion-android-search rounded" title="buscar"></button>
                 </div>
               </div>
             </div>
@@ -92,7 +92,7 @@
               <h2 class="h6 display ion-paperclip fadeIn animated"> Tabla Ventas:</h2>
             </div>
             <div class="card-block miTabla">
-              <a href="" id="reporte" class="disabled btn btn-outline-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a><br/>
+              <a href="" id="reporte" class="disabled btn btn-primary btn-sm margenInf ion-document-text" title="reporte" target="_blank"> Reporte</a><br/>
               <div class="table-responsive">
                 <table class="table table-striped table-hover table-bordered" id="myTableVentas"><!--table-responsive-->
                   <thead class="thead-inverse">
@@ -184,7 +184,7 @@
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerar</button>
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
             <!--<button type="button" class="btn btn-primary">Save changes</button>-->
           </div>
         </div>

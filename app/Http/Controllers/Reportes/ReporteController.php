@@ -16,6 +16,7 @@ use App\Models\OrdenCompraDetalle;
 use App\Models\Venta;
 use App\Models\VentaDetalle;
 use App\Models\Empleado;
+use App\Models\Movimiento;
 use Session;
 use DB;
 use PDF;
@@ -139,17 +140,16 @@ class ReporteController extends Controller
       $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
 
       $sombreros = Sombrero::select('sombrero.codigo','sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-        'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
+        'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
         'sombrero.utilidad','sombrero.photo')
         ->join('modelos','modelos.id','=','sombrero.idModelo')
         ->join('tejidos','tejidos.id','=','sombrero.idTejido')
         ->join('materiales','materiales.id','=','sombrero.idMaterial')
         ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
         ->join('tallas','tallas.id','=','sombrero.idTalla')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
         ->groupBy('sombrero.codigo', 'sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-          'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
-          'sombrero.utilidad','sombrero.photo')->get()->take(10);
+          'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
+          'sombrero.utilidad','sombrero.photo')->get();
       
       $imagenes = Sombrero::
                 select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
@@ -645,18 +645,47 @@ class ReporteController extends Controller
       return $pdf->stream();
     }*/
 
+    public function reporteMovimientos()
+    {
+      # code...
+      $movimientos = Movimiento::select('codigo','cantidadingreso','costounitario',
+        'costototal','cantidadsalida','preciounitario','preciototal','movimiento.stock_actual','valor','fecha')
+        ->join('sombrero','sombrero.id','=','movimiento.idSombrero')->get();
+      $fecha_inicio = '';
+      $fecha_fin = '';
+
+      $pdf = PDF::loadView('reportes/movimiento',['movimientos'=>$movimientos,
+        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin]);
+      $pdf->setPaper('a4','landscape');//orientacion horizontal
+      return $pdf->stream();
+    }
+
+    public function reporteMovimientosPorFecha($fecha_inicio, $fecha_fin)
+    {
+      # code...
+      $movimientos = Movimiento::select('codigo','cantidadingreso','costounitario',
+          'costototal','cantidadsalida','preciounitario','preciototal','movimiento.stock_actual','valor','fecha')
+          ->join('sombrero','sombrero.id','=','movimiento.idSombrero')
+          ->whereBetween('fecha',[$fecha_inicio,$fecha_fin])->get();
+          
+      $pdf = PDF::loadView('reportes/movimiento',['movimientos'=>$movimientos,
+        'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_fin]);
+      $pdf->setPaper('a4','landscape');//orientacion horizontal
+      return $pdf->stream();
+      
+    }
+
     public function reporteGeneralUtilidadesSombreros(){
       $detalles = Sombrero::select('sombrero.codigo','sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-        'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
+        'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
         'sombrero.utilidad','sombrero.photo')
         ->join('modelos','modelos.id','=','sombrero.idModelo')
         ->join('tejidos','tejidos.id','=','sombrero.idTejido')
         ->join('materiales','materiales.id','=','sombrero.idMaterial')
         ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
         ->join('tallas','tallas.id','=','sombrero.idTalla')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
         ->groupBy('sombrero.codigo', 'sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-          'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
+          'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
           'sombrero.utilidad','sombrero.photo')->get();
       
       $now = new \DateTime();
@@ -668,17 +697,16 @@ class ReporteController extends Controller
 
     public function reporteUtilidadSombrerosCodigo($codigo) {
       $datos = Sombrero::select('sombrero.codigo','sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-        'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
+        'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
         'sombrero.utilidad','sombrero.photo')
         ->join('modelos','modelos.id','=','sombrero.idModelo')
         ->join('tejidos','tejidos.id','=','sombrero.idTejido')
         ->join('materiales','materiales.id','=','sombrero.idMaterial')
         ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
         ->join('tallas','tallas.id','=','sombrero.idTalla')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
         ->where('sombrero.codigo','=',$codigo)
         ->groupBy('sombrero.codigo', 'sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-          'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
+          'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
           'sombrero.utilidad','sombrero.photo')->get();
 
       return response()->json($datos);
@@ -686,16 +714,15 @@ class ReporteController extends Controller
 
     public function mostrarTodoUtilidadSombreros(){
       $datos = Sombrero::select('sombrero.codigo','sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-        'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
+        'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
         'sombrero.utilidad','sombrero.photo')
         ->join('modelos','modelos.id','=','sombrero.idModelo')
         ->join('tejidos','tejidos.id','=','sombrero.idTejido')
         ->join('materiales','materiales.id','=','sombrero.idMaterial')
         ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
         ->join('tallas','tallas.id','=','sombrero.idTalla')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
         ->groupBy('sombrero.codigo', 'sombrero.id','modelos.modelo','tejidos.tejido','materiales.material',
-          'publicodirigido.publico','tallas.talla','proveedor_precio.precio','sombrero.precio_venta','sombrero.stock_actual',
+          'publicodirigido.publico','tallas.talla','sombrero.precio_venta','sombrero.stock_actual',
           'sombrero.utilidad','sombrero.photo')->get();
 
       return response()->json($datos);

@@ -2,7 +2,7 @@
 @section('title','Materiales')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
   <div class="breadcrumb-holder fadeIn animated">
@@ -15,10 +15,10 @@
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h5 fadeIn animated text-center ion-clipboard fadeIn animated"> Empleados</h1>
+        <h1 class="h2 fadeIn animated text-center ion-clipboard fadeIn animated"> Empleados</h1>
       </header>
       @include('partials.messages')
-      <a href="{{url('/gastronomica/sombreros/empleados/empleado/create')}}" class="btn btn-outline-primary btn-sm margenInf fadeIn animated ion-plus-round"> Nuevo</a> &nbsp;
+      <a href="{{url('/gastronomica/sombreros/empleados/empleado/create')}}" class="btn btn-primary btn-sm margenInf fadeIn animated ion-plus-round"> Nuevo</a> &nbsp;
       <div class="row">
         <div class="col-lg-12">
 

@@ -93,6 +93,7 @@ Route::get('/ajax-mostrarCodigoPublico/{id}','Sombreros\PublicoDirigidoControlle
 
 /*Movimientos*/
 Route::resource('gastronomica/sombreros/movimientos/movimientos', 'Movimiento\MovimientoController');
+Route::get('/ajax-reporteMovimientoPorFecha/{fecha_inicio}/{fecha_fin}','Movimiento\MovimientoController@reporteMovimientoPorFecha');
 /**Movimiento en general*/
 Route::resource('gastronomica/sombreros/movimientos/movimientogeneral', 'Sombreros\MovimientoController');
 /**Movimiento por articulo */
@@ -191,6 +192,10 @@ Route::get('gastronomica/sombreros/reportes/verventas/{venta_id}','Reportes\Repo
 Route::get('gastronomica/sombreros/reportes/ventasver/{venta_id}','Reportes\ReporteController@ventaDescarga');
 Route::get('gastronomica/sombreros/reporte_venta','Reportes\ReporteController@reporteGeneralVentas');
 Route::get('reporteUtilidadSombrerosPorCodigo/{codigo}','Reportes\ReporteController@reporteUtilidadSombrerosPorCodigo');
+
+//Reporte de movimiento
+Route::get('gastronomica/sombreros/reportes/movimiento','Reportes\ReporteController@reporteMovimientos');
+Route::get('reporteMovimientosPorFecha/{fecha_inicio}/{fecha_fin}','Reportes\ReporteController@reporteMovimientosPorFecha');
 
 //reporte por ventas por empleado
 Route::get('gastronomica/sombreros/reportes/ventasporempleado', 'Reportes\ReporteController@indexVentasPorEmpleado');

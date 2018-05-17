@@ -2,7 +2,7 @@
 @section('title','Tejidos')
 @section('content')
 <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">-->
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
     <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
   <div class="breadcrumb-holder">
@@ -15,10 +15,10 @@
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h5 fadeIn animated text-center ion-clipboard"> Lista de Tallas:</h1>
+        <h1 class="h2 fadeIn animated text-center ion-clipboard"> Lista de Tallas:</h1>
       </header>
       @include('partials.messages')
-      <a href="{{url('/gastronomica/sombreros/tallas/talla/create')}}" class="btn btn-outline-primary margenInf fadeIn animated ion-plus-round btn-sm" title="nueva talla"> Nuevo</a> &nbsp;
+      <a href="{{url('/gastronomica/sombreros/tallas/talla/create')}}" class="btn btn-primary margenInf fadeIn animated ion-plus-round btn-sm" title="nueva talla"> Nuevo</a> &nbsp;
 
       <div class="row">
           

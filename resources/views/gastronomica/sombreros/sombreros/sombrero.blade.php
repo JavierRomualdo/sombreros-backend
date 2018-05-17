@@ -2,7 +2,7 @@
 @section('title','Sombreros')
 @section('content')
   <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">-->
-  <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+  <!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
   <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
   
   <div class="breadcrumb-holder fadeIn animated">
@@ -15,16 +15,16 @@
   <section class="forms">
     <div class="container-fluid">
       <header>
-        <h1 class="h5 fadeIn animated text-center ion-clipboard"> Lista Sombreros</h1>
+        <h1 class="h2 fadeIn animated text-center ion-clipboard"> Lista Sombreros</h1>
       </header>
       <!--<center class="fadeIn animated"><img src="/images/sombreros/logo_sombreros.png" width="300" alt="..." class="fadeIn animated"></center>-->
       @include('partials.messages')
-      <a href="{{url('/gastronomica/sombreros/sombreros/sombrero/create')}}" class="btn btn-outline-primary margenInf fadeIn animated ion-plus-round btn-sm" title="nuevo sombrero"> Nuevo</a> &nbsp;
+      <a href="{{url('/gastronomica/sombreros/sombreros/sombrero/create')}}" class="btn btn-primary margenInf fadeIn animated ion-plus-round btn-sm" title="nuevo sombrero"> Nuevo</a> &nbsp;
       <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-                <h2 class="h6 display ion-paperclip fadeIn animated title col-md-4"> Historial:</h2>
+                <h2 class="h6 display ion-paperclip fadeIn animated title"> Historial:</h2>
             </div>
             <div class="card-block">
               <div class="table-responsive">

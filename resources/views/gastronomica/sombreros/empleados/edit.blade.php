@@ -24,21 +24,21 @@
               <p>Edite los datos del empleado.</p>
               {!!Form::model($empleado, ['action'=>['Empleados\EmpleadoController@update',$empleado->id],'method'=>'PUT'])!!}
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="idEncargo"><strong>Encargo:</strong></label>
+                <label class="col-sm-2 form-control-label" for="idEncargo"><strong>Encargo (*):</strong></label>
                 <div class="col-sm-4">
                   {!!Form::select('idEncargo',$encargo, null,['id'=>'idEncargo','name'=>'idEncargo','class'=>'form-control'])!!}
                 </div>
-                <label class="col-sm-2 form-control-label" for="nombres"><strong>Nombres:</strong></label>
+                <label class="col-sm-2 form-control-label" for="nombres"><strong>Nombres (*):</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('nombres', null,['id'=>'nombres','class'=>'form-control','placeholder'=>'Ingrese Nombres'])!!}
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-2 form-control-label" for="apellidos"><strong>Apellidos:</strong></label>
+                <label class="col-sm-2 form-control-label" for="apellidos"><strong>Apellidos (*):</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('apellidos', null,['id'=>'apellidos','class'=>'form-control','placeholder'=>'Ingrese Apellidos'])!!}
                 </div>
-                <label class="col-sm-2 form-control-label" for="dni"><strong>Dni:</strong></label>
+                <label class="col-sm-2 form-control-label" for="dni"><strong>Dni (*):</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('dni', null,['id'=>'dni','class'=>'form-control','placeholder'=>'Ingrese Dni'])!!}
                 </div>
@@ -48,7 +48,7 @@
                 <div class="col-sm-4">
                   {!!form::text('direccion', null,['id'=>'direccion','class'=>'form-control','placeholder'=>'Ingrese Direccion'])!!}
                 </div>
-                <label class="col-sm-2 form-control-label" for="direccion"><strong>Telefono:</strong></label>
+                <label class="col-sm-2 form-control-label" for="direccion"><strong>Telefono (*):</strong></label>
                 <div class="col-sm-4">
                   {!!form::text('telefono', null,['id'=>'telefono','class'=>'form-control','placeholder'=>'Ingrese Telefono'])!!}
                 </div>

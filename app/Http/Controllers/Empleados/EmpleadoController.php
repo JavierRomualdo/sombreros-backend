@@ -34,7 +34,7 @@ class EmpleadoController extends Controller
     {
         //
         $encargos = Encargo::pluck('nombre','id')->prepend('Seleccione el Encargo...');
-        return view ('gastronomica/sombreros/empleados/create')->with('encargo', $encargos);
+        return view ('gastronomica.sombreros.empleados.create', array('encargo'=>$encargos));
     }
 
     /**
@@ -46,6 +46,7 @@ class EmpleadoController extends Controller
     public function store(TrabajadorCreateRequest $request)
     {
         //
+        //echo($request->idEncargo);
         Empleado::create($request->all());
         Session::flash('save','Se ha creado correctamente');
         return redirect()->action('Empleados\EmpleadoController@index');

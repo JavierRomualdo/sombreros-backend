@@ -12,26 +12,26 @@
 
     <title>{{ config('app.name', 'Sombreros') }}</title>
 
-    
-    <!-- Bootstrap CSS--><link rel="stylesheet" href="{{asset('ionic/css/ionicons.min.css')}}">
-    <link rel="stylesheet" href="{{asset('bootstrap4/vendor/bootstrap/css/bootstrap.min.css')}}">
+    <!--Nuevos estilos-->
+    <!--<link rel="stylesheet" href="{{asset('bootstrap4/vendor/bootstrap/css/bootstrap.min.css')}}">-->
     <link rel="stylesheet" href="{{asset('bootstrap4/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('bootstrap4/vendor/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('bootstrap4/css/fontastic.css')}}">
     <!-- Google fonts - Roboto -->
     <link rel="stylesheet" href="{{asset('bootstrap4/css/roboto.css')}}">
-    <!--Galerya-->
-    <link rel="stylesheet" href="{{asset('bootstrap4/css/galery/lightbox.min.css')}}">
-    <!--http://fonts.googleapis.com/css?family=Roboto:300,400,500,700-->
-    <!-- theme stylesheet-->
-    <!--<link rel="stylesheet" href="{ {asset('bootstrap4/css/style.default.css')}}" id="theme-stylesheet">-->
-    <link rel="stylesheet" href="{{asset('bootstrap4/css/style.default.premium.css')}}" id="theme-stylesheet">
     <!-- jQuery Circle-->
     <link rel="stylesheet" href="{{asset('bootstrap4/css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
-    <!---->
-    <link rel="stylesheet" href="{{asset('bootstrap4/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">    
+    <link rel="stylesheet" href="{{asset('bootstrap4/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}"> 
+    <link rel="stylesheet" href="{{asset('bootstrap4/css/style.default.css')}}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{{asset('bootstrap4/css/custom.css')}}">
+
+    <link rel="stylesheet" href="{{asset('ionic/css/ionicons.min.css')}}">
+    <link rel="stylesheet" href="{{asset('bootstrap4/css/style.default.premium.css')}}" id="theme-stylesheet">
+    
+    <!--Galerya-->
+    <link rel="stylesheet" href="{{asset('bootstrap4/css/galery/lightbox.min.css')}}">
+
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{asset('bootstrap4/img/favicon.ico')}}">
 
@@ -41,78 +41,102 @@
     <script src="{{asset('bootstrap4/js/99347ac47f.js')}}"></script>
     <!-- Font Icons CSS-->
     <link rel="stylesheet" href="{{asset('bootstrap4/css/icons.css')}}">
-    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 
-    <!-- Styles -->
-    <!--<link href="{#{ asset('css/app.css') }}" rel="stylesheet">-->
-    <!--<script type="text/javascript" href="vue/js/vue.min.js">
-    </script>-->
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
+        <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--><![endif]-->
+
 
     <link rel="stylesheet" href="{{asset('jquery-alertable-master/jquery.alertable.css')}}">
     <link rel="stylesheet" href="{{asset('bootstrap4/css/estilos.css')}}">
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
     <link rel="stylesheet" href="{{asset('css/reloj.css')}}">
-
-    <!--datatables-->
-    
-    
-
 </head>
 <body>
   <nav class="side-navbar fadeIn animated">
     <div class="side-navbar-wrapper fadeIn animated">
       <div class="sidenav-header d-flex align-items-center justify-content-center">
       <div class="sidenav-header-inner text-center"><a href="{{action('Usuarios\PerfilController@foto',Auth::user()->id)}}" title="editar foto"><img src="/images/usuarios/{{Auth::user()->photo}}" alt="person" class="img-fluid rounded-circle"></a>
-          <h2 class="h6"><a href="{{action('Usuarios\PerfilController@indexPerfil',Auth::user()->id)}}"><label for="" id="usuario">{{ Auth::user()->name }}</label></a></h2><span class="text-uppercase">Usuario</span>
+          <h2 class="h6"><a href="{{action('Usuarios\PerfilController@indexPerfil',Auth::user()->id)}}"><label for="" id="usuario">{{ Auth::user()->name }}</label></a></h2>
+          @if(Auth::user()->idCargo == 1) 
+            <span class="text-uppercase">Usuario</span>
+          @else
+            <!--idcargo == 2-->
+            <span class="text-uppercase">Administrador</span>
+          @endif
+          
         </div>
         <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>S</strong><strong class="text-primary">G</strong></a></div>
     </div>
       <div class="main-menu fadeIn animated">
         <h5 class="sidenav-heading">Main</h5>
         <ul id="side-main-menu" class="side-menu list-unstyled">
-          <li id="li-home"><a href="{{url('home')}}"><i class="ion-ios-home-outline"></i><span>Home</span></a></li>
-          <li> <a href="#pages-sombreros-list" data-toggle="collapse" aria-expanded="false"><i class="ion-ios-people-outline"></i><span>Sombreros</span></a>
-            <ul id="pages-sombreros-list" class="collapse list-unstyled">
-              <li id="li-somb"> <a href="{{url('gastronomica/sombreros/sombreros/sombrero')}}"><i class="icon-list-1"></i><span>Sombrero</span></a></li>
-              <li id="li-mod"> <a href="{{url('gastronomica/sombreros/modelos/modelo')}}"><i class="icon-presentation"></i><span>Modelo</span></a></li>
-              <li id="li-mat"> <a href="{{url('gastronomica/sombreros/materiales/material')}}"><i class="icon-pencil-case"></i><span>Material</span></a></li>
-              <li id="li-tej"> <a href="{{url('gastronomica/sombreros/tejidos/tejido')}}"><i class="icon-check"></i><span>Tejido</span></a></li>
-              <li id="li-tal"> <a href="{{url('gastronomica/sombreros/tallas/talla')}}"><i class="icon-mail"></i><span>Talla</span></a></li>
-              <li id="li-pub"> <a href="{{url('gastronomica/sombreros/publicodirigido/publicodirigido')}}"><i class="icon-check"></i><span>Publico Dirigido</span></a></li>
+          <li class="{{active_menu(Route::currentRouteName(), 'home', 0, 4)}}"><a href="{{url('home')}}"><i class="ion-ios-home-outline"></i><span>Home</span></a></li>
+          <li> <a href="#pages-sombreros-list" data-toggle="collapse" 
+            aria-expanded="{{ Request::is('gastronomica/sombreros/sombreros/sombrero') 
+              || Request::is('gastronomica/sombreros/modelos/modelo') 
+              || Request::is('gastronomica/sombreros/materiales/material') 
+              || Request::is('gastronomica/sombreros/tejidos/tejido') 
+              || Request::is('gastronomica/sombreros/tallas/talla') 
+              || Request::is('gastronomica/sombreros/publicodirigido/publicodirigido') ? 'true' : 'false' }}"><i class="ion-ios-people-outline"></i><span>Sombreros</span></a>
+            <ul id="pages-sombreros-list" class="collapse list-unstyled {{ Request::is('gastronomica/sombreros/sombreros/sombrero')  
+            || Request::is('gastronomica/sombreros/modelos/modelo') 
+            || Request::is('gastronomica/sombreros/materiales/material') 
+            || Request::is('gastronomica/sombreros/tejidos/tejido') 
+            || Request::is('gastronomica/sombreros/tallas/talla') 
+            || Request::is('gastronomica/sombreros/publicodirigido/publicodirigido') ? 'show' : '' }}">
+              <li class="{{active_menu(Route::currentRouteName(), 'sombrero', 0, 8)}}"> <a href="{{url('gastronomica/sombreros/sombreros/sombrero')}}"><i class="icon-list-1"></i><span>Sombrero</span></a></li>
+              <li class="{{active_menu(Route::currentRouteName(), 'modelo', 0, 6)}}"> <a href="{{url('gastronomica/sombreros/modelos/modelo')}}"><i class="icon-presentation"></i><span>Modelo</span></a></li>
+              <li class="{{active_menu(Route::currentRouteName(), 'material', 0, 8)}}"> <a href="{{url('gastronomica/sombreros/materiales/material')}}"><i class="icon-pencil-case"></i><span>Material</span></a></li>
+              <li class="{{active_menu(Route::currentRouteName(), 'tejido', 0, 6)}}" id="li-tej"> <a href="{{url('gastronomica/sombreros/tejidos/tejido')}}"><i class="icon-check"></i><span>Calidad Tejido</span></a></li>
+              <li class="{{active_menu(Route::currentRouteName(), 'talla', 0, 5)}}"> <a href="{{url('gastronomica/sombreros/tallas/talla')}}"><i class="icon-mail"></i><span>Talla</span></a></li>
+              <li class="{{active_menu(Route::currentRouteName(), 'publicodirigido', 0, 15)}}"> <a href="{{url('gastronomica/sombreros/publicodirigido/publicodirigido')}}"><i class="icon-check"></i><span>Publico Dirigido</span></a></li>
             </ul>
           </li>
-          <li> <a href="#pages-nav-list" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Proveedores</span></a>
-            <ul id="pages-nav-list" class="collapse list-unstyled">
-              <li id="li-prov"> <a href="{{url('gastronomica/proveedores/proveedores/proveedor')}}"> <i class="icon-check"></i><span>Proveedor</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/proveedores/proveedores/datos')}}"> <i class="icon-check"></i><span>Datos</span></a></li>
-              <li id="li-prov"> <a href="{{url('gastronomica/proveedores/costos/costos')}}"> <i class="icon-check"></i><span>Costos</span></a></li>
+          <li> <a href="#pages-nav-list" data-toggle="collapse" 
+            aria-expanded="{{ Request::is('gastronomica/proveedores/proveedores/proveedor') 
+              || Request::is('gastronomica/proveedores/proveedores/datos') 
+              || Request::is('gastronomica/proveedores/costos/costos') ? 'true' : 'false' }}"><i class="icon-interface-windows"></i><span>Proveedores</span></a>
+            <ul id="pages-nav-list" class="collapse list-unstyled {{ Request::is('gastronomica/proveedores/proveedores/proveedor') 
+            || Request::is('gastronomica/proveedores/proveedores/datos') 
+            || Request::is('gastronomica/proveedores/costos/costos') ? 'show' : '' }}">
+              <li class="{{active_menu(Route::currentRouteName(), 'proveedor', 0, 9)}}"> <a href="{{url('gastronomica/proveedores/proveedores/proveedor')}}"> <i class="icon-check"></i><span>Proveedor</span></a></li>
+              <li class="{{Request::is('gastronomica/proveedores/proveedores/datos') ? 'active':''}}"> <a href="{{url('gastronomica/proveedores/proveedores/datos')}}"> <i class="icon-check"></i><span>Datos</span></a></li>
+              <li class="{{active_menu(Route::currentRouteName(), 'costos', 0, 6)}}"> <a href="{{url('gastronomica/proveedores/costos/costos')}}"> <i class="icon-check"></i><span>Costos</span></a></li>
             </ul>
           </li>
-          <li><a href="{{url('gastronomica/sombreros/clientes/cliente')}}"><i class="icon-interface-windows"></i><span>Clientes</span></a></li>          
+          <li class="{{active_menu(Route::currentRouteName(), 'cliente', 0, 7)}}"><a href="{{url('gastronomica/sombreros/clientes/cliente')}}"><i class="icon-interface-windows"></i><span>Clientes</span></a></li>          
           </ul>
         </div>
 
         <div class="main-menu fadeIn animated">
           <h5 class="sidenav-heading">Second</h5>
           <ul id="side-main-menu" class="side-menu list-unstyled">
-            <li id="li-prov"> <a href="{{url('gastronomica/sombreros/pedidosreposicion/pedidoreposicion')}}"> <i class="icon-check"></i><span>Pedido Reposicion</span></a></li>            
-            <li id="li-prov"> <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}"> <i class="icon-check"></i><span>Orden de Compra</span></a></li>
-            <li id="li-prov"> <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}"> <i class="icon-check"></i><span>Guia Ingreso</span></a></li>
-            <li> <a href="#pages-nav-ventas" data-toggle="collapse" aria-expanded="false"> <i class="ion-ios-cart-outline"></i><span>Ventas</span></a>
-              <ul id="pages-nav-ventas" class="collapse list-unstyled">
-                <li><a href="{{url('gastronomica/sombreros/ventas/precios')}}"> <i class="ion-ios-cart-outline"></i><span>Precios</span></a></li>
-                <li><a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="ion-ios-cart-outline"></i><span>Nueva Venta</span></a></li>
-                <li><a href="{{url('gastronomica/sombreros/ventas/cancelaciones/cancelacion')}}"> <i class="ion-ios-cart-outline"></i><span>Cancelacion</span></a></li>
-                <li><a href="{{url('gastronomica/sombreros/ventas/utilidades/utilidadcomision')}}"> <i class="ion-ios-cart-outline"></i><span>Utilidad-Comision</span></a></li>
+            <!--{{active_menu(Route::currentRouteName(), 'pedidoreposicion', 0, 16)}}-->
+            <li class="{{Request::is('gastronomica/sombreros/pedidosreposicion/pedidoreposicion') ? 'active':''}}"> <a href="{{url('gastronomica/sombreros/pedidosreposicion/pedidoreposicion')}}"> <i class="icon-check"></i><span>Pedido Reposicion</span></a></li>            
+            <li class="{{active_menu(Route::currentRouteName(), 'ordencompra', 0, 11)}}"> <a href="{{url('gastronomica/sombreros/ordencompra/ordencompra')}}"> <i class="icon-check"></i><span>Orden de Compra</span></a></li>
+            <li class="{{active_menu(Route::currentRouteName(), 'guiaingreso', 0, 11)}}"> <a href="{{url('gastronomica/sombreros/guiaingreso/guiaingreso')}}"> <i class="icon-check"></i><span>Guia Ingreso</span></a></li>
+            <li> <a href="#pages-nav-ventas" data-toggle="collapse" 
+              aria-expanded="{{ Request::is('gastronomica/sombreros/ventas/precios') 
+              || Request::is('gastronomica/sombreros/ventas/ventas') 
+              || Request::is('gastronomica/sombreros/ventas/cancelaciones/cancelacion') 
+              || Request::is('gastronomica/sombreros/ventas/utilidades/utilidadcomision')   ? 'true' : 'false' }}"> <i class="ion-ios-cart-outline"></i><span>Ventas</span></a>
+              <ul id="pages-nav-ventas" 
+              class="collapse list-unstyled {{ Request::is('gastronomica/sombreros/ventas/precios') 
+              || Request::is('gastronomica/sombreros/ventas/ventas')
+              || Request::is('gastronomica/sombreros/ventas/cancelaciones/cancelacion') 
+              || Request::is('gastronomica/sombreros/ventas/utilidades/utilidadcomision')   ? 'show' : '' }}">
+                <li class="{{Request::is('gastronomica/sombreros/ventas/precios') ? 'active':''}}"><a href="{{url('gastronomica/sombreros/ventas/precios')}}"> <i class="ion-ios-cart-outline"></i><span>Precios</span></a></li>
+                <li class="{{Request::is('gastronomica/sombreros/ventas/ventas') ? 'active':''}}"><a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="ion-ios-cart-outline"></i><span>Nueva Venta</span></a></li>
+                <li class="{{active_menu(Route::currentRouteName(), 'cancelacion', 0, 11)}}"><a href="{{url('gastronomica/sombreros/ventas/cancelaciones/cancelacion')}}"> <i class="ion-ios-cart-outline"></i><span>Cancelacion</span></a></li>
+                <li class="{{active_menu(Route::currentRouteName(), 'utilidadcomision', 0, 16)}}"><a href="{{url('gastronomica/sombreros/ventas/utilidades/utilidadcomision')}}"> <i class="ion-ios-cart-outline"></i><span>Utilidad-Comision</span></a></li>
               </ul>
             </li>
             <!--<li> <a href="#pages-nav-list-compras" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Compras</span></a>
             <ul id="pages-nav-list-compras" class="collapse list-unstyled">
               
-              <li id="li-prov"> <a href="{ {url('gastronomica/sombreros/factura/factura')}}"> <i class="icon-check"></i><span>Factura</span></a></li>
-              <li id="li-prov"> <a href="{ {url('gastronomica/proveedores/proveedores/datos')}}"> <i class="icon-check"></i><span>Reporte de Anomalias</span></a></li>
+              <li> <a href="{ {url('gastronomica/sombreros/factura/factura')}}"> <i class="icon-check"></i><span>Factura</span></a></li>
+              <li> <a href=""> <i class="icon-check"></i><span>Reporte de Anomalias</span></a></li>
             </ul>
             </li>-->
           </ul>
@@ -169,20 +193,23 @@
               </li>
             </ul>
           </li>
+          @if(Auth::user()->idCargo == 2 )
           <li> <a href="#pages-nav-list-configuracion" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Configuracion</span></a>
             <ul id="pages-nav-list-configuracion" class="collapse list-unstyled">
               <li> <a href="{{url('gastronomica/configuracion/usuarios/usuario')}}"> <i class="icon-user"></i><span>Usuarios</span></a></li>
               <li> <a href="{{url('gastronomica/configuracion/atributos/atributo')}}"> <i class="icon-interface-windows"></i><span>Parametros</span></a></li>
-              <li> <a href="{{url('gastronomica/configuracion/temporadas/temporada')}}"> <i class="icon-interface-windows"></i><span>Temporadas</span></a></li>
+              <!--<li> <a href="{{url('gastronomica/configuracion/temporadas/temporada')}}"> <i class="icon-interface-windows"></i><span>Temporadas</span></a></li>-->
               <li><a href="#pages-empleados-list" data-toggle="collapse" aria-expanded="false"><i class="ion-ios-people-outline"></i><span>Trabajadores</span></a>
                 <ul id="pages-empleados-list" class="collapse list-unstyled">
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/encargos/encargo')}}"> <i class="icon-check"></i><span>Encargos</span></a></li>
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/empleados/empleado')}}"> <i class="icon-check"></i><span>Trabajador</span></a></li>
-                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/comisionempleado/comision')}}"> <i class="icon-check"></i><span>Comision</span></a></li>
+                  <!--<li id="li-prov"> <a href="{{url('gastronomica/sombreros/comisionempleado/comision')}}"> <i class="icon-check"></i><span>Comision</span></a></li>-->
                 </ul>
               </li>             
             </ul>
           </li>
+          @endif
+          
         </ul>
       </div>
 
@@ -233,22 +260,21 @@
     @yield('content')
     @include('partials.footer')
   </div>
-
-    
-
     <script src="{{asset('bootstrap4/vendor/jquery/jquery.min.js')}}"></script>    
-    <script src="{{asset('bootstrap4/vendor/popper.js/umd/popper.min.js')}}"></script>    
+    <script src="{{asset('bootstrap4/vendor/popper.js/umd/popper.min.js')}}"></script>   
+    <script src="{{asset('bootstrap4/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script> 
     <script src="{{asset('bootstrap4/vendor/bootstrap/js/bootstrap.min.js')}}"></script>    
     <script src="{{asset('bootstrap4/js/grasp_mobile_progress_circle-1.0.0.min.js')}}"></script>
     <script src="{{asset('bootstrap4/vendor/jquery.cookie/jquery.cookie.js')}}"></script>
     <script src="{{asset('bootstrap4/vendor/chart.js/Chart.min.js')}}"></script>
     <script src="{{asset('bootstrap4/vendor/jquery-validation/jquery.validate.min.js')}}"></script>
-    <script src="{{asset('bootstrap4/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+    
     <script src="{{asset('bootstrap4/js/charts-home.js')}}"></script>
+    <script src="{{asset('bootstrap4/js/front.js')}}"></script>
     <!--Galerya-->
     <script src="{{asset('bootstrap4/js/galery/lightbox.min.js')}}"></script>
     <!---->    
-    <script src="{{asset('bootstrap4/js/front.js')}}"></script>
+    
     
 
     <!-- Javascript files-->
@@ -263,10 +289,10 @@
     <script src="{{asset('js/reloj.js')}}"></script>
     <!-- Scripts -->
     <!--<script src="{#{ asset('js/app.js') }}"></script>-->
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
+    <!-- Google Analytics: change UA-XXXXX-X to be your sites ID.-->
     
-    <!--dtatables-->
-    <!--<script src="{ {asset('bootstrap4/js/datatables/jquery-1.12.4.js')}}"></script>-->
+    <!--datatables-->
+    <!--<script src="{{asset('bootstrap4/js/datatables/jquery-1.12.4.js')}}"></script>-->
   <script src="{{asset('bootstrap4/js/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('bootstrap4/js/datatables/dataTables.bootstrap4.min.js')}}"></script>
   <!--Notificacion-->

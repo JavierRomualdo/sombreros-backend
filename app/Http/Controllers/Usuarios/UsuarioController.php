@@ -28,7 +28,8 @@ class UsuarioController extends Controller
     public function index()
     {
         //
-        $usuarios = User::all();
+        $usuarios = User::select('users.id','name','email','photo','cargo')
+        ->join('cargo','cargo.id','=','users.idCargo')->get();
         return view ('gastronomica/configuracion/usuarios/usuario')->with('usuario', $usuarios);
     }
 

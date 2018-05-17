@@ -34,8 +34,6 @@ a {
   display: inline-block;
   text-decoration: none;
   color: #fff;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
 }
 
 body {
@@ -193,7 +191,7 @@ nav.navbar .navbar-holder {
 }
 
 nav.navbar a {
-  font-size: 0.8em;
+  font-size: .8rem;
   color: #fff;
   position: relative;
 }
@@ -204,12 +202,17 @@ nav.navbar .badge {
   right: 0;
 }
 
+nav.navbar a.language span {
+  margin-left: .2rem;
+  vertical-align: middle;
+}
+
 nav.navbar a.logout i {
   margin-left: 5px;
 }
 
 nav.navbar small {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   color: #999;
 }
 
@@ -229,36 +232,45 @@ nav.navbar .nav-menu {
   margin-bottom: 0;
 }
 
+nav.navbar .dropdown-toggle::after {
+  border: none !important;
+  content: '\f107';
+  vertical-align: baseline;
+  font-family: 'FontAwesome';
+  margin-left: .3rem;
+}
+
 nav.navbar .dropdown-menu {
-  width: 320px;
   right: 0;
   left: auto;
   float: left;
   margin-top: 16px;
   margin-bottom: 0;
-  padding: 20px;
-  font-size: 1.1em;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 1rem;
+  padding: 1rem;
 }
 
-nav.navbar .dropdown-menu a {
-  font-size: 0.75em;
+nav.navbar .dropdown-menu .dropdown-item {
   color: #666;
   padding: 10px;
 }
 
-nav.navbar .dropdown-menu a:active {
+nav.navbar .dropdown-menu .dropdown-item:active {
   color: #fff;
 }
 
-nav.navbar .dropdown-menu a:active span {
+nav.navbar .dropdown-menu .dropdown-item:active span,
+nav.navbar .dropdown-menu .dropdown-item:active small {
   color: #fff;
 }
 
-nav.navbar .dropdown-menu a span {
+nav.navbar .dropdown-menu .dropdown-item span {
   color: #777;
 }
 
-nav.navbar .dropdown-menu a i {
+nav.navbar .dropdown-menu .dropdown-item i {
   margin-right: 5px;
 }
 
@@ -277,7 +289,8 @@ nav.navbar .msg-profile {
 }
 
 nav.navbar .notification-content {
-  font-size: 0.8em;
+  font-size: .8rem;
+  margin-right: .5rem;
 }
 
 nav.navbar a.menu-btn {
@@ -337,10 +350,10 @@ nav.navbar a.menu-btn:hover {
   text-align: left;
   background: #393836;
   color: #fff;
-  -webkit-transition: all 0.3s linear;
-  transition: all 0.3s linear;
   z-index: 999;
   overflow-y: auto;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
   /*  Side navbar small ------------------------ */
 }
 
@@ -476,8 +489,6 @@ nav.navbar a.menu-btn:hover {
 
 .side-navbar i {
   font-size: inherit;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
   margin-right: 10px;
 }
 
@@ -1186,6 +1197,10 @@ footer.main-footer p {
 *     FORMS ELEMENTS
 * ==========================================================
 */
+label {
+  font-size: .9rem;
+}
+
 input.form-control {
   border-radius: 0;
 }
@@ -1251,6 +1266,14 @@ input.input-material {
   font-weight: 300;
 }
 
+input.input-material.is-valid {
+  border-color: #28a745 !important;
+}
+
+input.input-material.is-invalid {
+  border-color: #dc3545 !important;
+}
+
 input.input-material:focus {
   border-color: #379392;
   outline: none;
@@ -1267,23 +1290,19 @@ input.input-material ~ label {
   font-weight: 300;
 }
 
-input.input-material ~ label.error {
-  color: #dc3545;
-  font-size: 0.75em;
-  position: absolute;
-  top: auto;
-  bottom: -30px;
-  left: 0;
-}
-
 input.input-material ~ label.active {
-  font-size: 0.8em;
+  font-size: 0.8rem;
   top: -10px;
   color: #379392;
 }
 
+input.input-material.is-invalid ~ label {
+  color: #dc3545;
+}
+
 input.form-control-custom {
-  display: none;
+  visibility: hidden;
+  width: 1px;
 }
 
 input.form-control-custom:checked + label::before {
@@ -1323,7 +1342,7 @@ input.form-control-custom[checked] + label::before, input.form-control-custom[ch
 }
 
 input.form-control-custom + label {
-  font-size: 0.75em;
+  font-size: 0.85rem;
   margin-bottom: 0;
   margin-left: 0;
   color: #999;
@@ -1393,10 +1412,6 @@ button {
   color: #868e96;
 }
 
-.forms label {
-  font-size: 0.8rem;
-}
-
 /* FORMS MEDIAQUERIES -------------------------- */
 @media (min-width: 768px) {
   .forms h2 {
@@ -1416,9 +1431,6 @@ button {
   }
   .forms p {
     font-size: 0.9em;
-  }
-  .forms label {
-    font-size: 0.9rem;
   }
 }
 
