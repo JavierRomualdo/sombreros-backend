@@ -4,7 +4,7 @@
 
 <!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
-
+<link rel="stylesheet" href="{{asset('bootstrap4/css/table-responsive.css')}}">
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
@@ -29,7 +29,7 @@
             <div class="card-block">
               
               <div class="table-responsive">
-                  <table class="table table-striped table-hover table-bordered" id="myTable">
+                  <table class="table table-striped table-hover table-bordered datatable" id="myTable">
 
                       <thead class="thead-inverse">
                         <tr>
@@ -44,7 +44,7 @@
                       <tbody>
                         @foreach ($modelos as $index=>$modelo)
                           <tr>
-                            <th scope="row">{{$index+1}}</th>
+                            <th scope="row" class="text-center">{{$index+1}}</th>
                             <td>{{$modelo->modelo}}</td>
                             <td>{{$modelo->codigo}}</td>
                             <td>{{$modelo->descripcion}}</td>
@@ -84,7 +84,19 @@
         "language": {
           "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
           responsive: true
-        }
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
       });
     });
   </script>

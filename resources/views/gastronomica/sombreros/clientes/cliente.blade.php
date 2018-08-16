@@ -77,7 +77,19 @@
         "language": {
           "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
           responsive: true
-        }
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
       });
     });
   </script>

@@ -30,3 +30,14 @@ border-radius: 8px;
 .pagination{
   padding-left:50%;
 }
+
+/*Para menu pegagozo*/
+.menu-fixed{
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	width: 100%;
+	-webkit-box-shadow: 6px 6px 13px -1px rgba(158,144,158,1);
+-moz-box-shadow: 6px 6px 13px -1px rgba(158,144,158,1);
+box-shadow: 6px 6px 13px -1px rgba(158,144,158,1);
+}

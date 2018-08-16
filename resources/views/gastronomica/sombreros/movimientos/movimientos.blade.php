@@ -19,7 +19,7 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h6 display fadeIn animated ion-paperclip"> Panel Fechas:</h2>
+              <h5 class="h5 display fadeIn animated ion-paperclip"> Panel Fechas:</h5>
             </div>
             <div class="card-block">
               <p>Ingrese las fechas para la busqueda de ordenes de compras.</p>
@@ -48,7 +48,7 @@
         <div class="col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-              <h2 class="h6 display ion-paperclip fadeIn animated"> Movimientos:</h2>
+              <h5 class="h5 display ion-paperclip fadeIn animated"> Movimientos:</h5>
             </div>
             <div class="card-block miTabla">
               
@@ -56,7 +56,7 @@
                 <table class="table table-striped table-hover table-bordered" id="myTable">
                 <thead class="thead-inverse">
                   <tr>
-                    <th>#</th>
+                    <th class="text-center">#</th>
                     <th>Fecha</th>
                     <th>Articulo</th>
                     <th>Cantidad Ingreso</th>
@@ -72,7 +72,7 @@
                 <tbody id="lista_datos">
                     @foreach($movimientos as $index=>$movimiento)
                     <tr>
-                        <th>{{$index+1}}</th>
+                        <th class="text-center">{{$index+1}}</th>
                         <td>{{$movimiento->fecha}}</td>
                         <td>{{$movimiento->codigo}}</td>
                         @if($movimiento->cantidadsalida == '')
@@ -113,12 +113,24 @@
   <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
     <script>
         $(document).ready(function(){
-      $('#myTable').DataTable({
-        "language": {
-          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
-          responsive: true
-        }
-      });
+          $('#myTable').DataTable({
+            "language": {
+              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+              responsive: true
+            },
+            scrollY:        '70vh',
+            //scrollX:        true,
+            scrollCollapse: true,
+            paging:         true,
+            fixedColumns:   {
+              heightMatch: 'none'
+            },
+            fixedHeader: {
+              header: true
+            },
+            sScrollX: true,
+            sScrollXInner: "100%",
+          });
     });
     $("#buscar").click(function(e){
       var mensaje = "";

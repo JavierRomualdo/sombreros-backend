@@ -2,7 +2,7 @@
 @section('title','Proveedores')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
 <style type="text/css"> #divredondo, #estado_orden { height:20px; width:20px; border-radius:10px; } </style>
@@ -39,7 +39,7 @@
                   <label title='' id="estado_orden"></label>
                 </div>
                 <div class="offset-sm-2 col-sm-1 col-2">
-                  <button type="button" name="buscar" id="buscar" class="btn btn-outline-primary ion-android-search rounded" title="buscar"></button>
+                  <button type="button" name="buscar" id="buscar" class="btn btn-primary fa fa-search rounded" title="buscar"></button>
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@
                   
                   <thead class="thead-inverse">
                     <tr>
-                      <th>#</th>
+                      <th class="text-center">#</th>
                       <th>Articulo</th><!--Codigo Sombrero-->
                       <th>Foto</th>
                       <th>Cantidad</th>
@@ -121,7 +121,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Guias Ingreso</h5>
+            <h5 class="h5 modal-title ion-paperclip" id="exampleModalLabel"> Guias Ingreso</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -131,10 +131,10 @@
           <p>[ <strong>N° Guia: </strong> <label id="cantidad_guia"></label> / <strong>Cantidad Items: </strong> <label id="cantidad_items"></label> / <strong>Total: </strong> <label id="total_guia"></label> ]</p>
             <div class="table-responsive">
                 
-                <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableGuiaIngreso"><!--table-responsive-->
+                <table class="table table-striped table-hover table-bordered specialCollapse datatable" id="myTableGuiaIngreso"><!--table-responsive-->
                     <thead class="thead-inverse">
                         <tr>
-                            <th>#</th>
+                            <th class="text-center">#</th>
                             <th>Codigo de Guia</th>
                             <th>Fecha Ingreso</th>
                             <th>Cantidad Items</th>
@@ -180,7 +180,7 @@
       <div role="document" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="exampleModalLabel" class="h6 modal-title ion-paperclip"> Sombrero</h5>
+            <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip"> Sombrero</h5>
             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
           </div>
           <div class="modal-body">
@@ -194,7 +194,7 @@
       </div>
     </div>
     <!---->
-  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <!--<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>-->
 
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
 
@@ -205,6 +205,7 @@
 
   <script type="text/javascript">
     $(document).ready(function(){
+      
         $("#numero").html("");
         $("#numero_fecha").html("");
         Messenger().post({message:"Consulta orden de compra por código.",type:"info",showCloseButton:!0});
@@ -242,21 +243,21 @@
                 //success
                 $.each(data, function(index, orden){
                   if((parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))==0){
-                    tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+                    tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                       orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                       "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28' data-toggle='modal'>"+
                       "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>S/ "+
                       orden.costounitario+"</td><td>S/ "+(parseInt(orden.cantidad)*orden.costounitario)+"</td><td>"+orden.empresa+"</td><td>"+orden.descripcion+
-                      "</td><td><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
+                      "</td><td class='text-center'><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
                       "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
                       "</td></tr>";
                   } else {
-                    tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+                    tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                       orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                       "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28' data-toggle='modal'>"+
                       "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>"+
                       orden.costounitario+"</td><td>"+(parseInt(orden.cantidad)*orden.costounitario)+"</td><td>"+orden.empresa+"</td><td>"+orden.descripcion+
-                        "</td><td><label style='background: red;' id='divredondo' title='pendiente'></label></td><td>"+
+                        "</td><td class='text-center'><label style='background: red;' id='divredondo' title='pendiente'></label></td><td>"+
                       "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
                       "</td></tr>";
                       bandera = true;
@@ -275,12 +276,21 @@
 
                 $('#myTableDetalles').DataTable({
                   "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                    //responsive: true,
-                    //data: dato//jQuery.parseJSON(dato),
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+                    responsive: true
                   },
-                  responsive: true,
-                  stateSave: true
+                  scrollY:        '70vh',
+                  //scrollX:        true,
+                  scrollCollapse: true,
+                  paging:         true,
+                  fixedColumns:   {
+                    heightMatch: 'none'
+                  },
+                  fixedHeader: {
+                    header: true
+                  },
+                  sScrollX: true,
+                  sScrollXInner: "100%",
                 });
                 //Foto
 
@@ -311,11 +321,11 @@
         var tabla = "";
         var n = 1;
         $.get('/ajax-guiasIngresoPorOrdenCompraDetalle/'+idGuiaIngresoDetalle, function(data){
-            $('#myTableGuiaIngreso').DataTable().destroy();
+            
             //success
             $.each(data, function(index, guia){
                 console.log(guia);
-                tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+guia.numero_guia+"</td><td>"+
+                tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+guia.numero_guia+"</td><td>"+
                 guia.fecha+"</td><td>"+guia.cantidadingreso+
                 "</td><td>"+(guia.cantidadingreso*precio_unitario)+"</td><td>"+guia.descripcion+"</td></tr>";
                 n++;
@@ -327,9 +337,8 @@
             $('#myTableGuiaIngreso').DataTable({
               "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+                responsive: true
               },
-              responsive: true,
-              stateSave: true
             });
             $("#modalguiaIngresos").modal("show");
         });

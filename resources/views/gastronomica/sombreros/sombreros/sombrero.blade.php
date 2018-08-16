@@ -4,7 +4,7 @@
   <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">-->
   <!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
   <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
-  
+  <link rel="stylesheet" href="{{asset('bootstrap4/css/table-responsive.css')}}">
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
@@ -28,11 +28,11 @@
             </div>
             <div class="card-block">
               <div class="table-responsive">
-                  <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
+                  <table class="table table-striped table-hover table-bordered datatable" id="myTable"><!--table-responsive-->
 
                     <thead class="thead-inverse">
                       <tr>
-                        <th>#</th>
+                        <th class="text-center">#</th>
                         <th>Codigo</th>
                         <th>Modelo</th>
                         <th>Tejido</th>
@@ -49,7 +49,7 @@
                     <tbody>
                       @foreach ($sombreros as $index=>$sombrero)
                         <tr class="fadeIn animated">
-                          <th scope="row">{{$index+1}}</th>
+                          <th scope="row" class="text-center">{{$index+1}}</th>
                           <td>{{$sombrero->codigo}}</td>
                           <td>{{$sombrero->modelo}}</td>
                           <td>{{$sombrero->tejido}}</td>
@@ -103,6 +103,23 @@
         "language": {
           "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
           responsive: true
+        },
+        scrollY:        '70vh',
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        }
+      });
+
+
+      var altura = $('.menu').offset().top;
+      $(window).on('scroll', function(){
+        if ($(window).scrollTop()>altura) {
+          $('.menu').addClass('menu-fixed');
+        } else {
+          $('.menu').removeClass('menu-fixed');
         }
       });
     });

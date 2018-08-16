@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
+  <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
@@ -29,7 +30,7 @@
                 <table class="table table-striped table-hover table-bordered">
                 <thead class="thead-inverse">
                   <tr>
-                    <th>#</th>
+                    <th class="text-center">#</th>
                     <th>Codigo Sombrero</th>
                     <th>Foto</th>
                     <th>Proveedor</th>
@@ -57,9 +58,8 @@
             </div>
             <div class="card-block">
               <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered">
-
-                  <thead><!--class="thead-inverse"-->
+                <table class="table table-striped table-hover table-bordered datatable" id="myTable">
+                  <thead class="thead-inverse"><!--class="thead-inverse"-->
                     <tr>
                     <th>[ {{$cantidadSombreros}} / {{$cantidadProveedores}} ]</th>
                       @foreach ($proveedores as $index=>$proveedor)
@@ -70,8 +70,8 @@
                   <tbody>
                     @foreach ($sombreros as $index=>$sombrero)
                       <tr>
-                      <th>
-                        {{$sombrero->codigo}}
+                      <th><!--[{{$index + 1}}]-->
+                        <label style="cursor: pointer" onclick="detalleSombrero({{$sombrero->id}})" title="detalles">{{$sombrero->codigo}}</label>
                         <img src="/images/sombreros/{{$sombrero->photo}}" data-toggle="modal" class="link_foto img-fluid pull-xs-left rounded" alt="..." width="28" title="ver foto">
                       </th>
                       @foreach ($proveedores as $proveedor)
@@ -116,7 +116,7 @@
           <!--<p>¿Desea registrar mas ordenes de compra?</p>-->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptar">Cerrar</button>
+          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="aceptar">Cerrar</button>
         </div>
       </div>
     </div>
@@ -146,13 +146,77 @@
     </div>
   </div>
   <!---->
+  <!--Modal detalle del sombrero-->
+    <div class="modal fade bd-example-modal-lg" id="modalsombrero" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="h5 modal-title ion-paperclip" id="exampleModalLabel"> 
+              Sombrero: <label id="lblcodigo"></label></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label"><strong>Modelo:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lblmodelo"></label>
+              <label class="col-sm-2 form-control-label"><strong>Tejido:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lbltejido"></label>
+              <label class="col-sm-2 form-control-label"><strong>Material:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lblmaterial"></label>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label"><strong>Publico:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lblpublico"></label>
+              <label class="col-sm-2 form-control-label"><strong>Talla:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lbltalla"></label>
+              <label class="col-sm-2 form-control-label"><strong>Precio Venta:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lblprecioventa"></label>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label"><strong>Stock Actual:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lblstockactual"></label>
+              <label class="col-sm-2 form-control-label"><strong>Stock Maximo:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lblstockmaximo"></label>
+              <label class="col-sm-2 form-control-label"><strong>Stock Minimo:</strong></label>
+              <label class="col-sm-2 form-control-label" id="lblstockminimo"></label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end modal-->
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <!--Notificacion-->
   <script src="{{asset('bootstrap4/js/notification/messenger.min.js')}}"></script>
   <script src="{{asset('bootstrap4/js/notification/messenger-theme-flat.js')}}"></script>
   <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
   <script type="text/javascript">
     $(document).ready(function(){
+      $('#myTable').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
+      });
+
       Messenger().post({message:"Historial de costos.",type:"info",showCloseButton:!0});
       mostrarCostos();
     });
@@ -172,6 +236,26 @@
         $("#lbl"+costos.idSombrero+""+costos.idProveedor).html(costos.precio);
       });
     });
+  }
+
+  function detalleSombrero(id){
+    $.get('/ajax-getDatosSombrero/'+id, function(data){
+      //success
+      $.each(data, function(index, dato){
+        $("#lblcodigo").html("[ "+dato.codigo+" ]");
+        $("#lblmodelo").html(dato.modelo);
+        $("#lbltejido").html(dato.tejido);
+        $("#lblmaterial").html(dato.material);
+        $("#lblpublico").html(dato.publico);
+        $("#lbltalla").html(dato.talla);
+        $("#lblprecioventa").html(dato.precio_venta);
+        $("#lblstockactual").html(dato.stock_actual);
+        $("#lblstockmaximo").html(dato.stock_maximo);
+        $("#lblstockminimo").html(dato.stock_minimo);
+      });
+    });
+    $('#modalsombrero').modal('show');
+    //alert(id);
   }
   /**Mostrando el modal costos para editar*/
   function cambiarCosto(idSombrero, codigoSombrero, idProveedor, empresa){

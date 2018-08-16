@@ -18,12 +18,12 @@
   </div><br/>
   @foreach ($ventas as $index => $venta)
     <div class="row">
-      <h5>N°: {{$index+1}}</h5>
+      <h5>N°: {{$index+1}} | <strong>Codigo: {!!$venta->numero_venta!!}</strong></h5>
       <table class="table-striped table-hover table-bordered" width="1030px"><!---->
         <tbody>
           <tr>
-            <td><label class="form-control-label"><strong>Codigo:</strong></label></td>
-            <td>{!!$venta->numero_venta!!}</td>
+            <td><label class="form-control-label"><strong># Doc:</strong></label></td>
+            <td>{!!$venta->numero_documento!!}</td>
             <td><label class="form-control-label"><strong>Fecha:</strong></label></td>
             <td>{!!$venta->fecha!!}</td>
             <td><label class="form-control-label"><strong>Cantidad Items:</strong></label></td>

@@ -90,11 +90,16 @@
               <p>Ingrese los datos para la nueva guia de ingreso.</p>
               <div class="form-group row">
                 <label class="col-sm-2 form-control-label" for="cantidad"><strong>Cantidad(*):</strong></label>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                   {!!Form::number('cantidad', null,['id'=>'cantidad','name'=>'cantidad','class'=>'form-control','placeholder'=>'Digite la Cantidad',
                     'onkeypress'=>'return event.charCode >= 48 && event.charCode <= 57','min'=>1])!!}
                 </div>
-                <label class="col-sm-3 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
+                <label class="col-sm-1 form-control-label" for="numero_documento"><strong># Doc:</strong></label>
+                <div class="col-sm-3">
+                  {!!form::text('numero_documento', null,['id'=>'numero_documento','name'=>'numero_documento','class'=>'form-control',
+                    'maxlength'=>'15', 'placeholder'=>'num de boleta o factura del prov'])!!}
+                </div>
+                <label class="col-sm-1 form-control-label" for="descripcion"><strong>Descripcion:</strong></label>
                 <div class="col-sm-3">
                   {!!form::textarea('descripcion',null,['id'=>'descripcion','class'=>'form-control','placeholder'=>'Digite la Descripcion',
                     'rows'=>"2", 'cols'=>"8"])!!}
@@ -327,6 +332,9 @@
       if($("#codigoOrden").html()=="####"){
         mensaje = "* Seleccione la Orden de Compra.<br/>";
       }
+      if ($("#numero_documento").val()=="") {
+        mensaje = mensaje + "* El # doc no debe estar vacío.</br>";
+      }
       if ($("#cantidad").val()=="") {
         mensaje = mensaje + "* Debe ingresar la cantidad.<br/>";
       }
@@ -343,8 +351,8 @@
         }
         
         if(tipo==1){
-          $.get('/ajax-guardarguia/1/'+articulo+'/'+$("#cantidad").val()+
-          '/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
+          $.get('/ajax-guardarguia/1/'+articulo+'/'+$("#numero_documento").val()+'/'+
+          $("#cantidad").val()+'/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
             //success
             $.each(data, function(index, guia){
               tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+
@@ -356,13 +364,14 @@
               tipo = 2;
             });
             $("#lista_datos").html(tabla);
+            $("#numero_documento").attr('disabled','');
             tabla = "";
             $("#myModal2").modal("show");
             limpiar();
           });
         } else {//tipo = 2
-          $.get('/ajax-guardarguia/2/'+articulo+'/'+$("#cantidad").val()+
-          '/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
+          $.get('/ajax-guardarguia/2/'+articulo+'/'+$("#numero_documento").val()+'/'+
+          $("#cantidad").val()+'/'+descripcion+"/"+idOrdenCompra_Detalle, function(data){
             //success
             $.each(data, function(index, guia){
               tabla = tabla+"<tr class='fadeIn animated'><th>"+n+"</th><td>"+guia.empresa+"</td><td>"+guia.numero_orden+

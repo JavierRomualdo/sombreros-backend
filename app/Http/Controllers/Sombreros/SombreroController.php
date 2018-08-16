@@ -22,6 +22,7 @@ use DB;
 use Image;
 use File;
 use Session;
+use DataTables;
 
 class SombreroController extends Controller
 {
@@ -49,6 +50,8 @@ class SombreroController extends Controller
                   'sombrero.idTalla')->get();//->get() ->take(10)
         //'proveedor_precio.precio'
         //join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        // return DataTables::of($sombreros)->make();
+        // return $sombreros;
         return view ('gastronomica/sombreros/sombreros/sombrero')->with('sombreros', $sombreros);
     }
 
@@ -62,6 +65,36 @@ class SombreroController extends Controller
        # code...
        return view ('gastronomica/sombreros/sombreros/verSombrero');
      }
+
+     public function getDatosSombrero($id)
+     {
+       # code...
+       $datos = Sombrero::select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 
+                    'materiales.material','publicodirigido.publico','tallas.talla','sombrero.precio_venta',
+                    'sombrero.stock_actual','sombrero.stock_maximo','sombrero.stock_minimo',
+                    'sombrero.pedido_reposicion','sombrero.photo')
+                    ->join('modelos','modelos.id','=','sombrero.idModelo')
+                    ->join('tejidos',
+                    'tejidos.id','=','sombrero.idTejido')
+                    ->join('materiales','materiales.id','=','sombrero.idMaterial')
+                    ->join('publicodirigido','publicodirigido.id','=','sombrero.idPublicoDirigido')
+                    ->join('tallas','tallas.id','=','sombrero.idTalla')->where('sombrero.id',$id)->get();
+       return response()->json($datos);
+     }
+
+    // Contar los proveedores que tienen el sombrero
+    public function contarProveedoresArticulo($id) {
+      $count = ProveedorPrecio::select(DB::raw('count(idProveedor) as cantidad'))
+                ->where('idSombrero',$id)->get();
+      return response()->json($count);
+    }
+
+    public function mostrarProveedoresArticulo($id) {
+      $datos = ProveedorPrecio::select('proveedor.id','empresa','precio')
+              ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
+              ->where('proveedor_precio.idSombrero',$id)->get();
+      return response()->json($datos);
+    }
     public function create()
     {
         //

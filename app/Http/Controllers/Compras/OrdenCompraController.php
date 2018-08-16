@@ -55,12 +55,13 @@ class OrdenCompraController extends Controller
     {
         //
         Session::flash('save','Eliga el proveedor, modelo de sombrero e ingresar la cantidad.');
-        $imagenes = Sombrero::
+        /*$imagenes = Sombrero::
                 select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
                   'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
                   'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
                   'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
-                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();*/
+
         $modelos = Modelos::pluck('modelo','id')->prepend('Seleccione el Modelo...');
         $tejidos = Tejidos::pluck('tejido','id')->prepend('Seleccione el Tejido...');
         $materiales = Materiales::pluck('material','id')->prepend('Seleccione el Material...');
@@ -69,16 +70,18 @@ class OrdenCompraController extends Controller
         $proveedores = Proveedor::pluck('empresa','id')->prepend('Seleccione Proveedor...');
         
         //pedido reposicion
-        $parametros = Atributos::select('costorepmaximo','costoserviciorep')->first();
+        // $parametros = Atributos::select('costorepmaximo','costoserviciorep')->first();
+        $parametros = Atributos::first();
         $pedidoscab = PedidoReposicion::select(
-          DB::raw('SUM(proveedor_precio.precio * pedidoreposicion.cantidad) as costoreposicion'),
-          DB::raw('SUM(pedidoreposicion.cantidad) as cantidadtotal'))
+          DB::raw('SUM(proveedor_precio.precio * sombrero.stock_maximo) as costoreposicion'),
+          DB::raw('SUM(sombrero.stock_maximo) as cantidadtotal'))
           ->join('proveedor_precio','proveedor_precio.id','=','pedidoreposicion.idProveedorPrecio')
+          ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
           ->where('pedidoreposicion.estado','=','A')->first();
 
         return view('gastronomica/sombreros/ordencompra/create', array('proveedor'=>$proveedores,
         'modelo'=>$modelos, 'tejido'=>$tejidos, 'material'=>$materiales,'publicodirigido'=>$publicosdirigido,
-        'talla'=>$tallas,'imagenes'=>$imagenes,'pedidoreposicion'=>$pedidoscab,'parametros'=>$parametros));
+        'talla'=>$tallas,'pedidoreposicion'=>$pedidoscab,'parametros'=>$parametros));
 
     }
 
@@ -113,7 +116,8 @@ class OrdenCompraController extends Controller
 
       //$datos = Sombrero::select('codigo')->where('sombrero.codigo','=',$codigo)->get();
 
-      $datos = Sombrero::select('sombrero.codigo','sombrero.precio_venta','sombrero.precio_lista','sombrero.stock_actual','proveedor_precio.precio')
+      $datos = Sombrero::select('sombrero.id','sombrero.codigo','sombrero.precio_venta','sombrero.precio_lista',
+      'sombrero.stock_actual','proveedor_precio.precio')
       ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
       ->where('sombrero.codigo','=',$codigo)->get();
 
@@ -138,12 +142,34 @@ class OrdenCompraController extends Controller
                $idMaterial,$idTalla,$idProveedor)");*/
     }
 
+    public function mostrarPorModeloProveedores($modelo_id,$tejido_id,$material_id,$publico_id,$talla_id) {
+      $modelo = Modelos::select('modelo')->where('modelos.id','=',$modelo_id)->first();
+      $tejido = Tejidos::select('tejido')->where('tejidos.id','=',$tejido_id)->first();
+      $material = Materiales::select('material')->where('materiales.id','=',$material_id)->first();
+      $publicosdirigido = PublicoDirigido::select('publico')->where('publicodirigido.id','=',$publico_id)->first();
+      $tallas = Tallas::select('talla')->where('tallas.id','=',$talla_id)->first();
+      
+      $codigo = substr($modelo->modelo,0,3).substr($tejido->tejido,0,3).substr($material->material,0,3).substr($publicosdirigido->publico,0,3).substr($tallas->talla,0,3);
+      $codigo = strtolower($codigo);
+
+      //$datos = Sombrero::select('codigo')->where('sombrero.codigo','=',$codigo)->get();
+
+      $datos = Sombrero::select('sombrero.id','sombrero.codigo','sombrero.precio_venta','sombrero.precio_lista',
+                'sombrero.stock_actual','proveedor_precio.precio','proveedor_precio.idProveedor', 'proveedor.empresa')
+                ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+                ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
+                ->where('sombrero.codigo','=',$codigo)->get();
+      
+      return response()->json($datos);
+    }
+
     public function mostrarSombrero($codigo)
     {
       # code...
       $datos = Sombrero::select('sombrero.idModelo','sombrero.idTejido','sombrero.idMaterial',
-        'sombrero.idPublicoDirigido', 'sombrero.idTalla','sombrero.precio_venta','sombrero.precio_lista','sombrero.stock_actual',
-        'proveedor_precio.precio')->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      'sombrero.idPublicoDirigido','sombrero.idTalla','sombrero.precio_venta','sombrero.precio_lista',
+      'sombrero.stock_actual','proveedor_precio.precio','proveedor_precio.idProveedor')
+        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
         ->where('sombrero.codigo','=',$codigo)->get();
       return response()->json($datos);
     }

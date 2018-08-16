@@ -136,7 +136,8 @@ class ConsultaController extends Controller
     public function ordenCompraProveedorConsolidado($idProveedor,$fecha_inicio,$fecha_fin){
         $datos = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",
         DB::raw('SUM(orden_compra_detalle.costounitario * orden_compra_detalle.cantidad) as precio_total'),
-        DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'))
+        DB::raw('SUM(orden_compra_detalle.cantidad) as cantidad'),
+        DB::raw('SUM(orden_compra_detalle.cantidadingreso) as ingresos'))
         ->join('orden_compra_detalle','orden_compra_detalle.idOrdenCompra','=','orden_compra.id')
         ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
         ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
@@ -255,15 +256,15 @@ class ConsultaController extends Controller
         $publicosdirigido = PublicoDirigido::pluck('publico','id')->prepend('Seleccione Publico...');
         $tallas = Tallas::pluck('talla','id')->prepend('Seleccione la Talla...');
 
-        $imagenes = Sombrero::
+        /*$imagenes = Sombrero::
                 select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
                   'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
                   'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
                   'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
-                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
+                  'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();*/
 
         return view ('gastronomica/sombreros/consultas/ordencompra/ordencompraarticulo', array('modelo'=>$modelos, 'tejido'=>$tejidos,
-        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas, 'imagenes'=>$imagenes));
+        'material'=>$materiales,'publicodirigido'=>$publicosdirigido, 'talla'=>$tallas));
     }
     public function ordenCompraArticuloConsolidado($codigoSombrero,$fecha_inicio,$fecha_fin){
         $datos = OrdenCompra::select("orden_compra.id","orden_compra.numero_orden","orden_compra.fecha",

@@ -20,10 +20,11 @@
         <tr>
           <th>#</th>
           <th>Codigo de Venta</th>
+          <th># Documento</th>
           <th>Fecha</th>
           <th>Cantidad Items</th>
           <th>Precio Total</th>
-          <th>Realizado por</th>
+          <th>Vendedor</th>
           <th>Utilidad</th>
         </tr>
       </thead>
@@ -33,16 +34,17 @@
           <tr class="fadeIn animated">
             <th scope="row">{{$index+1}}</th>
             <th>{{$detalle->numero_venta}}</th>
+            <th>{{$detalle->numero_documento}}</th>
             <td>{{$detalle->fecha}}</td>
             <td>{{$detalle->cantidad}}</td>
             <td>S/. {{$detalle->precio_total}}</td>
-            <td>{{$detalle->name}}</td>
+            <td>{{$detalle->nombres}}</td>
             <td>S/. {{$detalle->utilidad}}</td>
             <?php $total += $detalle->utilidad?>
           </tr>
         @endforeach
         <tr class="fadeIn animated">
-          <th class="text-center" colspan="6">Total</th>
+          <th class="text-center" colspan="7">Total</th>
           <th><?php echo("S/. ".$total); ?></th>
         </tr>
     </table>

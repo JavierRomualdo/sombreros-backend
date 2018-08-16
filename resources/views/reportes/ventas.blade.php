@@ -16,6 +16,8 @@
     <table class="table-striped table-hover table-bordered" width="1030px"><!--width="730px"-->
       <tbody>
         <tr>
+          <td><label class="form-control-label" for="fecha"><strong># Doc:</strong></label></td>
+          <td>{!!$venta->numero_documento!!}</td>
           <td><label class="form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
           <td>{!!$venta->fecha!!}</td>
           <td><label class="form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label></td>
@@ -57,10 +59,10 @@
               <img src="images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
             </td>
             <td>{{$detalle->cantidad}}</td>
-            <td>S/. {{$detalle->precio_venta}}</td>
-            <td>{{$detalle->porcentaje_descuento}}</td>
-            <td>S/. {{$detalle->descuento}}</td>
-            <td>S/. {{$detalle->sub_total}}</td>
+            <td>S/ {{$detalle->precio_venta}}</td>
+            <td>S/ {{$detalle->porcentaje_descuento}}</td>
+            <td>S/ {{$detalle->descuento}}</td>
+            <td>S/ {{$detalle->sub_total}}</td>
             <td>{{$detalle->descripcion}}</td>
           </tr>
         @endforeach

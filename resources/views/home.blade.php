@@ -9,9 +9,9 @@
   </div>-->
   <!-- Counts Section -->
   <section class="dashboard-counts section-padding">
-    <div class="container-fluid">
+    <!--<div class="container-fluid">
         <div class="row">
-            <!-- Count item widget-->
+
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-user"></i></div>
@@ -20,7 +20,7 @@
                 </div>
               </div>
             </div>
-            <!-- Count item widget-->
+
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-padnote"></i></div>
@@ -31,7 +31,7 @@
                 </div>
               </div>
             </div>
-            <!-- Count item widget-->
+
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-check"></i></div>
@@ -40,7 +40,7 @@
                 </div>
               </div>
             </div>
-            <!-- Count item widget-->
+
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-bill"></i></div>
@@ -49,7 +49,7 @@
                 </div>
               </div>
             </div>
-            <!-- Count item widget-->
+
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-list"></i></div>
@@ -58,7 +58,7 @@
                 </div>
               </div>
             </div>
-            <!-- Count item widget-->
+
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-list-1"></i></div>
@@ -69,7 +69,7 @@
             </div>
           </div>
           <hr/>
-    </div>
+    </div>-->
     <div class="container-fluid">
       
       <div class="row">

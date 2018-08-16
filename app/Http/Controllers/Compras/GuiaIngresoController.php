@@ -35,14 +35,15 @@ class GuiaIngresoController extends Controller
     public function index()
     {
 
-        $guias = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", "guia_ingreso.fecha",
+        $guias = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia",
+        "guia_ingreso.numero_documento","guia_ingreso.fecha",
         DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
         DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
         ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
         ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
         ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
         ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
-        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->get();
+        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia',"guia_ingreso.numero_documento",'guia_ingreso.fecha')->get();
         
         return view('gastronomica/sombreros/guiaingreso/guiaingreso')->with('guias', $guias);
     }
@@ -117,7 +118,7 @@ class GuiaIngresoController extends Controller
       return response()->json($datos);
     }
 
-    public function guardarGuia($tipo,$codigo,$cantidad,$descripcion,$idOrdenCompraDetalle)
+    public function guardarGuia($tipo,$codigo,$numero_documento,$cantidad,$descripcion,$idOrdenCompraDetalle)
     {
       # code...
       $now = new \DateTime();
@@ -132,16 +133,16 @@ class GuiaIngresoController extends Controller
         if ($cant<10000) {
           # code...
           if ($n>0 && $n<10) {
-            GuiaIngreso::insert(['numero_guia'=>'GI-000'.$n.'-'.$anio,
+            GuiaIngreso::insert(['numero_guia'=>'GI-000'.$n.'-'.$anio,'numero_documento'=>$numero_documento,
             'fecha'=>$fecha_anio]);//la variable $ordenes retorna (1 si se guardo y 0 no se guardo)
           } else if($n>=10 && $n<100){
-            GuiaIngreso::insert(['numero_guia'=>'GI-00'.$n.'-'.$anio,
+            GuiaIngreso::insert(['numero_guia'=>'GI-00'.$n.'-'.$anio,'numero_documento'=>$numero_documento,
             'fecha'=>$fecha_anio]);
           } else if($n>=100 && $n<1000){
-            GuiaIngreso::insert(['numero_guia'=>'GI-0'.$n.'-'.$anio,
+            GuiaIngreso::insert(['numero_guia'=>'GI-0'.$n.'-'.$anio,'numero_documento'=>$numero_documento,
             'fecha'=>$fecha_anio]);
           } else if($n>=1000 && $n<10000){
-            GuiaIngreso::insert(['numero_guia'=>'GI-'.$n.'-'.$anio,
+            GuiaIngreso::insert(['numero_guia'=>'GI-'.$n.'-'.$anio,'numero_documento'=>$numero_documento,
             'fecha'=>$fecha_anio]);
           }
           $guias = GuiaIngreso::all()->last();//ultimo registro de la tabla orden _compra
@@ -265,7 +266,8 @@ class GuiaIngresoController extends Controller
      public function ver($id)
      {
        # code...
-       $guias = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", "guia_ingreso.fecha",
+       $guias = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", 
+       "guia_ingreso.numero_documento","guia_ingreso.fecha",
        DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
@@ -273,7 +275,8 @@ class GuiaIngresoController extends Controller
        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
        ->where('guia_ingreso.id','=',$id)
-       ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->first();
+       ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia',
+       'guia_ingreso.numero_documento','guia_ingreso.fecha')->first();
 
       $detalles = GuiaIngresoDetalle::select("orden_compra.numero_orden","sombrero.codigo","sombrero.photo","proveedor.empresa",
       "guia_ingreso_detalle.cantidad", "guia_ingreso_detalle.cantidad", "proveedor_precio.precio","guia_ingreso_detalle.descripcion")
@@ -297,7 +300,7 @@ class GuiaIngresoController extends Controller
      public function reporte($id)
      {
        # code...
-       $guias = GuiaIngreso::select("guia_ingreso.numero_guia", "guia_ingreso.fecha",
+       $guias = GuiaIngreso::select("guia_ingreso.numero_guia","guia_ingreso.numero_documento", "guia_ingreso.fecha",
        DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
        DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
        ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
@@ -305,7 +308,7 @@ class GuiaIngresoController extends Controller
        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
        ->where('guia_ingreso.id','=',$id)
-       ->groupBy('guia_ingreso.numero_guia','guia_ingreso.fecha')->first();
+       ->groupBy('guia_ingreso.numero_guia','guia_ingreso.numero_documento','guia_ingreso.fecha')->first();
        
        $detalles = GuiaIngresoDetalle::select("orden_compra.numero_orden","sombrero.codigo","sombrero.photo","proveedor.empresa",
       "guia_ingreso_detalle.cantidad", "guia_ingreso_detalle.cantidad", "proveedor_precio.precio","guia_ingreso_detalle.descripcion")
@@ -357,24 +360,40 @@ class GuiaIngresoController extends Controller
       ->join('guia_ingreso','guia_ingreso.id','=','guia_ingreso_detalle.idGuiaIngreso')
       ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
       ->join('orden_compra','orden_compra.id','=','orden_compra_detalle.idOrdenCompra')
-      ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-      ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+      ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
       ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
       ->where('guia_ingreso_detalle.idGuiaIngreso','=',$idGuiaIngreso)->get();
+
+      /*$datos = GuiaIngresoDetalle::select("orden_compra.numero_orden","sombrero.codigo","sombrero.photo","proveedor.empresa",
+      "guia_ingreso_detalle.cantidad", "guia_ingreso_detalle.cantidad", "proveedor_precio.precio","guia_ingreso_detalle.descripcion")
+      ->join('guia_ingreso','guia_ingreso.id','=','guia_ingreso_detalle.idGuiaIngreso')
+      ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
+      ->join('orden_compra','orden_compra.id','=','orden_compra_detalle.idOrdenCompra')
+      //->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
+      ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+      //->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+      ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
+      ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
+      ->where('guia_ingreso_detalle.idGuiaIngreso','=',$idGuiaIngreso)->get();*/
 
       return response()->json($datos);
     }
 
     public function guiasIngresoPorCodSombrero($codSombrero){
-      $datos = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", "guia_ingreso.fecha",
+      $datos = GuiaIngreso::select("guia_ingreso.id","guia_ingreso.numero_guia", 
+        "guia_ingreso.numero_documento","guia_ingreso.fecha",
         DB::raw('SUM(guia_ingreso_detalle.cantidad) as cantidad_guia'), 
         DB::raw('SUM(guia_ingreso_detalle.cantidad * proveedor_precio.precio) as precio_total'))
         ->join('guia_ingreso_detalle','guia_ingreso_detalle.idGuiaIngreso','=','guia_ingreso.id')
         ->join('orden_compra_detalle','orden_compra_detalle.id','=','guia_ingreso_detalle.idOrdenCompraDetalle')
-        ->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
-        ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
-        ->where('sombrero.codigo','=',$codSombrero)
-        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia','guia_ingreso.fecha')->get();
+        //->join('sombrero','sombrero.id','=','orden_compra_detalle.idSombrero')
+        ->join('proveedor_precio','proveedor_precio.id','=','orden_compra_detalle.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
+        /// ->join('proveedor_precio','proveedor_precio.idSombrero','=','sombrero.id')
+        ->where('sombrero.codigo','=','chagrupajcabl')
+        ->groupBy('guia_ingreso.id','guia_ingreso.numero_guia', 
+        'guia_ingreso.numero_documento','guia_ingreso.fecha')->get();
 
         return response()->json($datos);
     }

@@ -12,7 +12,7 @@ class GuiaIngreso extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'numero_guia', 'fecha'
+      'id', 'numero_guia', 'numero_documento', 'fecha'
     ];
 
     public function GuiaIngresoDetalle()

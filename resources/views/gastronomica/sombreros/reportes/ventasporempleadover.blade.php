@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
@@ -19,7 +20,7 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display ion-paperclip"> Consolidado:</h2>
+              <h5 class="h5 display ion-paperclip"> Consolidado:</h5>
             </div>
             <div class="card-block">
               <p>[ Vendedor: <strong>{!!$venta->nombres!!}</strong> , Código Venta: <strong>{!!$venta->numero_venta!!}</strong> ]</p>
@@ -50,41 +51,43 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h1 display ion-paperclip"> Detalles:</h2>
+              <h5 class="h5 display ion-paperclip"> Detalles:</h5>
             </div>
             <div class="card-block">
-              <table class="table table-striped table-hover table-bordered">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered" id="myTable">
 
-                <thead class="thead-inverse">
-                  <tr>
-                    <th>#</th>
-                    <th>Articulo</th>
-                    <th>Foto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Venta</th>
-                    <th>Descuento (%)</th>
-                    <th>Descuento</th>
-                    <th>Precio Total</th>
-                    <th>Descripcion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($detalles as $index=>$detalle)
+                  <thead class="thead-inverse">
                     <tr>
-                      <th scope="row">{{$index+1}}</th>
-                      <td>{{$detalle->codigo}}</td>
-                      <td>
-                        <img src="/images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
-                      </td>
-                      <td>{{$detalle->cantidad}}</td>
-                      <td>S/ {{$detalle->precio_venta}}</td>
-                      <td>{{$detalle->porcentaje_descuento}}</td>
-                      <td>S/ {{$detalle->descuento}}</td>
-                      <td>S/ {{$detalle->sub_total}}</td>
-                      <td>{{$detalle->descripcion}}</td>
+                      <th class="text-center">#</th>
+                      <th>Articulo</th>
+                      <th>Foto</th>
+                      <th>Cantidad</th>
+                      <th>Precio Venta</th>
+                      <th>Descuento (%)</th>
+                      <th>Descuento</th>
+                      <th>Precio Total</th>
+                      <th>Descripcion</th>
                     </tr>
-                  @endforeach
-              </table>
+                  </thead>
+                  <tbody>
+                    @foreach ($detalles as $index=>$detalle)
+                      <tr>
+                        <th scope="row" class="text-center">{{$index+1}}</th>
+                        <td>{{$detalle->codigo}}</td>
+                        <td>
+                          <img src="/images/sombreros/{{$detalle->photo}}" class="img-fluid pull-xs-left rounded" alt="..." width="28">
+                        </td>
+                        <td>{{$detalle->cantidad}}</td>
+                        <td>S/ {{$detalle->precio_venta}}</td>
+                        <td>{{$detalle->porcentaje_descuento}}</td>
+                        <td>S/ {{$detalle->descuento}}</td>
+                        <td>S/ {{$detalle->sub_total}}</td>
+                        <td>{{$detalle->descripcion}}</td>
+                      </tr>
+                    @endforeach
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -92,4 +95,28 @@
 
     </div>
   </section>
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+  <script>
+      $(document).ready(function(e){
+        $('#myTable').DataTable({
+          "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+            responsive: true
+          },
+          scrollY:        '70vh',
+          //scrollX:        true,
+          scrollCollapse: true,
+          paging:         true,
+          fixedColumns:   {
+            heightMatch: 'none'
+          },
+          fixedHeader: {
+            header: true
+          },
+          sScrollX: true,
+          sScrollXInner: "100%",
+        });
+    });
+  </script>
 @endsection

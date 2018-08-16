@@ -12,7 +12,7 @@ class PedidoReposicion extends Model
     public $timestamps=false;
 
     protected $fillable = [
-      'id', 'idProveedorPrecio', 'cantidad', 'cantidadingresado', 
+      'id', 'idProveedorPrecio', 'cantidadingresado', 
       'cantidadorden', 'estado', 'fecha'
     ];
 

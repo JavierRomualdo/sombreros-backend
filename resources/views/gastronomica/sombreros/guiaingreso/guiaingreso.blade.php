@@ -32,8 +32,9 @@
 
                 <thead class="thead-inverse">
                   <tr>
-                    <th>#</th>
+                    <th class="text-center">#</th>
                     <th>Codigo de Guia</th>
+                    <th># Documento Prov.</th>
                     <th>Fecha</th>
                     <th>Cantidad Items</th>
                     <th>Costo Total</th>
@@ -43,8 +44,9 @@
                 <tbody>
                   @foreach ($guias as $index=>$guia)
                   <tr class="fadeIn animated">
-                    <th scope="row">{{$index+1}}</th>
+                    <th scope="row" class="text-center">{{$index+1}}</th>
                     <th>{{$guia->numero_guia}}</th>
+                    <th>{{$guia->numero_documento}}</th>
                     <td>{{$guia->fecha}}</td>
                     <td>{{$guia->cantidad_guia}}</td>
                     <td>S/ {{$guia->precio_total}}</td>
@@ -71,7 +73,19 @@
         "language": {
           "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
           responsive: true
-        }
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
       });
     });
   </script>

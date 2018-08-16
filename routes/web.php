@@ -29,6 +29,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/ajax-getDatosSombrero/{idSombrero}','Sombreros\SombreroController@getDatosSombrero');
+
+
 //Route::get('gastronomica/proveedores/proveedores/proveedor', 'Proveedores\ProveedorController@manageItemAjax');
 //Route::resource('item-ajax', 'Proveedores\ProveedorController');
 Route::resource('gastronomica/proveedores/proveedores/proveedor', 'Proveedores\ProveedorController');
@@ -137,10 +140,14 @@ Route::get('gastronomica/sombreros/ordencompra/ver/{orden_id}','Compras\OrdenCom
 Route::get('gastronomica/sombreros/ordencompra/reporte/{orden_id}', 'Compras\OrdenCompraController@reporte');
 Route::get('/ajax-mostrarTodoCompras/', 'Reportes\ReporteController@mostrarTodoCompras');
 Route::get('/ajax-mostrarCodigoSombreroPorProveedor/{codigo}', 'Compras\OrdenCompraController@mostrarCodigoSombreroPorProveedor');
+Route::get('/ajax-contarProveedoresArticulo/{idSombrero}', 'Sombreros\SombreroController@contarProveedoresArticulo');
+Route::get('/ajax-mostrarProveedoresArticulo/{idSombrero}', 'Sombreros\SombreroController@mostrarProveedoresArticulo');
+Route::get('/ajax-mostrarPorModeloProveedores/{modelo_id}/{tejido_id}/{material_id}/{publico_id}/{talla_id}', 'Compras\OrdenCompraController@mostrarPorModeloProveedores');
 /******************GUIA INGRESO **************/
 Route::resource('gastronomica/sombreros/guiaingreso/guiaingreso', 'Compras\GuiaIngresoController');
 Route::get('/ajax-mostrarCGI/{cod}','Compras\GuiaIngresoController@mostrarNumeroGuia');
-Route::get('/ajax-guardarguia/{tipo}/{codigo}/{cantidad}/{descripcion}/{idOrdenCompraDetalle}','Compras\GuiaIngresoController@guardarGuia');
+Route::get('/ajax-guardarguia/{tipo}/{codigo}/{numero_documento}/{cantidad}/{descripcion}/{idOrdenCompraDetalle}',
+  'Compras\GuiaIngresoController@guardarGuia');
 Route::get('gastronomica/sombreros/guiaingreso/ver/{guia_id}','Compras\GuiaIngresoController@ver');
 Route::get("/ajax-guiasIngreso/{codSombrero}/{fecha_inicio}/{fecha_fin}","Compras\GuiaIngresoController@guiasIngreso");
 Route::get("/ajax-guiasIngresoPorArticulo/{fecha_inicio}/{fecha_fin}","Compras\GuiaIngresoController@guiasIngresoPorArticulo");
@@ -165,7 +172,8 @@ Route::get('gastronomica/sombreros/ventas/reporte/{venta_id}','Ventas\VentasCont
 Route::get('/ajax-mostrarCOV/{cod}','Ventas\VentasController@mostrarIdVenta');
 Route::get("/ajax-ventasPorCodSombrero/{codSombrero}","Ventas\VentasController@ventasPorCodSombrero");
 Route::get("/ajax-movVentas/{codSombrero}/{fecha_inicio}/{fecha_fin}","Ventas\VentasController@movVentas");
-Route::get('/ajax-guardarventa/{tipo}/{codigo}/{cantidad}/{precio_unitario}/{porcentaje_descuento}/{descuento}/{sub_total}/{usuario}/{idEmpleado}/{idCliente}/{descripcion}','Ventas\VentasController@guardarVenta');
+Route::get('/ajax-guardarventa/{tipo}/{codigo}/{numero_documento}/{cantidad}/{precio_unitario}/{porcentaje_descuento}/{descuento}/{sub_total}/{usuario}/{idEmpleado}/{idCliente}/{descripcion}',
+'Ventas\VentasController@guardarVenta');
 Route::get('/ajax-mostrarTodoVentas/', 'Reportes\ReporteController@mostrarTodoVentas');
 /**PRECIOS */
 Route::resource('gastronomica/sombreros/ventas/precios', 'Ventas\PreciosController');
@@ -278,3 +286,12 @@ Route::get('/ajax-mostrarImagenes/{modelo}/{tejido}/{material}/{publico}/{talla}
   //return $pdf->download('archivo.pdf');
   return $pdf->stream();
 });*/
+
+/**Estadistica */
+Route::get('gastronomica/sombreros/estadistica/stockactual','Graficas\GraficaController@stockactual');
+Route::get('gastronomica/sombreros/estadistica/ventas/porvendedor','Graficas\GraficaController@indexventasvendedor');
+Route::get('ajax-ventasporvendedores/{fecha_inicio}/{fecha_fin}','Graficas\GraficaController@ventasporvendedores');
+Route::get('ajax-ventasporvendedor/{idVendedor}/{fecha_inicio}/{fecha_fin}','Graficas\GraficaController@ventasporvendedor');
+
+Route::get('gastronomica/sombreros/estadistica/ventas/porarticulo','Graficas\GraficaController@indexporarticulo');
+Route::get('gastronomica/sombreros/estadistica/utilidades/utilidadarticulos','Graficas\GraficaController@indexutilidadarticulo');

@@ -153,15 +153,64 @@
                 {!!form::submit('Guardar',['name'=>'grabarcomision','id'=>'grabarcomision','disabled','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>','class'=>'btn
                   btn-outline-success btn-sm fadeIn animated'])!!}
               </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card miBorder fadeIn animated">
+            <div class="card-header d-flex align-items-center">
+              <h2 class="h5 display ion-paperclip fadeIn animated"> Color Pedido Reposicion:</h2>
+            </div>
+            <div class="card-block">
+              <p>Edite los datos para pedido reposicion.</p>
+              <div class="i-checks">
+                  <input id="checkeditarcolorreposicion" type="checkbox" value="" class="form-control-custom">
+                  <label for="checkeditarcolorreposicion">Editar</label>
+              </div>
+              <div class="form-group row">
+                <strong class="col-sm-2">{!!form::label('Rango (x>) (%):',null,['for'=>'rangopr1'])!!}</strong>
+                {!!form::text('rangopr1', null,['id'=>'rangopr1','class'=>'form-control col-sm-2','placeholder'=>'Ingrese Rango', 'autofocus','readonly'])!!}
+                <strong class="col-sm-2">{!!form::label('Mensaje:',null,['for'=>'mensajepr1'])!!}</strong>
+                {!!form::text('mensajepr1', null,['id'=>'mensajepr1','class'=>'form-control col-sm-2','placeholder'=>'Ingrese Mensaje', 'autofocus','readonly'])!!}
+                <strong class="col-sm-2">{!!form::label('Color:',null,['for'=>'colorpr1'])!!}</strong>
+                <input type="hidden" id="colorpr1_value" name="colorpr1" value="{!!$atributos->colorpr1!!}">
+                <button id="btncolorpr1" class="form-control btn btn-primary col-sm-2 jscolor {valueElement: 'colorpr1_value'}" disabled></button>
+              </div>
+              <div class="form-group row">
+                <strong class="col-sm-2">{!!form::label('Rango (x< & <x)  (%):',null,['for'=>'rangopr2'])!!}</strong>
+                {!!form::text('rangopr2', null,['id'=>'rangopr2','class'=>'form-control col-sm-2','placeholder'=>'Ingrese Rango', 'autofocus','readonly'])!!}
+                <strong class="col-sm-2">{!!form::label('Mensaje:',null,['for'=>'mensajepr2'])!!}</strong>
+                {!!form::text('mensajepr2', null,['id'=>'mensajepr2','class'=>'form-control col-sm-2','placeholder'=>'Ingrese Mensaje', 'autofocus','readonly'])!!}
+                <strong class="col-sm-2">{!!form::label('Color:',null,['for'=>'colorpr2'])!!}</strong>
+                <input type="hidden" id="colorpr2_value" name="colorpr2" value="{!!$atributos->colorpr2!!}">
+                <button id="btncolorpr2" class="form-control btn btn-primary col-sm-2 jscolor {valueElement: 'colorpr2_value'}" disabled></button>
+              </div>
+              <div class="form-group row">
+                <!--<strong class="col-sm-2">{!!form::label('Rango (x<) (%):',null,['for'=>'rangopr3'])!!}</strong>
+                {!!form::text('rangopr3', null,['id'=>'rangopr3','class'=>'form-control col-sm-2','placeholder'=>'Ingrese Rango', 'autofocus','readonly'])!!}-->
+                <strong class="offset-sm-4 col-sm-2">{!!form::label('Mensaje:',null,['for'=>'mensajepr3'])!!}</strong>
+                {!!form::text('mensajepr3', null,['id'=>'mensajepr3','class'=>'form-control col-sm-2','placeholder'=>'Ingrese Mensaje', 'autofocus','readonly'])!!}
+                <strong class="col-sm-2">{!!form::label('Color:',null,['for'=>'colorpr3'])!!}</strong>
+                <input type="hidden" id="colorpr3_value" name="colorpr3" value="{!!$atributos->colorpr3!!}">
+                <button id="btncolorpr3" class="form-control btn btn-primary col-sm-2 jscolor {valueElement: 'colorpr3_value'}" disabled></button>
+              </div>
+              <div class="form-group">
+                <!--<a href="{ {url('/gastronomica/configuracion/atributos/atributo')}}" class="btn btn-outline-primary btn-sm fadeIn animated ion-android-cancel"> Cancelar</a>-->
+                {!!form::submit('Guardar',['name'=>'grabarcolorreposicion','id'=>'grabarcolorreposicion','disabled','content'=>'<span class="glyphicon glyphicon-floppy-disk">Guardar</span>','class'=>'btn
+                  btn-outline-success btn-sm fadeIn animated'])!!}
+              </div>
               {!!Form::close()!!}
             </div>
           </div>
         </div>
       </div>
-        
     </div>
   </section>
   <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
+  <script src="{{asset('bootstrap4/js/jscolor.js')}}"></script>
   <script>
     $('#checkeditar').click(function() {
       if ($(this).is(':checked')) {
@@ -218,6 +267,32 @@
       } else {
         $("#comision").prop("readonly",true);
         $("#grabarcomision").prop("disabled",true);
+      }
+    });
+
+    $('#checkeditarcolorreposicion').click(function() {
+      if ($(this).is(':checked')) {
+        $("#rangopr1").prop("readonly",false);
+        $("#mensajepr1").prop("readonly",false);
+        $("#btncolorpr1").prop("disabled",false);
+        $("#rangopr2").prop("readonly",false);
+        $("#mensajepr2").prop("readonly",false);
+        $("#btncolorpr2").prop("disabled",false);
+        $("#rangopr3").prop("readonly",false);
+        $("#mensajepr3").prop("readonly",false);
+        $("#btncolorpr3").prop("disabled",false);
+        $("#grabarcolorreposicion").prop("disabled",false);
+      } else {
+        $("#rangopr1").prop("readonly",true);
+        $("#mensajepr1").prop("readonly",true);
+        $("#btncolorpr1").prop("disabled",true);
+        $("#rangopr2").prop("readonly",true);
+        $("#mensajepr2").prop("readonly",true);
+        $("#btncolorpr2").prop("disabled",true);
+        $("#rangopr3").prop("readonly",true);
+        $("#mensajepr3").prop("readonly",true);
+        $("#btncolorpr3").prop("disabled",true);
+        $("#grabarcolorreposicion").prop("disabled",true);
       }
     });
   </script>

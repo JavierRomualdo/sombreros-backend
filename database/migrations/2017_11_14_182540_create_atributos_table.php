@@ -25,6 +25,16 @@ class CreateAtributosTable extends Migration
             $table->decimal('descuentoextra', 4, 2)->default('0.00');
             //$table->char('estadodescextra', 1)->default('N');
             $table->decimal('comision', 4, 2)->default('0.00');
+            //
+            $table->decimal('rangopr1', 4, 2)->default('0.00');
+            $table->string('mensajepr1', 50)->nullable();
+            $table->string('colorpr1', 6)->default('ffffff');
+            $table->decimal('rangopr2', 4, 2)->default('0.00');
+            $table->string('mensajepr2', 50)->nullable();
+            $table->string('colorpr2', 6)->default('ffffff');
+            $table->decimal('rangopr3', 4, 2)->default('0.00');
+            $table->string('mensajepr3', 50)->nullable();
+            $table->string('colorpr3', 6)->default('ffffff');
             $table->timestamps();
         });
     }

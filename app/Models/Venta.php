@@ -11,8 +11,8 @@ class Venta extends Model
     protected $primarykey = 'id';
 
     protected $fillable = [
-      'id', 'idEmpleado', 'idCliente', 'numero_venta', 'fecha', 'utilidad', 'idUsuario',
-      'comision', 'estadocancelado'
+      'id', 'idEmpleado', 'idCliente', 'numero_venta','numero_documento', 'fecha', 
+      'utilidad', 'idUsuario', 'comision', 'estadocancelado'
     ];
 
     public function User()

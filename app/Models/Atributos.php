@@ -12,7 +12,8 @@ class Atributos extends Model
 
     protected $fillable = [
       'id', 'igv','margenganancia', 'preciominimo', 'preciomaximo', 'costorepmaximo', 'costoserviciorep', 
-      'descuentoventa', 'descuentoextra', 'comision'
+      'descuentoventa', 'descuentoextra', 'comision','rangopr1','mensajepr1','colorpr1','rangopr2','mensajepr2',
+      'colorpr2','rangopr3','mensajepr3','colorpr3'
     ];
 
     /*public function Sombrero()

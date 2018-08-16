@@ -183,6 +183,7 @@ return [
 
         Yajra\DataTables\DataTablesServiceProvider::class,
         Watson\Active\ActiveServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
     ],
 
     /*
@@ -238,7 +239,7 @@ return [
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Active' => Watson\Active\Facades\Active::class,
-
+        
     ],
 
 ];

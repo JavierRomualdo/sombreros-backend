@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
@@ -65,7 +65,7 @@
                   <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableHistorial"><!--table-responsive-->
                     <thead class="thead-inverse">
                       <tr>
-                        <th>#</th>
+                        <th class="text-center">#</th>
                         <th>Codigo de Venta</th>
                         <th>Fecha</th>
                         <th>Cantidad Items</th>
@@ -97,7 +97,7 @@
                   
                   <thead class="thead-inverse">
                     <tr>
-                      <th>#</th>
+                      <th class="text-center">#</th>
                       <th>Articulo</th>
                       <th>Foto</th>
                       <th>Cantidad</th>
@@ -123,7 +123,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Vendedores</h5>
+            <h5 class="h5 modal-title ion-paperclip" id="exampleModalLabel"> Vendedores</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -135,7 +135,7 @@
 
                 <thead class="thead-inverse">
                   <tr>
-                    <th>#</th>
+                    <th class="text-center">#</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Dni</th>
@@ -175,7 +175,7 @@
       <div role="document" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="exampleModalLabel" class="h6 modal-title ion-paperclip"> Sombrero</h5>
+            <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip"> Sombrero</h5>
             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
           </div>
           <div class="modal-body">
@@ -258,7 +258,7 @@
           $('#myTableHistorial').DataTable().destroy();
 
           $.each(dato, function(index, venta){
-            tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><th>"+
+            tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><th>"+
             venta.numero_venta+"</th><td>"+venta.fecha+"</td><td>"+venta.cantidad+"</td><td>S/ "+
             venta.precio_total+"</td><td>S/ "+parseFloat(venta.utilidad * (venta.comision/100.00)).toFixed(2)+"</td><td>"+venta.cliente+"</td><td>"+
             "<a href='javascript:verDetallesVenta("+venta.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='mostrar'></a> "+"</td></tr>";
@@ -273,12 +273,23 @@
           
           $('#myTableHistorial').DataTable({
             "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-              //responsive: true,
-              //data: dato//jQuery.parseJSON(dato),
+              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+              responsive: true
             },
-            responsive: true,
-            stateSave: true
+            scrollY:        '70vh',
+            //scrollX:        true,
+            scrollCollapse: true,
+            paging:         true,
+            fixedColumns:   {
+              heightMatch: 'none'
+            },
+            fixedHeader: {
+              header: true
+            },
+            sScrollX: true,
+            sScrollXInner: "100%",
+            // responsive: true,
+            // stateSave: true
           });
         });
       } else {
@@ -301,7 +312,7 @@
         $('#myTableDetalles').DataTable().destroy();
         //success
         $.each(data, function(index, ventaDetalle){
-          tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+          tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
               ventaDetalle.codigo+"</td><td> <img src='/images/sombreros/"+ventaDetalle.photo+
               "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
               "</td><td>"+ventaDetalle.cantidad+"</td><td>S/ "+ventaDetalle.precio_venta+"</td><td>"+ventaDetalle.porcentaje_descuento+"</td><td>S/ "+
@@ -312,11 +323,24 @@
         $("#lista_datos").html(tabla);
         tabla = "";
         $('#myTableDetalles').DataTable({
-            "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
-            },
-            responsive: true,
-            stateSave: true
+          "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+            responsive: true
+          },
+          scrollY:        '70vh',
+          //scrollX:        true,
+          scrollCollapse: true,
+          paging:         true,
+          fixedColumns:   {
+            heightMatch: 'none'
+          },
+          fixedHeader: {
+            header: true
+          },
+          sScrollX: true,
+          sScrollXInner: "100%",
+            // responsive: true,
+            // stateSave: true
         });
         
         /*pa la fpto del sombrero mas grande*/

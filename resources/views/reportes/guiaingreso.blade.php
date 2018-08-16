@@ -16,6 +16,8 @@
     <table class="table-striped table-hover table-bordered" width="1030px"><!--table-bordered, width="730px"-->
       <tbody>
         <tr>
+          <td><label class="col-sm-2 form-control-label" for="fecha"><strong># Doc Proveedor:</strong></label></td>
+          <td>{!!$guia->numero_documento!!}</td>
           <td><label class="col-sm-2 form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
           <td>{!!$guia->fecha!!}</td>
           <td><label class="col-sm-2 form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label></td>

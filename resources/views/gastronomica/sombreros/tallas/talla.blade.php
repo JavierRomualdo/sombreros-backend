@@ -31,7 +31,7 @@
 
                 <thead class="thead-inverse">
                   <tr>
-                    <th>#</th>
+                    <th class="text-center">#</th>
                     <th>Talla</th>
                     <th>Codigo</th>
                     <th>Descripcion</th>
@@ -41,7 +41,7 @@
                 <tbody>
                   @foreach($tallas as $index=>$talla)
                     <tr class="fadeIn animated">
-                      <th scope="row">{{$index+1}}</th>
+                      <th scope="row" class="text-center">{{$index+1}}</th>
                       <td>{{$talla->talla}}</td>
                       <td>{{$talla->codigo}}</td>
                       <td>{{$talla->descripcion}}</td>
@@ -85,7 +85,24 @@
       });
     });*/
     $(document).ready(function() {
-      $('#myTable').DataTable();
+      $('#myTable').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
+      });
     });
   </script>
 @endsection

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('img/apple-icon.png')}}">
-  	<link rel="icon" type="image/png" href="{{asset('img/cubiertos.png')}}">
+  	<link rel="icon" type="image/png" href="{{asset('img/icon.png')}}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
@@ -34,6 +34,9 @@
 
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{asset('bootstrap4/img/favicon.ico')}}">
+    <script src="{{asset('bootstrap4/vendor/jquery/jquery.min.js')}}"></script>   
+    <script src="{{asset('js/loader.js')}}"></script>
+    <script src="{{asset('js/jsapi.js')}}"></script>
 
 
     <!-- Font Awesome CDN-->
@@ -50,7 +53,8 @@
     <link rel="stylesheet" href="{{asset('jquery-alertable-master/jquery.alertable.css')}}">
     <link rel="stylesheet" href="{{asset('bootstrap4/css/estilos.css')}}">
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
-    <link rel="stylesheet" href="{{asset('css/reloj.css')}}">
+
+    <script src="{{asset('bootstrap4/js/menuPegagozo.js')}}"></script>
 </head>
 <body>
   <nav class="side-navbar fadeIn animated">
@@ -128,7 +132,7 @@
               || Request::is('gastronomica/sombreros/ventas/utilidades/utilidadcomision')   ? 'show' : '' }}">
                 <li class="{{Request::is('gastronomica/sombreros/ventas/precios') ? 'active':''}}"><a href="{{url('gastronomica/sombreros/ventas/precios')}}"> <i class="ion-ios-cart-outline"></i><span>Precios</span></a></li>
                 <li class="{{Request::is('gastronomica/sombreros/ventas/ventas') ? 'active':''}}"><a href="{{url('gastronomica/sombreros/ventas/ventas')}}"> <i class="ion-ios-cart-outline"></i><span>Nueva Venta</span></a></li>
-                <li class="{{active_menu(Route::currentRouteName(), 'cancelacion', 0, 11)}}"><a href="{{url('gastronomica/sombreros/ventas/cancelaciones/cancelacion')}}"> <i class="ion-ios-cart-outline"></i><span>Cancelacion</span></a></li>
+                <!--<li class="{{active_menu(Route::currentRouteName(), 'cancelacion', 0, 11)}}"><a href="{{url('gastronomica/sombreros/ventas/cancelaciones/cancelacion')}}"> <i class="ion-ios-cart-outline"></i><span>Cancelacion</span></a></li>-->
                 <li class="{{active_menu(Route::currentRouteName(), 'utilidadcomision', 0, 16)}}"><a href="{{url('gastronomica/sombreros/ventas/utilidades/utilidadcomision')}}"> <i class="ion-ios-cart-outline"></i><span>Utilidad-Comision</span></a></li>
               </ul>
             </li>
@@ -164,7 +168,7 @@
                 <ul id="pages-ventas" class="collapse list-unstyled">
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ventas/ventascliente')}}"> <i class="icon-check"></i><span>Por cliente</span></a></li>
                   <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ventas/ventasvendedor')}}"> <i class="icon-check"></i><span>Por vendedor</span></a></li>
-                  <li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ventas/ventascancelacion')}}"> <i class="icon-check"></i><span>Por cancelacion</span></a></li>
+                  <!--<li id="li-prov"> <a href="{{url('gastronomica/sombreros/consultas/ventas/ventascancelacion')}}"> <i class="icon-check"></i><span>Por cancelacion</span></a></li>-->
                 </ul>
               </li>   
             </ul>
@@ -187,7 +191,7 @@
               <li id="li-prov"> <a href="#pages-movimientos" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Movimientos</span></a>
                 <ul id="pages-movimientos" class="collapse list-unstyled">
                     <a href="{{url('gastronomica/sombreros/movimientos/movimientos')}}"> <i class="ion-arrow-move"></i><span>Movimientos</span></a>                  
-                    <a href="{{url('gastronomica/sombreros/movimientos/movimientogeneral')}}"> <i class="ion-arrow-move"></i><span>Movimientos</span></a>
+                    <!--<a href="{{url('gastronomica/sombreros/movimientos/movimientogeneral')}}"> <i class="ion-arrow-move"></i><span>Movimientos</span></a>-->
                     <a href="{{url('gastronomica/sombreros/movimientos/movimientoporarticulo')}}"> <i class="ion-arrow-move"></i><span>Movimiento x Articulo</span></a>
                 </ul>
               </li>
@@ -209,7 +213,20 @@
             </ul>
           </li>
           @endif
-          
+          <li> <a href="#pages-nav-list-graficas" data-toggle="collapse" aria-expanded="false"><i class="icon-interface-windows"></i><span>Estadistica</span></a>
+            <ul id="pages-nav-list-graficas" class="collapse list-unstyled">
+              <li> <a href="{{url('gastronomica/sombreros/estadistica/stockactual')}}"> <i class="icon-user"></i><span>Stock Actual</span></a></li>
+              <li><a href="#pages-grafica-ventas" data-toggle="collapse" aria-expanded="false"><i class="ion-ios-people-outline"></i><span>Ventas</span></a>
+                <ul id="pages-grafica-ventas" class="collapse list-unstyled">
+                  <li> <a href="{{url('gastronomica/sombreros/estadistica/ventas/porvendedor')}}"> <i class="icon-check"></i><span>Por vendedor</span></a></li>
+                  <li> <a href="{{url('gastronomica/sombreros/estadistica/ventas/porarticulo')}}"> <i class="icon-check"></i><span>Por articulo</span></a></li>
+                  <!--<li id="li-prov"> <a href="{{url('gastronomica/sombreros/comisionempleado/comision')}}"> <i class="icon-check"></i><span>Comision</span></a></li>-->
+                </ul>
+              </li>
+              <li> <a href="{{url('gastronomica/sombreros/estadistica/utilidades/utilidadarticulos')}}"> <i class="icon-interface-windows"></i><span>Utilidades</span></a></li>
+                           
+            </ul>
+          </li>
         </ul>
       </div>
 
@@ -260,7 +277,7 @@
     @yield('content')
     @include('partials.footer')
   </div>
-    <script src="{{asset('bootstrap4/vendor/jquery/jquery.min.js')}}"></script>    
+     
     <script src="{{asset('bootstrap4/vendor/popper.js/umd/popper.min.js')}}"></script>   
     <script src="{{asset('bootstrap4/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script> 
     <script src="{{asset('bootstrap4/vendor/bootstrap/js/bootstrap.min.js')}}"></script>    
@@ -286,7 +303,7 @@
     <!--<script src="{ {asset('bootstrap4/js/charts-home.js')}}"></script>-->
     <!--<script src="{ {asset('bootstrap4/js/front.js')}}"></script>-->
     <script type="text/javascript" src="{{asset('jquery-alertable-master/jquery.alertable.js')}}"></script>
-    <script src="{{asset('js/reloj.js')}}"></script>
+    <!--<script src="{{asset('js/reloj.js')}}"></script>-->
     <!-- Scripts -->
     <!--<script src="{#{ asset('js/app.js') }}"></script>-->
     <!-- Google Analytics: change UA-XXXXX-X to be your sites ID.-->

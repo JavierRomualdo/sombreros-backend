@@ -43,13 +43,15 @@ class VentasController extends Controller
 
         $stock2 = Venta::where('fecha','>=',DB::raw('DATE_SUB(NOW(), INTERVAL 1 DAY)'))->get();
         //echo($stock2."");
-        $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres","cliente.nombres as cliente",
+        $ventas = Venta::select("venta.id", "venta.numero_venta","venta.numero_documento","venta.fecha", 
+        "empleado.nombres","cliente.nombres as cliente",
         DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
         DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
           ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
           ->join("empleado","empleado.id","=","venta.idEmpleado")
-          ->join("cliente","cliente.id","=","venta.idCliente")          
-          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres','cliente.nombres')->get();
+          ->join("cliente","cliente.id","=","venta.idCliente")
+          ->groupBy('venta.id','venta.numero_venta',"venta.numero_documento", 'venta.fecha', 
+          'venta.fecha', 'empleado.nombres','cliente.nombres')->get();
         
           /*$ventas2 = Venta::select("venta.id", "venta.numero_venta","venta.fecha","empleado.nombres","cliente.nombres as cliente")
           ->join("empleado","empleado.id","=","venta.idEmpleado")
@@ -83,17 +85,17 @@ class VentasController extends Controller
         $clientes = Cliente::select('cliente.id','cliente.nombres','cliente.dni','cliente.direccion','cliente.telefono')
         ->get();
 
-        $imagenes = Sombrero::
+        /*$imagenes = Sombrero::
                 select('sombrero.id', 'sombrero.codigo', 'modelos.modelo', 'tejidos.tejido', 'materiales.material',
                   'publicodirigido.publico','tallas.talla','sombrero.photo')->join('modelos','modelos.id','=',
                   'sombrero.idModelo')->join('tejidos','tejidos.id','=','sombrero.idTejido')->join('materiales',
                   'materiales.id','=','sombrero.idMaterial')->join('publicodirigido','publicodirigido.id','=',
                   'sombrero.idPublicoDirigido')->join('tallas','tallas.id','=','sombrero.idTalla')->get();
-
+        */
         $parametros = Atributos::first();
         return view('gastronomica/sombreros/ventas/create', array('proveedor'=>$proveedores,
         'modelo'=>$modelos, 'tejido'=>$tejidos, 'material'=>$materiales,'publicodirigido'=>$publicosdirigido,
-        'talla'=>$tallas,'empleados'=>$empleados,'clientes'=>$clientes,'imagenes'=>$imagenes, 'parametros'=>$parametros));
+        'talla'=>$tallas,'empleados'=>$empleados,'clientes'=>$clientes, 'parametros'=>$parametros));
     }
 
     public function mostrarIdVenta($cod)
@@ -103,7 +105,7 @@ class VentasController extends Controller
       return response()->json($datos);
     }
 
-    public function guardarVenta($tipo,$codigo,$cantidad,$precio_unitario,$porcentaje_descuento,
+    public function guardarVenta($tipo,$codigo,$numero_documento,$cantidad,$precio_unitario,$porcentaje_descuento,
       $descuento,$sub_total,$nombreUsuario,$idEmpleado,$idCliente,$descripcion)
     {
       # code...
@@ -139,18 +141,22 @@ class VentasController extends Controller
         if ($cant<10000) {
           # code...
           if ($n>0 && $n<10) {
-            Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-000'.$n.'-'.$anio,'fecha'=>$fecha_actual,
-            'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,'comision'=>$parametros->comision]);
+            Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-000'.$n.'-'.$anio,
+            'numero_documento'=>$numero_documento,'fecha'=>$fecha_actual,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,
+            'comision'=>$parametros->comision]);
             //la variable $ordenes retorna (1 si se guardo y 0 no se guardo)
           } else if($n>=10 && $n<100){
             Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-00'.$n.'-'.$anio,
-            'fecha'=>$fecha_actual,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,'comision'=>$parametros->comision]);
+            'numero_documento'=>$numero_documento,'fecha'=>$fecha_actual,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,
+            'comision'=>$parametros->comision]);
           } else if($n>=100 && $n<1000){
             Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-0'.$n.'-'.$anio,
-            'fecha'=>$fecha_actual,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,'comision'=>$parametros->comision]);
+            'numero_documento'=>$numero_documento,'fecha'=>$fecha_actual,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,
+            'comision'=>$parametros->comision]);
           } else if($n>=1000 && $n<10000){
             Venta::insert(['idEmpleado'=>$idEmpleado,'idCliente'=>$idCliente,'numero_venta'=>'OV-'.$n.'-'.$anio,
-            'fecha'=>$fecha_actual,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,'comision'=>$parametros->comision]);
+            'numero_documento'=>$numero_documento,'fecha'=>$fecha_actual,'utilidad'=>$utilidad,'idUsuario'=>$usuario->id,
+            'comision'=>$parametros->comision]);
           }
           $ordenes = Venta::all()->last();//ultimo registro de la tabla venta
           if ($descripcion=="0") {
@@ -234,9 +240,9 @@ class VentasController extends Controller
 
           $proveedorprecio = ProveedorPrecio::select('id','idProveedor')
               ->where('idSombrero','=',$idSombrero,'and','precio','=',$minimocosto->costominimo)->first();
-          
+          //'cantidad'=>$sombrero->stock_maximo
           PedidoReposicion::insert(['idProveedorPrecio'=>$proveedorprecio->id,
-          'cantidad'=>$sombrero->stock_maximo,'estado'=>'A','fecha'=>$fecha_actual]);
+          'estado'=>'A','fecha'=>$fecha_actual]);
         } else {// si hay pedidos de reposicion
           //hay que ver si el pedidoreposicion del sombrero esta activo o no
           $preciostodo = ProveedorPrecio::where('idSombrero','=',$sombrero->id)->get();
@@ -270,15 +276,15 @@ class VentasController extends Controller
                   $proveedorprecio_id = $pp->id;
                 }
               }
-              //Modificamos pedidoreposicion
+              //Modificamos pedidoreposicion //'cantidad'=>$sombrero->stock_maximo
               $proveedorprecio = ProveedorPrecio::all()->last();
               PedidoReposicion::insert(['idProveedorPrecio'=>$proveedorprecio_id,
-              'cantidad'=>$sombrero->stock_maximo,'estado'=>'A','fecha'=>$fecha_actual]);
+              'estado'=>'A','fecha'=>$fecha_actual]);
             } else {
-              //echo("| en la proveedorprecio solo hay un sombrero");
+              //echo("| en la proveedorprecio solo hay un sombrero"); //'cantidad'=>$sombrero->stock_maximo
               $proveedorprecio = ProveedorPrecio::all()->last();
               PedidoReposicion::insert(['idProveedorPrecio'=>$proveedorprecio->id,
-              'cantidad'=>$sombrero->stock_maximo,'estado'=>'A','fecha'=>$fecha_actual]);
+              'estado'=>'A','fecha'=>$fecha_actual]);
             }// else siempre va hacer uno porque se ingreso al inicio de este metodo
           }
           
@@ -301,14 +307,16 @@ class VentasController extends Controller
     public function ver($id)
     {
       # code...
-      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha","empleado.nombres","cliente.nombres as cliente",
-        "empleado.nombres", DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
+      $ventas = Venta::select("venta.id", "venta.numero_venta", "venta.numero_documento","venta.fecha",
+        "empleado.nombres","cliente.nombres as cliente", "empleado.nombres", 
+        DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
         DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
         ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
         ->join("empleado","empleado.id","=","venta.idEmpleado")
         ->join("cliente","cliente.id","=","venta.idCliente")
         ->where('venta.id','=',$id)
-        ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres',"cliente.nombres")->first();
+        ->groupBy('venta.id','venta.numero_venta', 'venta.numero_documento', 
+        'venta.fecha', 'empleado.nombres',"cliente.nombres")->first();
 
       $detalles = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
         "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
@@ -322,7 +330,7 @@ class VentasController extends Controller
     public function reporte($id)
     {
       # code...
-      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "empleado.nombres",
+      $ventas = Venta::select("venta.id", "venta.numero_venta", "venta.numero_documento","venta.fecha",
       "empleado.nombres","cliente.nombres as cliente",
         DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
         DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
@@ -330,7 +338,8 @@ class VentasController extends Controller
         ->join("empleado","empleado.id","=","venta.idEmpleado")
         ->join("cliente","cliente.id","=","venta.idCliente")
         ->where('venta.id','=',$id)
-        ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha', 'empleado.nombres','cliente.nombres')->first();
+        ->groupBy('venta.id','venta.numero_venta', 'venta.numero_documento',
+        'venta.fecha', 'empleado.nombres','cliente.nombres')->first();
 
       $detalles = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
         "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
@@ -344,16 +353,16 @@ class VentasController extends Controller
     }
 
     public function reporteConComision($id){
-      $ventas = Venta::select("venta.id", "venta.numero_venta","venta.fecha","venta.utilidad",
-      "venta.comision","empleado.nombres","cliente.nombres as cliente",
+      $ventas = Venta::select("venta.id", "venta.numero_venta", 'venta.numero_documento',"venta.fecha",
+      "venta.utilidad", "venta.comision","empleado.nombres","cliente.nombres as cliente",
         DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
         DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
         ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
         ->join("empleado","empleado.id","=","venta.idEmpleado")
         ->join("cliente","cliente.id","=","venta.idCliente")
         ->where('venta.id','=',$id)
-        ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'venta.fecha',"venta.utilidad","venta.comision",
-        'empleado.nombres','cliente.nombres')->first();
+        ->groupBy('venta.id','venta.numero_venta', 'venta.numero_documento', 'venta.fecha',
+        "venta.utilidad","venta.comision", 'empleado.nombres','cliente.nombres')->first();
 
       $detalles = VentaDetalle::select("venta_detalle.id","sombrero.codigo", "sombrero.photo",
         "venta_detalle.cantidad","sombrero.precio_venta", "venta_detalle.porcentaje_descuento",
@@ -388,14 +397,17 @@ class VentasController extends Controller
     }
 
     public function ventasPorCodSombrero($codSombrero){
-      $datos = Venta::select("venta.id", "venta.numero_venta","venta.fecha", "users.name", 
+      $datos = Venta::select("venta.id", "venta.numero_venta","venta.numero_documento",
+          "venta.fecha", "empleado.nombres", 
           DB::raw('SUM(venta_detalle.sub_total) as precio_total'),
           DB::raw('SUM(venta_detalle.cantidad) as cantidad'))
           ->join('venta_detalle','venta_detalle.idVenta','=','venta.id')
           ->join('sombrero','sombrero.id','=','venta_detalle.idSombrero')
-          ->join("users","users.id","=","venta.idUsuario")
+          //->join("users","users.id","=","venta.idUsuario")
+          ->join("empleado","empleado.id","=","venta.idEmpleado")
           ->where('sombrero.codigo', '=', $codSombrero)
-          ->groupBy('venta.id','venta.numero_venta', 'venta.fecha', 'users.name')->get();
+          ->groupBy('venta.id','venta.numero_venta', 'venta.numero_documento', 
+          'venta.fecha', 'empleado.nombres')->get();
       return response()->json($datos);
     }
 

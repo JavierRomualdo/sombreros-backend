@@ -59,7 +59,8 @@
                 <div class="form-group row">
                     <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                     <div class="col-sm-3">
-                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control','maxlength'=>'14','autofocus'])!!}
+                    {!!form::text('codigo', null,['id'=>'codigo','name'=>'codigo','class'=>'form-control',
+                    'maxlength'=>'14','autofocus', 'placeholder'=>'Aqui el codigo del articulo'])!!}
                     <span class="help-block-none">Es de 13 ó 14 caracteres.</span>
                     </div>
                     <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
@@ -96,7 +97,7 @@
             <div class="col-lg-12">
             <div class="card miBorder fadeIn animated">
                 <div class="card-header d-flex align-items-center">
-                <h2 class="h6 display ion-paperclip fadeIn animated"> Articulos:</h2>
+                <h5 class="h5 display ion-paperclip fadeIn animated"> Articulos:</h5>
                 </div>
                 <div class="card-block miTabla">
                 <a href="{{action('Reportes\ReporteController@reporteGeneralUtilidadesSombreros')}}"
@@ -106,7 +107,7 @@
                     <table class="table table-striped table-hover table-bordered" id="myTable"><!--table-responsive-->
                       <thead class="thead-inverse">
                       <tr>
-                          <th>#</th>
+                          <th class="text-center">#</th>
                           <th>Articulo</th>
                           <th>Imagen</th>
                           <th>Modelo</th>
@@ -122,7 +123,7 @@
                       <tbody id="lista_datos">
                           @foreach ($utilidades as $index=>$utilidad)
                           <tr class="fadeIn animated">
-                              <th scope="row">{{$index+1}}</th>
+                              <th scope="row" class="text-center">{{$index+1}}</th>
                               <th>{{$utilidad->codigo}}</th>
                               <td>
                                   <img src="/images/sombreros/{{$utilidad->photo}}" class="img-fluid pull-xs-left rounded link_foto" alt="..." width="28">
@@ -155,7 +156,7 @@
       <div role="document" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="exampleModalLabel" class="h6 modal-title ion-paperclip"> Sombrero</h5>
+            <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip"> Sombrero</h5>
             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
           </div>
           <div class="modal-body">
@@ -173,7 +174,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Grafica</h5>
+          <h5 class="h5 modal-title ion-paperclip" id="exampleModalLabel"> Grafica</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -194,13 +195,13 @@
     <div role="document" class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h6 id="exampleModalLabel" class="modal-title ion-paperclip"> Sombreros</h6>
+          <h5 id="exampleModalLabel" class="modal-title ion-paperclip"> Sombreros</h5>
           <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
         </div>
         <div class="modal-body">
           <p>Seleccione una imagen de sombrero:</p>
           <hr/>
-          <div class="row">
+          <div class="form-group row">
               <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo</strong></label>
               <div class="col-sm-3">
                 {!!Form::select('modalModelo',$modelo, null,['id'=>'modalModelo','name'=>'modalModelo','class'=>'form-control'])!!}
@@ -212,7 +213,9 @@
               <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
               <div class="col-sm-3">
                 {!!Form::select('modalMaterial',$material, null,['id'=>'modalMaterial','name'=>'modalMaterial','class'=>'form-control'])!!}
-              </div><br/><br/>
+              </div>
+          </div>
+          <div class="form-group row">
               <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
               <div class="col-sm-3">
                 {!!Form::select('modalPublico',$publicodirigido, null,['id'=>'modalPublico','name'=>'modalPublico',
@@ -225,21 +228,11 @@
           </div>
           <hr/>
           <div class="row" id='galeria'>
-                  @foreach ($imagenes as $key => $imagen)
-                  <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                  <div class="card"><a href="/images/sombreros/{{$imagen->photo}}" data-lightbox="gallery" data-title="[{{$key+1}}] Sombrero: {{$imagen->codigo}}" title="{{$imagen->codigo}}"><img src="/images/sombreros/{{$imagen->photo}}" alt="Image {{$imagen->codigo}}" class="img-fluid"></a>
-                      <div class="card-body">
-                      <input id="radio{{$key+1}}" type="radio" value="{{$imagen->codigo}}" onClick="guardarCodigoSombrero({{$imagen->id}})" name="b" class="opcion form-control-custom radio-custom">
-                      <label for="radio{{$key+1}}">Image{{$key+1}}</label>
-                      </div>
-                    </div>
-                  </div>
-                  @endforeach
           </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptarImagen">Aceptar</button>
+          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="aceptarImagen">Aceptar</button>
         </div>
       </div>
     </div>
@@ -305,10 +298,22 @@
     $(document).ready(function(e){
         Messenger().post({message:"Reporte: Utilidades de los articulos.",type:"info",showCloseButton:!0});
         $('#myTable').DataTable({
-            "language": {
+          "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
             responsive: true
-            }
+          },
+          scrollY:        '70vh',
+          //scrollX:        true,
+          scrollCollapse: true,
+          paging:         true,
+          fixedColumns:   {
+            heightMatch: 'none'
+          },
+          fixedHeader: {
+            header: true
+          },
+          sScrollX: true,
+          sScrollXInner: "100%",
         });
     });
     
@@ -422,7 +427,16 @@
                 $("#idPublicoDirigido").removeAttr("disabled");
                 $("#idTalla").removeAttr("disabled");
             } else if($("#radioFoto").is(":checked")){
-                $("#myModalFotos").modal("show");
+              idSombrero = 0;
+              $("#galeria").html(""); //
+              $("#codigo").prop("readonly",true);
+              
+              $("#modalModelo").val(0);
+              $("#modalTejido").val(0);
+              $("#modalMaterial").val(0);
+              $("#modalPublico").val(0);
+              $("#modalTalla").val(0);
+              $("#myModalFotos").modal("show");
             } else{//POR CODIGO
                 //mostrarDatosEnCombos();
                 limpiar();
@@ -612,10 +626,10 @@
                     miGaleria = miGaleria+"<div class='col-6 col-md-4 col-lg-3 col-xl-2'><div class='card'>"+
                     "<a href='/images/sombreros/"+cuentaObj.photo+"' data-lightbox='gallery' data-title='["+n+"] Sombrero:"+cuentaObj.codigo+"' title='"+cuentaObj.codigo+"'>"+
                     "<img src='/images/sombreros/"+cuentaObj.photo+"' class='img-fluid' alt='Image"+cuentaObj.codigo+"'>"+"</a> "+
-                    "<div class='card-body'><input id='radio"+n+"' onClick='guardarCodigoSombrero("+cuentaObj.id+");' type='radio' value='"+cuentaObj.codigo+"' name='b' class='opcion form-control-custom radio-custom'>"+
-                    "<label for='radio"+n+"'>Image"+n+"</label></div>"+"</div></div>";
+                    "<div><input id='radio"+n+"' onClick='guardarCodigoSombrero("+cuentaObj.id+");' type='radio' value='"+cuentaObj.codigo+"' name='b' class='opcion form-control-custom radio-custom'>"+
+                    "<label for='radio"+n+"'>"+cuentaObj.codigo+"</label></div>"+"</div></div>";
 
-                    //$("#codigo").val(cuentaObj.codigo);
+                    //$("#codigo").val(cuentaObj.codigo);  class='card-body'
                     n++;
                 });
                 $("#galeria").html(miGaleria);

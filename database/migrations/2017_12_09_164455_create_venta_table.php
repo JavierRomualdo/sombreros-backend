@@ -18,6 +18,7 @@ class CreateVentaTable extends Migration
             $table->integer('idEmpleado')->unsigned();
             $table->integer('idCliente')->unsigned();
             $table->string('numero_venta', 10)->unique();
+            $table->string('numero_documento', 15);
             $table->date('fecha')->nullable();
             $table->decimal('utilidad', 7,2)->default('0.0');
             $table->integer('idUsuario')->unsigned();

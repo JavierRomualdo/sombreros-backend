@@ -2,7 +2,7 @@
 @section('title','Proveedores')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
 <style type="text/css"> #divredondo { height:20px; width:20px; border-radius:10px; } </style>
@@ -129,7 +129,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Proveedores</h5>
+            <h5 class="h5 modal-title ion-paperclip" id="exampleModalLabel"> Proveedores</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -176,7 +176,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Guias Ingreso</h5>
+            <h5 class="h5 modal-title ion-paperclip" id="exampleModalLabel"> Guias Ingreso</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -214,7 +214,7 @@
       <div role="document" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="exampleModalLabel" class="h6 modal-title ion-paperclip"> Sombrero</h5>
+            <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip"> Sombrero</h5>
             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
           </div>
           <div class="modal-body">
@@ -246,8 +246,8 @@
       $('#myTableProveedor').DataTable({
         "language": {
           "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
         },
-        responsive: true
       });
     });
 
@@ -300,13 +300,13 @@
 
           $.each(dato, function(index, orden){
               console.log(orden);
-              if((parseInt(orden.cantidad)-parseInt(orden.ingresos))==0){
-                tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+              if((parseInt(orden.cantidad)-parseInt(orden.ingresos))===0){
+                tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                 orden.numero_orden+
                 "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>S/ "+orden.precio_total+"</td><td class='text-center'><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
                 "<a href='javascript:verDetallesOrdenCompra("+orden.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='mostrar'></a> "+"</td></tr>";
               } else {
-                tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+                tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                 orden.numero_orden+
                 "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>S/ "+orden.precio_total+"</td><td class='text-center'><label style='background: red;' id='divredondo' title='completado'></label></td><td>"+
                 "<a href='javascript:verDetallesOrdenCompra("+orden.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='mostrar'></a> "+"</td></tr>";
@@ -322,12 +322,23 @@
           
           $('#myTableHistorial').DataTable({
             "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-              //responsive: true,
-              //data: dato//jQuery.parseJSON(dato),
+              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+              responsive: true
             },
-            responsive: true,
-            stateSave: true
+            scrollY:        '70vh',
+            //scrollX:        true,
+            scrollCollapse: true,
+            paging:         true,
+            fixedColumns:   {
+              heightMatch: 'none'
+            },
+            fixedHeader: {
+              header: true
+            },
+            sScrollX: true,
+            sScrollXInner: "100%",
+            // responsive: true,
+            // stateSave: true
           });
         });
       } else {
@@ -357,7 +368,7 @@
             empresa = "<td>"+orden.empresa+"</td>";
           }
           if((parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))==0){
-            tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+            tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
               orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
               "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
               "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>S/ "+
@@ -366,7 +377,7 @@
               "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver guias ingreso'></a> "+
               "</td></tr>";
           } else {
-            tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+            tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
               orden.codigo+"</td><td> <img src='/images/sombreros/"+orden.photo+
               "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
               "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>S/ "+
@@ -382,12 +393,24 @@
         $("#lista_datos").html(tabla);
         tabla = "";
         $('#myTableDetalles').DataTable({
-            "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
-              
-            },
-            responsive: true,
-            stateSave: true
+          "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+            responsive: true
+          },
+          scrollY:        '70vh',
+          //scrollX:        true,
+          scrollCollapse: true,
+          paging:         true,
+          fixedColumns:   {
+            heightMatch: 'none'
+          },
+          fixedHeader: {
+            header: true
+          },
+          sScrollX: true,
+          sScrollXInner: "100%",
+            // responsive: true,
+            // stateSave: true
         });
         
         /*pa la fpto del sombrero mas grande*/

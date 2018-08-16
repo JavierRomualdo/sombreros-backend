@@ -97,8 +97,9 @@
                 <table class="table table-striped table-hover table-bordered" id="myTableVentas"><!--table-responsive-->
                   <thead class="thead-inverse">
                     <tr>
-                      <th>#</th>
+                      <th class="text-center">#</th>
                       <th>Codigo de Venta</th>
+                      <th># Documento</th>
                       <th>Fecha</th>
                       <th>Cantidad Items</th>
                       <th>Precio Total</th>
@@ -122,7 +123,7 @@
         <div role="document" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 id="exampleModalLabel" class="h6 display ion-paperclip fadeIn animated modal-title" style="color:red;"> Errores</h5>
+              <h5 id="exampleModalLabel" class="h5 display ion-paperclip fadeIn animated modal-title" style="color:red;"> Errores</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -141,7 +142,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="h6 display ion-paperclip fadeIn animated modal-title" id="exampleModalLabel"> Empleados</h5>
+            <h5 class="h5 display ion-paperclip fadeIn animated modal-title" id="exampleModalLabel"> Empleados</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -152,7 +153,7 @@
 
                 <thead class="thead-inverse">
                   <tr>
-                    <th>#</th>
+                    <th class="text-center">#</th>
                     <th>Encargo</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
@@ -166,7 +167,7 @@
                 <tbody>
                   @foreach ($empleados as $index=>$empleado)
                     <tr class="fadeIn animated">
-                      <th scope="row">{{$index+1}}</th>
+                      <th scope="row" class="text-center">{{$index+1}}</th>
                       <td>{{$empleado->encargo}}</td>
                       <td>{{$empleado->nombres}}</td>
                       <td>{{$empleado->apellidos}}</td>
@@ -267,7 +268,7 @@ $("#buscar").click(function(e){
         var fecha_inicio = $("#fecha_inicio").val();
         var fecha_fin = $("#fecha_fin").val();
         $.each(data, function(index, venta){
-            tabla = tabla + "<tr class='fadeIn animated'><th>"+n+"</th><th>"+venta.numero_venta+"</th><td>"+
+            tabla = tabla + "<tr class='fadeIn animated'><th class='text-center'>"+n+"</th><th>"+venta.numero_venta+"</th><th>"+venta.numero_documento+"</th><td>"+
             venta.fecha+"</td><td>"+venta.cantidad+"</td><td>S/ "+venta.precio_total+"</td><td>S/ "+parseFloat(venta.utilidad_total * (venta.comision/100.00)).toFixed(2)+"</td><td>"+
             venta.cliente+"</td><td><a href='verventasporempleado/"+venta.id+"' class='btn btn-outline-primary btn-sm ion-eye' title='ver'></a> "
             +"<a href='{{URL::to('gastronomica/sombreros/reportes/reporteporempleado/')}}/"+venta.id+"' target='_black' class='btn btn-outline-primary btn-sm ion-document-text'></a></td></tr>";
@@ -286,12 +287,23 @@ $("#buscar").click(function(e){
         n=1;
         $('#myTableVentas').DataTable({
             "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-              //responsive: true,
-              //data: dato//jQuery.parseJSON(dato),
+              "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+              responsive: true
             },
-            responsive: true,
-            stateSave: true
+            scrollY:        '70vh',
+            //scrollX:        true,
+            scrollCollapse: true,
+            paging:         true,
+            fixedColumns:   {
+              heightMatch: 'none'
+            },
+            fixedHeader: {
+              header: true
+            },
+            sScrollX: true,
+            sScrollXInner: "100%",
+            // responsive: true,
+            // stateSave: true
           });
     });
     //

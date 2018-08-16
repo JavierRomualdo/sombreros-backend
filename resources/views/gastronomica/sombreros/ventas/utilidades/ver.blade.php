@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
@@ -114,6 +115,26 @@
     <!---->
     <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
     <script type="text/javascript">
+      $(document).ready(function(){
+        $('#myTable').DataTable({
+          "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+            responsive: true
+          },
+          scrollY:        '70vh',
+          //scrollX:        true,
+          scrollCollapse: true,
+          paging:         true,
+          fixedColumns:   {
+            heightMatch: 'none'
+          },
+          fixedHeader: {
+            header: true
+          },
+          sScrollX: true,
+          sScrollXInner: "100%",
+        });
+      });
       $(".link_foto").css('cursor', 'pointer');
       $(".link_foto").click(function(e){
         $("#mostrar_foto").attr("src",$(this).attr("src"));

@@ -2,8 +2,6 @@
 @section('title','Sombreros')
 @section('content')
   <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">-->
-  <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
-  <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
   
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
@@ -18,10 +16,10 @@
         <h1 class="h5 fadeIn animated text-center ion-clipboard"> Lista Sombreros</h1>
       </header>-->
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-2">
           <div class="i-checks">
               <input id="check_panel_sombrero" type="checkbox" value="" class="form-control-custom">
-              <label for="check_panel_sombrero">Panel Sombrero (Mostrar)</label>
+              <label for="check_panel_sombrero">Panel Sombrero</label>
           </div>
         </div>
       </div><br/>
@@ -105,16 +103,8 @@
   <script src="{{asset('bootstrap4/js/notification/messenger.min.js')}}"></script>
   <script src="{{asset('bootstrap4/js/notification/messenger-theme-flat.js')}}"></script>
   <script src="{{asset('bootstrap4/js/notification/components-notifications.js')}}"></script>
+
   <script>
-      $(document).ready(function(e){
-            Messenger().post({message:"Consulta: stock del articulo.",type:"info",showCloseButton:!0});
-            $('#myTable').DataTable({
-                "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
-                responsive: true
-                }
-            });
-        });
       var modelo_id = 0;
         var tejido_id = 0;
         var material_id = 0;

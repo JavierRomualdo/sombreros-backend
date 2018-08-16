@@ -28,15 +28,16 @@ class PedidoReposicionController extends Controller
     {
         //
         $pedidoscab = PedidoReposicion::select(
-        DB::raw('SUM(proveedor_precio.precio * pedidoreposicion.cantidad) as costoreposicion'),
-        DB::raw('SUM(pedidoreposicion.cantidad) as cantidadtotal'))
+        DB::raw('SUM(proveedor_precio.precio * sombrero.stock_maximo) as costoreposicion'),
+        DB::raw('SUM(sombrero.stock_maximo) as cantidadtotal'))
         ->join('proveedor_precio','proveedor_precio.id','=','pedidoreposicion.idProveedorPrecio')
+        ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
         ->where('pedidoreposicion.estado','=','A')->first();
         
         //echo($pedidoscab->costoreposicion);
         //return response()->json($pedidos);
-        $pedidosreposicion = PedidoReposicion::select('cantidad','cantidadorden','sombrero.photo','sombrero.codigo',
-        'sombrero.stock_actual','sombrero.stock_minimo','proveedor.empresa','proveedor_precio.precio')
+        $pedidosreposicion = PedidoReposicion::select('sombrero.id','cantidadorden','sombrero.photo','sombrero.codigo',
+        'sombrero.stock_actual','sombrero.stock_minimo','sombrero.stock_maximo','proveedor.empresa','proveedor_precio.precio')
         ->join('proveedor_precio','proveedor_precio.id','=','pedidoreposicion.idProveedorPrecio')
         ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
         ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
@@ -44,7 +45,7 @@ class PedidoReposicionController extends Controller
 
         
         //$pedidosreposicion = PedidoReposicion::where('estado','=','A')->get();
-        $parametros = Atributos::select('costorepmaximo','costoserviciorep')->first();
+        $parametros = Atributos::first();
         return view ('gastronomica/sombreros/pedidosreposicion/pedidoreposicion',
         array('pedido'=>$pedidoscab,'pedidosreposicion'=>$pedidosreposicion,'parametros'=>$parametros));
     }
@@ -71,8 +72,8 @@ class PedidoReposicionController extends Controller
     public function mostrarPedidoReposicionDetalle()
     {
         # code...
-        $datos = PedidoReposicion::select('pedidoreposicion.id','cantidad','cantidadorden','sombrero.photo','sombrero.codigo',
-        'sombrero.stock_actual','sombrero.stock_minimo','proveedor.empresa','proveedor_precio.precio')
+        $datos = PedidoReposicion::select('pedidoreposicion.id','cantidadorden','sombrero.photo','sombrero.codigo',
+        'sombrero.stock_actual','sombrero.stock_minimo','sombrero.stock_maximo','proveedor.empresa','proveedor_precio.precio')
         ->join('proveedor_precio','proveedor_precio.id','=','pedidoreposicion.idProveedorPrecio')
         ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
         ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')
@@ -84,8 +85,11 @@ class PedidoReposicionController extends Controller
     public function mostrarDatosSombreroOC($idPedidoReposicion)
     {
         # code...
-        $datos = PedidoReposicion::select('cantidad','cantidadorden','sombrero.codigo','sombrero.idModelo','sombrero.idTejido','sombrero.idMaterial',
-        'sombrero.idPublicoDirigido','sombrero.idTalla','sombrero.stock_actual','proveedor_precio.idProveedor','proveedor_precio.precio')
+        // echo($idPedidoReposicion);
+        // 'cantidad'
+        $datos = PedidoReposicion::select('cantidadorden','sombrero.codigo','sombrero.idModelo','sombrero.idTejido','sombrero.idMaterial',
+        'sombrero.idPublicoDirigido','sombrero.idTalla','sombrero.stock_actual','sombrero.stock_maximo as cantidad',
+        'proveedor_precio.idProveedor','proveedor_precio.precio')
         ->join('proveedor_precio','proveedor_precio.id','=','pedidoreposicion.idProveedorPrecio')
         ->join('proveedor','proveedor.id','=','proveedor_precio.idProveedor')
         ->join('sombrero','sombrero.id','=','proveedor_precio.idSombrero')

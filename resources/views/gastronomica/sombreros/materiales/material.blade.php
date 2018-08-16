@@ -33,7 +33,7 @@
 
                       <thead class="thead-inverse">
                         <tr>
-                          <th>#</th>
+                          <th class="text-center">#</th>
                           <th>Material</th>
                           <th>Codigo</th>
                           <th>Descripcion</th>
@@ -44,7 +44,7 @@
                       <tbody>
                         @foreach ($materiales as $index=>$material)
                           <tr class="fadeIn animated">
-                            <th scope="row">{{$index+1}}</th>
+                            <th scope="row" class="text-center">{{$index+1}}</th>
                             <td>{{$material->material}}</td>
                             <td>{{$material->codigo}}</td>                            
                             <td>{{$material->descripcion}}</td>
@@ -83,7 +83,19 @@
         "language": {
           "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
           responsive: true
-        }
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
       });
     });
   </script>

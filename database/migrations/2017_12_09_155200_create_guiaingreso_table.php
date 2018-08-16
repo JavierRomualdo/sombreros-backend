@@ -16,6 +16,7 @@ class CreateGuiaingresoTable extends Migration
         Schema::create('guia_ingreso', function (Blueprint $table) {
             $table->increments('id');
             $table->string('numero_guia', 10)->unique();
+            $table->string('numero_documento', 15);
             $table->date('fecha')->nullable();
         });
     }

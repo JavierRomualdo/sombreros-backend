@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title','Proveedores')
 @section('content')
+<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
   <div class="breadcrumb-holder fadeIn animated">
     <div class="container-fluid">
       <ul class="breadcrumb">
@@ -21,7 +22,9 @@
               <h2 class="h5 display ion-paperclip fadeIn animated"> Consolidado:</h2>
             </div>
             <div class="card-block">
-              <p>[ Vendedor: <strong>{!!$venta->nombres!!}</strong> , Código Venta: <strong>{!!$venta->numero_venta!!}</strong> ]</p>
+              <p>[ Vendedor: <strong>{!!$venta->nombres!!}</strong> , 
+                Código Venta: <strong>{!!$venta->numero_venta!!}</strong>, 
+                # Documento:  <strong>{!!$venta->numero_documento!!}</strong>]</p>
               <div class="form-group row">
                 <label class="col-sm-1 col-3 form-control-label" for="fecha"><strong>Fecha:</strong></label>
                 <div class="col-sm-2 col-3">
@@ -49,15 +52,15 @@
         <div class="offset-lg-0 col-lg-12">
           <div class="card miBorder fadeIn animated">
             <div class="card-header">
-              <h2 class="h5 display ion-paperclip fadeIn animated"> Detalles:</h2>
+              <h5 class="h5 display ion-paperclip fadeIn animated"> Detalles:</h5>
             </div>
             <div class="card-block miTabla">
               <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered">
+                <table class="table table-striped table-hover table-bordered" id="myTable">
 
                   <thead class="thead-inverse">
                     <tr>
-                      <th>#</th>
+                      <th class="text-center">#</th>
                       <th>Articulo</th>
                       <th>Foto</th>
                       <th>Cantidad</th>
@@ -71,14 +74,14 @@
                   <tbody>
                     @foreach ($detalles as $index=>$detalle)
                       <tr class="fadeIn animated">
-                        <th scope="row">{{$index+1}}</th>
+                        <th scope="row" class="text-center">{{$index+1}}</th>
                         <td>{{$detalle->codigo}}</td>
                         <td>
                           <img src="/images/sombreros/{{$detalle->photo}}" data-toggle="modal" class="link_foto img-fluid pull-xs-left rounded" alt="..." width="28">
                         </td>
                         <td>{{$detalle->cantidad}}</td>
                         <td>S/. {{$detalle->precio_venta}}</td>
-                        <td>{{$detalle->porcentaje_descuento}}</td>
+                        <td>S/ {{$detalle->porcentaje_descuento}}</td>
                         <td>S/. {{$detalle->descuento}}</td>
                         <td>S/. {{$detalle->sub_total}}</td>
                         <td>{{$detalle->descripcion}}</td>
@@ -115,6 +118,25 @@
     <!---->
     <script src="{{asset('bootstrap4/js/jquery.min.js')}}"></script>
     <script type="text/javascript">
+      $('#myTable').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+          responsive: true
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
+      });
+    });
       $(".link_foto").css('cursor', 'pointer');
       $(".link_foto").click(function(e){
         $("#mostrar_foto").attr("src",$(this).attr("src"));

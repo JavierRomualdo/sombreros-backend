@@ -95,7 +95,7 @@ class AtributosController extends Controller
             'comision'=>'required',
           ]);
           //
-          //echo($request->estadodescextra." - ".$request->descuentoextra);
+          //echo($request->rangopr1." - ".$request->mensajepr1." - ".$request->colorpr1);
           $atributos = Atributos::FindOrFail($id);
           $input = $request->all();
           $atributos->fill($input)->save();

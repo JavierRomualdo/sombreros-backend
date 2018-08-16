@@ -16,7 +16,7 @@ class CreatePedidoreposicionTable extends Migration
         Schema::create('pedidoreposicion', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('idProveedorPrecio')->unsigned();
-            $table->integer('cantidad')->default('0');
+            //$table->integer('cantidad')->default('0');
             $table->integer('cantidadingresado')->default('0');
             $table->integer('cantidadorden')->default('0');
             $table->char('estado', 1)->default('N');

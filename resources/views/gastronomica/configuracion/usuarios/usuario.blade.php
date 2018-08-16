@@ -24,14 +24,14 @@
 
           <div class="card miBorder fadeIn animated">
             <div class="card-header d-flex align-items-center">
-                <h2 class="h5 display ion-paperclip fadeIn animated title"> Historial:</h2>
+                <h5 class="h5 display ion-paperclip fadeIn animated title"> Historial:</h5>
             </div>
             <div class="card-block">
               <table class="table table-striped table-hover table-bordered" id="myTable">
 
                 <thead class="thead-inverse">
                   <tr>
-                    <th>#</th>
+                    <th class="text-center">#</th>
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Cargo</th>
@@ -42,7 +42,7 @@
                 <tbody>
                   @foreach ($usuario as $index=>$usuarios)
                     <tr class="fadeIn animated">
-                      <th scope="row">{{$index+1}}</th>
+                      <th scope="row" class="text-center">{{$index+1}}</th>
                       <td>{{$usuarios->name}}</td>
                       <td>{{$usuarios->email}}</td>
                       <td>{{$usuarios->cargo}}</td>
@@ -73,7 +73,19 @@
         "language": {
           "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
           responsive: true
-        }
+        },
+        scrollY:        '70vh',
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
+        fixedColumns:   {
+          heightMatch: 'none'
+        },
+        fixedHeader: {
+          header: true
+        },
+        sScrollX: true,
+        sScrollXInner: "100%",
       });
     });
   </script>

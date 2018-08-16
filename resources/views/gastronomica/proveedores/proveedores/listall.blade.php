@@ -27,8 +27,8 @@
       </thead>
       <tbody>
         @foreach ($proveedores as $index=>$proveedor)
-          <tr>
-            <th scope="row">{{$proveedor->id}}</th>
+          <tr class="fadeIn animated">
+            <th scope="row" class="text-center">{{$proveedor->id}}</th>
             <td>{{$proveedor->titular}}</td>
             <td>{{$proveedor->dni_titular}}</td>
             <td>{{$proveedor->telefono_titular}}</td>

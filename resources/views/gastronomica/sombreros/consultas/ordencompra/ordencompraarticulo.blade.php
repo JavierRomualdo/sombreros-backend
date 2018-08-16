@@ -2,7 +2,7 @@
 @section('title','Proveedores')
 @section('content')
 
-<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">
+<!--<link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/bootstrap.css')}}">-->
 <link rel="stylesheet" href="{{asset('bootstrap4/css/datatables/dataTables.bootstrap4.min.css')}}">
 
 <style type="text/css"> #divredondo { height:20px; width:20px; border-radius:10px; } </style>
@@ -59,7 +59,7 @@
               <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="codigo"><strong>Codigo:</strong></label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" autofocus maxlength='14' id="codigo"/>
+                    <input type="text" class="form-control" autofocus maxlength='14' id="codigo" placeholder="Aqui el codigo del articulo"/>
                     <span class="help-block-none">Es de 13 ó 14 caracteres.</span>
                 </div>
                 <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo:</strong></label>
@@ -102,7 +102,7 @@
                   <table class="table table-striped table-hover table-bordered specialCollapse" id="myTableHistorial"><!--table-responsive-->
                     <thead class="thead-inverse">
                       <tr>
-                        <th>#</th>
+                        <th class="text-center">#</th>
                         <th>Codigo de Orden</th>
                         <th>Fecha</th>
                         <th>Cantidad Items</th>
@@ -133,7 +133,7 @@
                   
                   <thead class="thead-inverse">
                     <tr>
-                      <th>#</th>
+                      <th class="text-center">#</th>
                       <th>Articulo</th><!--Codigo Sombrero-->
                       <th>Foto</th>
                       <th>Cantidad</th>
@@ -163,7 +163,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="h6 modal-title ion-paperclip" id="exampleModalLabel"> Guias Ingreso</h5>
+            <h5 class="h5 modal-title ion-paperclip" id="exampleModalLabel"> Guias Ingreso</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -199,7 +199,7 @@
         <div role="document" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 id="exampleModalLabel" class="h6 modal-title ion-paperclip"> Sombrero</h5>
+              <h5 id="exampleModalLabel" class="h5 modal-title ion-paperclip"> Sombrero</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -218,13 +218,13 @@
       <div role="document" class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h6 id="exampleModalLabel" class="modal-title ion-paperclip"> Sombreros</h6>
+            <h5 id="exampleModalLabel" class="modal-title ion-paperclip"> Sombreros</h5>
             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
           </div>
           <div class="modal-body">
             <p>Seleccione una imagen de sombrero:</p>
             <hr/>
-            <div class="row">
+            <div class="form-group row">
                 <label class="col-sm-1 form-control-label" for="idModelo"><strong>Modelo</strong></label>
                 <div class="col-sm-3">
                   {!!Form::select('modalModelo',$modelo, null,['id'=>'modalModelo','name'=>'modalModelo','class'=>'form-control'])!!}
@@ -236,8 +236,10 @@
                 <label class="col-sm-1 form-control-label" for="idMaterial"><strong>Material</strong></label>
                 <div class="col-sm-3">
                   {!!Form::select('modalMaterial',$material, null,['id'=>'modalMaterial','name'=>'modalMaterial','class'=>'form-control'])!!}
-                </div><br/><br/>
-                <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-1 form-control-label" for="idPublicoDirigido"><strong>Publico:</strong></label>
                 <div class="col-sm-3">
                   {!!Form::select('modalPublico',$publicodirigido, null,['id'=>'modalPublico','name'=>'modalPublico',
                           'class'=>'form-control'])!!}
@@ -249,21 +251,21 @@
             </div>
             <hr/>
             <div class="row" id='galeria'>
-                    @foreach ($imagenes as $key => $imagen)
-                    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                    <div class="card"><a href="/images/sombreros/{{$imagen->photo}}" data-lightbox="gallery" data-title="[{{$key+1}}] Sombrero: {{$imagen->codigo}}" title="{{$imagen->codigo}}"><img src="/images/sombreros/{{$imagen->photo}}" alt="Image {{$imagen->codigo}}" class="img-fluid"></a>
-                        <div class="card-body">
-                        <input id="radio{{$key+1}}" type="radio" value="{{$imagen->codigo}}" onClick="guardarCodigoSombrero({{$imagen->id}})" name="b" class="opcion form-control-custom radio-custom">
-                        <label for="radio{{$key+1}}">Image{{$key+1}}</label>
+              /* @ foreach ($imagenes as $key => $imagen)
+                      <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                      <div class="card"><a href="/images/sombreros/{ {$imagen->photo}}" data-lightbox="gallery" data-title="[{ {$key+1}}] Sombrero: { {$imagen->codigo}}" title="{ {$imagen->codigo}}"><img src="/images/sombreros/{ {$imagen->photo}}" alt="Image { {$imagen->codigo}}" class="img-fluid"></a>
+                          <div class="card-body">
+                          <input id="radio{ {$key+1}}" type="radio" value="{ {$imagen->codigo}}" onClick="guardarCodigoSombrero({ {$imagen->id}})" name="b" class="opcion form-control-custom radio-custom">
+                          <label for="radio{ {$key+1}}">Image{ {$key+1}}</label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    @endforeach
+                      @ endforeach*/
             </div>
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="aceptarImagen">Aceptar</button>
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="aceptarImagen">Aceptar</button>
           </div>
         </div>
       </div>
@@ -364,6 +366,15 @@ $(".opcion").change(function(){
     $("#idPublicoDirigido").removeAttr("disabled");
     $("#idTalla").removeAttr("disabled");
   } else if($("#radioFoto").is(":checked")){
+    idSombrero = 0;
+    $("#galeria").html(""); //
+    $("#codigo").prop("readonly",true);
+        
+    $("#modalModelo").val(0);
+    $("#modalTejido").val(0);
+    $("#modalMaterial").val(0);
+    $("#modalPublico").val(0);
+    $("#modalTalla").val(0);
     $("#myModalFotos").modal("show");
   } 
   else{//POR CODIGO
@@ -445,13 +456,13 @@ function buscarDatosPorCodigo() {
             $.each(data, function(index, orden){
                 console.log(orden);
                 if((parseInt(orden.cantidad)-parseInt(orden.ingresos))==0){
-                  tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+                  tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                   orden.numero_orden+
                   "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>"+orden.precio_total+
                   "</td><td class='text-center'><label style='background: green;' id='divredondo' title='completado'></label></td><td>"+
                   "<a href='javascript:verDetallesOrdenCompra("+orden.id+")' class='btn btn-outline-primary btn-sm ion-android-checkmark-circle' title='ver'></a> "+"</td></tr>";
                 } else {
-                  tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+                  tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                   orden.numero_orden+
                   "</td><td>"+orden.fecha+"</td><td>"+orden.cantidad+"</td><td>"+orden.precio_total+
                   "</td><td class='text-center'><label style='background: red;' id='divredondo' title='completado'></label></td><td>"+
@@ -469,12 +480,23 @@ function buscarDatosPorCodigo() {
 
             $('#myTableHistorial').DataTable({
               "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                //responsive: true,
-                //data: dato//jQuery.parseJSON(dato),
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+                responsive: true
               },
-              responsive: true,
-              stateSave: true
+              scrollY:        '70vh',
+              //scrollX:        true,
+              scrollCollapse: true,
+              paging:         true,
+              fixedColumns:   {
+                heightMatch: 'none'
+              },
+              fixedHeader: {
+                header: true
+              },
+              sScrollX: true,
+              sScrollXInner: "100%",
+              // responsive: true,
+              // stateSave: true
             });
           });
         } else {
@@ -505,7 +527,7 @@ function buscarDatosPorCodigo() {
                 articulo = "<label>"+orden.codigo+"</label>";
             }
             if((parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))==0){
-              tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+              tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                 articulo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                 "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
                 "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>"+
@@ -514,7 +536,7 @@ function buscarDatosPorCodigo() {
                 "<a href='javascript:verGuiaIngreso("+orden.id+","+orden.costounitario+")' class='btn btn-outline-primary btn-sm ion-android-checkbox-outline' title='ver'></a> "+
                 "</td></tr>";
             } else {
-              tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+
+              tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+
                 articulo+"</td><td> <img src='/images/sombreros/"+orden.photo+
                 "' class='link_foto img-fluid pull-xs-left rounded' alt='...' width='28'>"+
                 "</td><td>"+orden.cantidad+"</td><td>"+orden.cantidadingreso+"</td><td>"+(parseInt(orden.cantidad)-parseInt(orden.cantidadingreso))+"</td><td>"+
@@ -533,10 +555,22 @@ function buscarDatosPorCodigo() {
           $('#myTableDetalles').DataTable({
               "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
-                
+                responsive: true
               },
-              responsive: true,
-              stateSave: true
+              scrollY:        '70vh',
+              //scrollX:        true,
+              scrollCollapse: true,
+              paging:         true,
+              fixedColumns:   {
+                heightMatch: 'none'
+              },
+              fixedHeader: {
+                header: true
+              },
+              sScrollX: true,
+              sScrollXInner: "100%",
+              // responsive: true,
+              // stateSave: true
           });
 
           /*pa la fpto del sombrero mas grande*/
@@ -567,7 +601,7 @@ function buscarDatosPorCodigo() {
             //success
             $.each(data, function(index, guia){
                 console.log(guia);
-                tabla = tabla + "<tr class='fadeIn animated'><td>"+n+"</td><td>"+guia.numero_guia+"</td><td>"+
+                tabla = tabla + "<tr class='fadeIn animated'><td class='text-center'>"+n+"</td><td>"+guia.numero_guia+"</td><td>"+
                 guia.fecha+"</td><td>"+guia.cantidadingreso+
                 "</td><td>"+(guia.cantidadingreso*precio_unitario)+"</td><td>"+guia.descripcion+"</td></tr>";
                 n++;
@@ -633,10 +667,10 @@ function buscarDatosPorCodigo() {
                     miGaleria = miGaleria+"<div class='col-6 col-md-4 col-lg-3 col-xl-2'><div class='card'>"+
                     "<a href='/images/sombreros/"+cuentaObj.photo+"' data-lightbox='gallery' data-title='["+n+"] Sombrero:"+cuentaObj.codigo+"' title='"+cuentaObj.codigo+"'>"+
                     "<img src='/images/sombreros/"+cuentaObj.photo+"' class='img-fluid' alt='Image"+cuentaObj.codigo+"'>"+"</a> "+
-                    "<div class='card-body'><input id='radio"+n+"' onClick='guardarCodigoSombrero("+cuentaObj.id+");' type='radio' value='"+cuentaObj.codigo+"' name='b' class='opcion form-control-custom radio-custom'>"+
-                    "<label for='radio"+n+"'>Image"+n+"</label></div>"+"</div></div>";
+                    "<div><input id='radio"+n+"' onClick='guardarCodigoSombrero("+cuentaObj.id+");' type='radio' value='"+cuentaObj.codigo+"' name='b' class='opcion form-control-custom radio-custom'>"+
+                    "<label for='radio"+n+"'>"+cuentaObj.codigo+"</label></div>"+"</div></div>";
 
-                    //$("#codigo").val(cuentaObj.codigo);
+                    //$("#codigo").val(cuentaObj.codigo);  class='card-body'
                     n++;
                 });
                 $("#galeria").html(miGaleria);

@@ -6,7 +6,8 @@
       <center>
         <img class="rounded mx-auto d-block  img-fluid" src="images/sombreros/logo_sombreros.png" width="300" alt="First slide">
         <h3>Orden de Venta</h3>
-        <p>[Vendedor: <strong>{!!$venta->nombres!!}</strong>, Codigo: <strong>{!!$venta->numero_venta!!}</strong>]</p><br/>
+        <p>[Vendedor: <strong>{!!$venta->nombres!!}</strong>, 
+          Codigo: <strong>{!!$venta->numero_venta!!}</strong></p><br/>
       </center>
     </div>
   </div>
@@ -16,6 +17,8 @@
     <table class="table-striped table-hover table-bordered" width="1030px"><!--width="730px"-->
       <tbody>
         <tr>
+          <td><label class="form-control-label" for="numero_documento"><strong># Doc:</strong></label></td>
+          <td>{!!$venta->numero_documento!!}</td>
           <td><label class="form-control-label" for="fecha"><strong>Fecha:</strong></label></td>
           <td>{!!$venta->fecha!!}</td>
           <td><label class="form-control-label" for="precio_total"><strong>Cantidad Items:</strong></label></td>
