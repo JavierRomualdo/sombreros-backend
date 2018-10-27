@@ -1025,6 +1025,19 @@ class ReporteController extends Controller
       return $pdf->stream();
       
     }
+
+    public function reportePrecios()
+    {
+      # code...
+      $sombreros = Sombrero::select('sombrero.id', 'sombrero.codigo','sombrero.precio_venta',
+        'sombrero.stock_actual','sombrero.precio_lista','sombrero.photo')->get();
+      
+        $pdf = PDF::loadView('reportes/precios',['sombreros'=>$sombreros]);
+      // $pdf->setPaper('a4','landscape');//orientacion horizontal
+      //$font = Font_Metrics::get_font("helvetica", "bold"); 
+      //$pdf->page_text(1,1, "{PAGE_NUM} of {PAGE_COUNT}", $font, 10, array(0,0,0));
+      return $pdf->stream();
+    }
     /**
      * Store a newly created resource in storage.
      *

@@ -17,6 +17,8 @@
       <header>
         <h1 class="h2 fadeIn animated text-center ion-clipboard"> Precios</h1>
       </header>
+      <a href="{{action('Reportes\ReporteController@reportePrecios')}}" target="_blank" 
+          class="btn btn-outline-primary margenInf ion-document-text fadeIn animated btn-sm"> Reporte</a>
       <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12">
           <div class="card miBorder fadeIn animated">

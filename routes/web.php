@@ -295,3 +295,5 @@ Route::get('ajax-ventasporvendedor/{idVendedor}/{fecha_inicio}/{fecha_fin}','Gra
 
 Route::get('gastronomica/sombreros/estadistica/ventas/porarticulo','Graficas\GraficaController@indexporarticulo');
 Route::get('gastronomica/sombreros/estadistica/utilidades/utilidadarticulos','Graficas\GraficaController@indexutilidadarticulo');
+
+Route::get('gastronomica/sombreros/preciosarticulos/reporte', 'Reportes\ReporteController@reportePrecios');
